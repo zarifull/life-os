@@ -1,0 +1,14 @@
+{
+  "Navigation": {
+    "home": "Главная",
+    "dashboard": "Панель",
+    "settings": "Настройки",
+    "profile": "Профиль",
+    "logout": "Выйти"
+  },
+  "Dashboard": {
+    "title": "Мой LifeOS",
+    "energy": "ЭНЕРГИЯ",
+    "viewAll": "СМОТРЕТЬ ВСЁ"
+  }
+}
