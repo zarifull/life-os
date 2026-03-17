@@ -1,0 +1,14 @@
+{
+  "Navigation": {
+    "home": "Башкы бет",
+    "dashboard": "Панель",
+    "settings": "Жөндөөлөр",
+    "profile": "Профиль",
+    "logout": "Чыгуу"
+  },
+  "Dashboard": {
+    "title": "Менин LifeOS",
+    "energy": "ЭНЕРГИЯ",
+    "viewAll": "БААРЫН КӨРҮҮ"
+  }
+}

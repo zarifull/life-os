@@ -1,0 +1,14 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Log Out"
+  },
+  "Dashboard": {
+    "title": "My LifeOS",
+    "energy": "ENERGY",
+    "viewAll": "VIEW ALL"
+  }
+}
