@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const PIN_LENGTH = 4;
 
@@ -17,7 +18,7 @@ export function LifeOSShell({ children }: { children: React.ReactNode }) {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-
+  const t = useTranslations("Layout");
   const [pin, setPin] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -111,22 +112,19 @@ export function LifeOSShell({ children }: { children: React.ReactNode }) {
     !unlocked && portalHost
       ? createPortal(
           <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-blue-500/10 backdrop-blur-[40px] pointer-events-auto">
-            {/* Liquid mesh background spots */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-purple-200/30 blur-[120px] rounded-full animate-pulse" />
               <div className="absolute -bottom-[10%] -right-[10%] w-[60%] h-[60%] bg-cyan-200/30 blur-[70px] rounded-full animate-pulse delay-1000" />
             </div>
 
-            {/* Main Glass Card */}
             <div className="relative pointer-events-auto max-w-[380px] w-full mx-6 p-[10px] rounded-[50px] bg-gradient-to-b from-white/90 to-white/10 shadow-[0_50px_200px_-20px_rgba(0,0,0,0.12)]">
               <div className="relative bg-white/20 backdrop-blur-[50px] rounded-[48.5px] px-8 pt-12 pb-10 flex flex-col items-center border-[3px] border-solid border-white/60">
                 
                 <div className="mb-10 text-center space-y-1">
-                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400/80">Secure Access</p>
-                  <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Unlock LifeOS</h1>
+                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400/80">{t("secure_access")}</p>
+                  <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{t("unlock_title")}</h1>
                 </div>
 
-                {/* Explicit PIN Dots */}
                 <div className="flex gap-5 mb-12">
                   {Array.from({ length: PIN_LENGTH }).map((_, i) => (
                     <div
@@ -146,7 +144,6 @@ export function LifeOSShell({ children }: { children: React.ReactNode }) {
                   </p>
                 )}
 
-                {/* Explicit Liquid Keypad */}
                 <div className="grid grid-cols-3 gap-5 mb-10">
                   {["1", "2", "3", "4", "5", "6", "7", "8", "9", "C", "0", "⌫"].map((label) => {
                     const onPress =
@@ -166,7 +163,6 @@ export function LifeOSShell({ children }: { children: React.ReactNode }) {
                           }
                         `}
                       >
-                        {/* Internal Glossy Sheen */}
                         {!isSpecial && (
                           <div className="absolute inset-0 rounded-[22px] bg-gradient-to-tr from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         )}
@@ -179,7 +175,7 @@ export function LifeOSShell({ children }: { children: React.ReactNode }) {
                 <div className="flex items-center gap-2.5">
                   <div className={`w-2 h-2 rounded-full ${loading ? "bg-amber-400 animate-spin border-t-transparent border-2" : "bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.6)]"}`} />
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                    {loading ? "Verifying..." : "System Encrypted"}
+                    {loading ? t("verifying") : t("system_encrypted")}
                   </p>
                 </div>
               </div>
@@ -191,47 +187,37 @@ export function LifeOSShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen relative flex flex-col font-sans selection:bg-blue-100">
-      {/* Mesh Background */}
       <div className="fixed inset-0 -z-10 bg-[#f9fafb]">
         <div className="absolute top-[-15%] right-[-10%] w-[700px] h-[700px] bg-blue-100/30 blur-[120px] rounded-full" />
         <div className="absolute bottom-[-15%] left-[-10%] w-[700px] h-[700px] bg-emerald-50/50 blur-[120px] rounded-full" />
       </div>
 
-      {/* Header */}
       <header className="relative z-10 flex items-center justify-between px-6 py-6 md:px-12">
         <div className="flex items-center gap-4 group cursor-default">
           <div className="h-12 w-12 bg-white/60 backdrop-blur-xl rounded-2xl flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.03)] border border-white/80 transition-transform group-hover:scale-105">
-            <span className="text-xs font-black text-slate-400 tracking-tighter">OS</span>
+            <span className="text-xs font-black text-slate-400 tracking-tighter">{t("os_label")}</span>
           </div>
           <div>
-            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-300">LifeOS</h2>
-            <p className="text-sm font-bold text-slate-700">Dashboard</p>
+            <h2 className="text-[10px] font-black uppercase tracking-[0.4em]  text-slate-400">{t("lifeos_label")}</h2>
+            <p className="text-sm font-bold text-slate-600"> {t("dashboard_label")} </p>
           </div>
         </div>
 
         <div className="flex items-center gap-5">
-          {/* Energy Widget */}
-          <div className="hidden sm:flex items-center gap-4 px-6 py-3 bg-white/50 backdrop-blur-xl rounded-[24px] border border-white/80 shadow-sm">
-            <span className="text-[9px] font-black uppercase tracking-widest text-blue-500/80">Energy</span>
-            <div className="flex gap-2.5">
-              {[0, 1, 2].map((i) => (
-                <div key={i} className="w-2.5 h-4 bg-gradient-to-b from-blue-300 to-blue-500 rounded-full animate-pulse shadow-[0_4px_10px_rgba(56,189,248,0.3)]" />
-              ))}
-            </div>
-          </div>
 
-          {/* Lang Picker */}
-          <div className="relative">
-            <select
-              value={activeLocale.code}
-              onChange={(e) => handleLocaleChange(e.target.value)}
-              className="bg-white/60 backdrop-blur-xl px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 border border-white/80 cursor-pointer appearance-none outline-none hover:bg-white/90 transition-all shadow-sm"
-            >
-              {locales.map((l) => (
-                <option key={l.code} value={l.code}>{l.label}</option>
-              ))}
-            </select>
-          </div>
+        <div className="relative group">
+          <select
+            value={activeLocale.code}
+            onChange={(e) => handleLocaleChange(e.target.value)}
+            className="bg-white/40 backdrop-blur-md px-6 py-2.5 rounded-2xl text-[10px] font-bold uppercase tracking-[0.3em] 
+                      text-indigo-900/60 border border-white/60 cursor-pointer appearance-none outline-none 
+                      hover:bg-white/80 hover:scale-[1.02] transition-all shadow-sm"
+          >
+            {locales.map((l) => (
+              <option key={l.code} value={l.code} className="text-slate-800">{l.label}</option>
+            ))}
+          </select>
+        </div>
         </div>
       </header>
 

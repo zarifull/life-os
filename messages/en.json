@@ -1,14 +1,71 @@
 {
-  "Navigation": {
-    "home": "Home",
-    "dashboard": "Dashboard",
-    "settings": "Settings",
-    "profile": "Profile",
-    "logout": "Log Out"
+  "Layout": {
+    "secure_access": "Secure Access",
+    "unlock_title": "Unlock LifeOS",
+    "verifying": "Verifying...",
+    "system_encrypted": "System Encrypted",
+    "error_invalid": "Invalid PIN",
+    "os_label": "OS",
+    "energy_label": "Energy",
+    "lifeos_label": "LifeOS",
+    "dashboard_label": "Dashboard",
+    "energy_widget_label": "Energy"
   },
   "Dashboard": {
-    "title": "My LifeOS",
-    "energy": "ENERGY",
-    "viewAll": "VIEW ALL"
+    "life_journey": "Life Journey",
+    "days": "Days",
+    "days_left": "{count} Days Left",
+    "quote": "Every day is a new opportunity",
+    "completed": "Completed",
+    "energy_drops": "Energy Drops",
+    "energy_desc": "Your daily energy levels",
+    "slots": {
+      "past": "Past",
+      "today": "Today",
+      "future": "Future",
+      "label": "Slot"
+    },
+    "today_plan": "Today Plan",
+    "tasks": {
+      "meditation": "Get up & Meditation",
+      "breakfast": "Healthy Breakfast",
+      "coding": "Coding LifeOS",
+      "reading": "Reading Book"
+    },
+    "btn_complete": "Complete Day"
+  },
+  "year": {
+    "today": "today",
+    "days_label": "days this year",
+    "jan_1": "Jan 1",
+    "dec_31": "Dec 31",
+    "progress": "{{pct}}% complete",
+    "stats": {
+      "lived": "lived",
+      "current day": "current day",
+      "ahead": "ahead"
+    }
+  },
+  "EnergySection": {
+    "title": "ENERGY",
+    "archive_btn": "ARCHIVE",
+    "history_btn": "VIEW HISTORY ›",
+    "yesterday": "YESTERDAY",
+    "today": "TODAY",
+    "tomorrow": "TOMORROW",
+    "logged_status": "LOGGED",
+    "auto_saved": "SAVED ✓",
+    "tap_to_set": "TAP",
+    "intention": "INTENTION",
+    "read_only": "READ ONLY",
+    "tap_row": "TAP ROW TO SET",
+    "log_button": "LOG TODAY'S ENERGY",
+    "logged_success": "✓ LOGGED"
+  },
+  "Navigation": {
+    "history": "My History",
+    "finance": "Finance",
+    "vision_board": "Vision Board",
+    "settings": "Settings"
   }
 }

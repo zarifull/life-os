@@ -1,6 +1,10 @@
 @import "tailwindcss";
-
-/* @utility ордуна кадимки класс */
+@layer base {
+  html, body {
+    @apply min-h-screen;
+    background: radial-gradient(circle at top left, #e0e7ff 0%, #fdf2f8 40%, #f0f9ff 100%);
+    background-attachment: fixed;
+  }}
 .glass-card {
   background-color: rgba(255, 255, 255, 0.25); 
   backdrop-filter: blur(40px) saturate(180%);
@@ -17,4 +21,8 @@
   box-shadow: 0 12px 40px rgba(148, 163, 184, 0.4);
   backdrop-filter: blur(24px);
   transition: all 0.2s;
+}
+@keyframes energyWave {
+  0%, 100% { transform: translateX(0); will-change: transform; }
+  50% { transform: translateX(-8%); }
 }

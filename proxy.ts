@@ -7,6 +7,5 @@ export default createMiddleware({
 });
 
 export const config = {
-  // Бул жер маанилүү: статикалык файлдарды өткөрүп жиберип, калганын тилге багыттайт
   matcher: ['/((?!api|_next|.*\\..*).*)']
 };
