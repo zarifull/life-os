@@ -1,14 +1,71 @@
 {
-  "Navigation": {
-    "home": "Главная",
-    "dashboard": "Панель",
-    "settings": "Настройки",
-    "profile": "Профиль",
-    "logout": "Выйти"
+  "Layout": {
+    "secure_access": "Безопасный доступ",
+    "unlock_title": "Разблокировать LifeOS",
+    "verifying": "Проверка...",
+    "system_encrypted": "Система зашифрована",
+    "error_invalid": "Неверный PIN-код",
+    "os_label": "ОС",
+    "lifeos_label": "LIFE OS",
+    "energy_label": "Энергия",
+    "dashboard_label": "Панель управления"
   },
   "Dashboard": {
-    "title": "Мой LifeOS",
-    "energy": "ЭНЕРГИЯ",
-    "viewAll": "СМОТРЕТЬ ВСЁ"
+    "life_journey": "Путь жизни",
+    "days": "Дней",
+    "days_left": "Осталось {count} дн.",
+    "quote": "Каждый день — это новая возможность",
+    "completed": "Завершено",
+    "energy_drops": "Капли энергии",
+    "energy_desc": "Ваш ежедневный уровень энергии",
+    "slots": {
+      "past": "Прошлое",
+      "today": "Сегодня",
+      "future": "Будущее",
+      "label": "Слот"
+    },
+    "today_plan": "План на сегодня",
+    "tasks": {
+      "meditation": "Подъем и медитация",
+      "breakfast": "Полезный завтрак",
+      "coding": "Разработка LifeOS",
+      "reading": "Чтение книги"
+    },
+    "btn_complete": "Завершить день"
+  },
+  "year": {
+    "today": "сегодня",
+    "days_label": "дней в этом году",
+    "jan_1": "1 янв",
+    "dec_31": "31 дек",
+    "complete": "завершено",
+    "progress": "{{pct}}% завершено",
+    "stats": {
+      "lived": "прожито",
+      "current day": "текущий день",
+      "ahead": "впереди"
+    }
+  },
+  "EnergySection": {
+    "title": "ЭНЕРГИЯ",
+    "archive_btn": "АРХИВ",
+    "history_btn": "ИСТОРИЯ ›",
+    "yesterday": "ВЧЕРА",
+    "today": "СЕГОДНЯ",
+    "tomorrow": "ЗАВТРА",
+    "logged_status": "ЗАПИСАНО",
+    "auto_saved": "СОХРАНЕНО ✓",
+    "tap_to_set": "НАЖМИ",
+    "intention": "ПЛАН",
+    "read_only": "ТОЛЬКО ЧТЕНИЕ",
+    "tap_row": "НАЖМИТЕ ДЛЯ ВЫБОРА",
+    "log_button": "ЗАПИСАТЬ ЭНЕРГИЮ",
+    "logged_success": "✓ ЗАПИСАНО"
+  },
+  "Navigation": {
+    "history": "История",
+    "finance": "Финансы",
+    "vision_board": "Карта желаний",
+    "settings": "Настройки"
   }
 }

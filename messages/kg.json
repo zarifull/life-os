@@ -1,14 +1,71 @@
 {
-  "Navigation": {
-    "home": "Башкы бет",
-    "dashboard": "Панель",
-    "settings": "Жөндөөлөр",
-    "profile": "Профиль",
-    "logout": "Чыгуу"
+  "Layout": {
+    "secure_access": "Коопсуз кирүү",
+    "unlock_title": "LifeOS ачуу",
+    "verifying": "Текшерилүүдө...",
+    "system_encrypted": "Тутум шифрленген",
+    "error_invalid": "PIN-код ката",
+    "os_label": "ОС",
+    "energy_label": "Энергия",
+    "lifeos_label": "LIFE OS",
+    "dashboard_label": "Башкаруу панели"
   },
   "Dashboard": {
-    "title": "Менин LifeOS",
-    "energy": "ЭНЕРГИЯ",
-    "viewAll": "БААРЫН КӨРҮҮ"
+    "life_journey": "Жашоо жолу",
+    "days": "Күн",
+    "days_left": "{count} күн калды",
+    "quote": "Ар бир күн — жаңы мүмкүнчүлүк",
+    "completed": "Аяктады",
+    "energy_drops": "Энергия тамчылары",
+    "energy_desc": "Күнүмдүк энергияңыздын деңгээли",
+    "slots": {
+      "past": "Өткөн",
+      "today": "Бүгүн",
+      "future": "Келечек",
+      "label": "Слот"
+    },
+    "today_plan": "Бүгүнкү план",
+    "tasks": {
+      "meditation": "Тургула жана медитация",
+      "breakfast": "Туура тамактануу",
+      "coding": "LifeOS коддоо",
+      "reading": "Китеп окуу"
+    },
+    "btn_complete": "Күндү аяктоо"
+  },
+  "year": {
+    "today": "бүгүн",
+    "days_label": "быйылкы күндөр",
+    "jan_1": "1-янв",
+    "dec_31": "31-дек",
+    "progress": "{{pct}}% аяктады",
+    "complete": "аяктады",
+    "stats": {
+      "lived": "жашалган",
+      "current day": "учурдагы күн",
+      "ahead": "алдыда"
+    }
+  },
+  "EnergySection": {
+    "title": "ЭНЕРГИЯ",
+    "archive_btn": "АРХИВ",
+    "history_btn": "ТАРЫХЫ ›",
+    "yesterday": "КЕЧЭЭ",
+    "today": "БҮГҮН",
+    "tomorrow": "ЭРТЕҢ",
+    "logged_status": "ЖАЗЫЛДЫ",
+    "auto_saved": "САКТАЛДЫ ✓",
+    "tap_to_set": "ТАНДАҢЫЗ",
+    "intention": "ПЛАН",
+    "read_only": "ОКУУ ҮЧҮН",
+    "tap_row": "ТАНДОО ҮЧҮН БАСЫҢЫЗ",
+    "log_button": "БҮГҮНКҮНҮ САКТОО",
+    "logged_success": "✓ САКТАЛДЫ"
+  },
+  "Navigation": {
+    "history": "Менин тарыхым",
+    "finance": "Каржы",
+    "vision_board": "Тилектер картасы",
+    "settings": "Жөндөөлөр"
   }
 }

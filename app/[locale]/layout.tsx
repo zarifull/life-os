@@ -12,7 +12,6 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  // Next.js 16 эрежеси боюнча await params сөзсүз керек
   const { locale } = await params;
 
   if (!locales.includes(locale as any)) {
@@ -23,7 +22,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body className="antialiased selection:bg-blue-100 selection:text-blue-900">
+      <body className="antialiased selection:bg-blue-100 selection:text-blue-900" >
         <NextIntlClientProvider messages={messages} locale={locale}>
           <LifeOSShell>{children}</LifeOSShell>
         </NextIntlClientProvider>

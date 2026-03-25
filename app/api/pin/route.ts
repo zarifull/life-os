@@ -7,8 +7,6 @@ export async function POST(request: NextRequest) {
 
     const envPin = process.env.LIFEOS_PIN_CODE;
 
-    // Supabase-backed PIN: use profiles.id = 1.pin_code if available,
-    // otherwise fall back to LIFEOS_PIN_CODE / "1234".
     let supabasePin: string | null = null;
     try {
       const supabase = createSupabaseServerClient();
@@ -21,7 +19,6 @@ export async function POST(request: NextRequest) {
         supabasePin = data.pin_code;
       }
     } catch {
-      // ignore and fall back to env
     }
 
     let source: "env" | "supabase" | "default" = "default";
