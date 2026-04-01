@@ -86,7 +86,7 @@
     "days_label": "days this year",
     "jan_1": "Jan 1",
     "dec_31": "Dec 31",
-    "progress": "{{pct}}% complete",
+    "complete": "complete",
     "stats": {
       "lived": "lived",
       "current day": "current day",
