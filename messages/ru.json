@@ -8,7 +8,15 @@
     "os_label": "ОС",
     "lifeos_label": "LIFE OS",
     "energy_label": "Энергия",
-    "dashboard_label": "Панель управления"
+    "dashboard_label": "Панель управления",
+    "navSettings": "Настройки",
+    "navDisconnect": "Выйти"
+  },
+  "Navigation": {
+    "history": "История",
+    "finance": "Финансы",
+    "vision_board": "Карта желаний",
+    "settings": "Настройки"
   },
   "Dashboard": {
     "life_journey": "Путь жизни",
@@ -32,6 +40,45 @@
       "reading": "Чтение книги"
     },
     "btn_complete": "Завершить день"
+  },
+  "Auth": {
+    "synchronize": "Синхронизация",
+    "initialize": "Инициализация",
+    "placeholderName": "Имя личности",
+    "placeholderEmail": "Электронная почта",
+    "placeholderKey": "Ключ",
+    "btnEnter": "Войти в жизнь",
+    "btnStart": "Начать путешествие",
+    "forgotKey": "Забыли ключ?",
+    "switchRequest": "Запросить новую личность",
+    "switchSync": "Уже синхронизированы?",
+    "confirmEmail": "Проверьте почту для подтверждения!",
+    "forgotPrompt": "Введите ваш Email:",
+    "recoverySent": "Проверьте почту! Ссылка для восстановления отправлена.",
+    "new": "Новый",
+    "key": "Ключ",
+    "placeholderNewKey": "Новый секретный ключ",
+    "btnUpdateIdentity": "Обновить личность",
+    "keyUpdatedSuccess": "Ключ успешно обновлен! С возвращением в LifeOS."
+  },
+  "Settings": {
+    "titlePart1": "Настройки",
+    "titlePart2": "Аккаунта",
+    "subtitle": "Управляйте своей цифровой личностью и безопасностью",
+    "labelName": "Отображаемое имя",
+    "labelEmail": "Адрес почты",
+    "labelSecurity": "Безопасность",
+    "labelPin": "ПИН-код доступа к системе",
+    "pinInfo": "Защитите вашу локальную сессию LifeOS",
+    "btnSaveName": "Сохранить личность",
+    "btnUpdateEmail": "Обновить почту",
+    "btnUpdatePassword": "Обновить пароль",
+    "btnUpdatePin": "Изменить ПИН-код",
+    "syncing": "Синхронизация...",
+    "successUpdate": "{type} успешно обновлен!",
+    "avatarSuccess": "Фото профиля синхронизировано!",
+    "pinSuccess": "ПИН-код обновлен!",
+    "version": "LifeOS Управление Личностью v1.0"
   },
   "year": {
     "today": "сегодня",
@@ -61,11 +108,5 @@
     "tap_row": "НАЖМИТЕ ДЛЯ ВЫБОРА",
     "log_button": "ЗАПИСАТЬ ЭНЕРГИЮ",
     "logged_success": "✓ ЗАПИСАНО"
-  },
-  "Navigation": {
-    "history": "История",
-    "finance": "Финансы",
-    "vision_board": "Карта желаний",
-    "settings": "Настройки"
   }
 }

@@ -8,7 +8,15 @@
     "os_label": "ОС",
     "energy_label": "Энергия",
     "lifeos_label": "LIFE OS",
-    "dashboard_label": "Башкаруу панели"
+    "dashboard_label": "Башкаруу панели",
+    "navSettings": "Жөндөөлөр",
+    "navDisconnect": "Чыгуу"
+  },
+  "Navigation": {
+    "history": "Менин тарыхым",
+    "finance": "Каржы",
+    "vision_board": "Тилектер картасы",
+    "settings": "Жөндөөлөр"
   },
   "Dashboard": {
     "life_journey": "Жашоо жолу",
@@ -32,6 +40,45 @@
       "reading": "Китеп окуу"
     },
     "btn_complete": "Күндү аяктоо"
+  },
+  "Auth": {
+    "synchronize": "Синхрондоштуруу",
+    "initialize": "Инициализация",
+    "placeholderName": "Атыңыз",
+    "placeholderEmail": "Электрондук почта",
+    "placeholderKey": "Ачкыч",
+    "btnEnter": "Жашоого кирүү",
+    "btnStart": "Саякатты баштоо",
+    "forgotKey": "Ачкычты унутуп калдыңызбы?",
+    "switchRequest": "Жаңы ID алуу",
+    "switchSync": "Мурун катталгансызбы?",
+    "confirmEmail": "Ырастоо үчүн почтаңызды текшериңиз!",
+    "forgotPrompt": "Почтаңызды жазыңыз:",
+    "recoverySent": "Почтаңызды текшериңиз! Калыбына келтирүү шилтемеси жөнөтүлдү.",
+    "new": "Жаңы",
+    "key": "Ачкыч",
+    "placeholderNewKey": "Жаңы жашыруун ачкыч",
+    "btnUpdateIdentity": "Инсандыкты жаңылоо",
+    "keyUpdatedSuccess": "Ачкыч ийгиликтүү жаңыланды! LifeOS'ко кайтып келишиңиз менен."
+  },
+  "Settings": {
+    "titlePart1": "Аккаунт",
+    "titlePart2": "Жөндөөлөрү",
+    "subtitle": "Санариптик инсандыгыңызды жана коопсуздугуңузду башкарыңыз",
+    "labelName": "Колдонуучунун аты",
+    "labelEmail": "Электрондук почта",
+    "labelSecurity": "Коопсуздук",
+    "labelPin": "Системалык кирүү ПИН-коду",
+    "pinInfo": "Жергиликтүү LifeOS сессияңызды коргоңуз",
+    "btnSaveName": "Инсандыкты сактоо",
+    "btnUpdateEmail": "Почтаны жаңылоо",
+    "btnUpdatePassword": "Паролду жаңылоо",
+    "btnUpdatePin": "ПИН-кодду өзгөртүү",
+    "syncing": "Жаңыланууда...",
+    "successUpdate": "{type} ийгиликтүү жаңыртылды!",
+    "avatarSuccess": "Профиль сүрөтү синхрондоштурулду!",
+    "pinSuccess": "ПИН-код жаңыртылды!",
+    "version": "LifeOS Инсандыкты Башкаруу v1.0"
   },
   "year": {
     "today": "бүгүн",
@@ -61,11 +108,5 @@
     "tap_row": "ТАНДОО ҮЧҮН БАСЫҢЫЗ",
     "log_button": "БҮГҮНКҮНҮ САКТОО",
     "logged_success": "✓ САКТАЛДЫ"
-  },
-  "Navigation": {
-    "history": "Менин тарыхым",
-    "finance": "Каржы",
-    "vision_board": "Тилектер картасы",
-    "settings": "Жөндөөлөр"
   }
 }

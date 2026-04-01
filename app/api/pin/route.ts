@@ -1,45 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: NextRequest) {
   try {
     const { pin } = await request.json();
+    const supabase = await createClient();
 
-    const envPin = process.env.LIFEOS_PIN_CODE;
+    // 1. Учурдагы кирген колдонуучунун ID-син алуу
+    const { data: { user } } = await supabase.auth.getUser();
 
-    let supabasePin: string | null = null;
-    try {
-      const supabase = createSupabaseServerClient();
+    let targetPin = "1234"; // Default
+    let source = "default";
+
+    if (user) {
+      // 2. Ошол колдонуучунун профилинен PIN-кодду алуу
       const { data } = await supabase
         .from("profiles")
         .select("pin_code")
-        .eq("id", 1)
+        .eq("id", user.id) // Бул жерде UUID колдонулат
         .maybeSingle();
-      if (data?.pin_code && typeof data.pin_code === "string") {
-        supabasePin = data.pin_code;
+
+      if (data?.pin_code) {
+        targetPin = data.pin_code;
+        source = "supabase";
       }
-    } catch {
     }
 
-    let source: "env" | "supabase" | "default" = "default";
-    let targetPin: string = "1234";
-
-    if (envPin) {
+    // 3. Эгер базадан табылбаса гана ENV-ди текшерүү (же тескерисинче, каалооңузча)
+    const envPin = process.env.LIFEOS_PIN_CODE;
+    if (source === "default" && envPin) {
       targetPin = envPin;
       source = "env";
-    } else if (supabasePin) {
-      targetPin = supabasePin;
-      source = "supabase";
     }
-    const isValid = typeof pin === "string" && pin === targetPin;
+
+    const isValid = pin === targetPin;
 
     if (!isValid) {
       return NextResponse.json({ ok: false, source }, { status: 401 });
     }
 
     return NextResponse.json({ ok: true, source });
-  } catch {
+  } catch (error) {
     return NextResponse.json({ ok: false }, { status: 400 });
   }
 }
-
