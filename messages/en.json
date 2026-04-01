@@ -9,7 +9,15 @@
     "energy_label": "Energy",
     "lifeos_label": "LifeOS",
     "dashboard_label": "Dashboard",
-    "energy_widget_label": "Energy"
+    "energy_widget_label": "Energy",
+    "navSettings": "Settings",
+    "navDisconnect": "Disconnect"
+  },
+  "Navigation": {
+    "history": "My History",
+    "finance": "Finance",
+    "vision_board": "Vision Board",
+    "settings": "Settings"
   },
   "Dashboard": {
     "life_journey": "Life Journey",
@@ -33,6 +41,45 @@
       "reading": "Reading Book"
     },
     "btn_complete": "Complete Day"
+  },
+  "Auth": {
+    "synchronize": "Synchronize",
+    "initialize": "Initialize",
+    "placeholderName": "Identity Name",
+    "placeholderEmail": "Email",
+    "placeholderKey": "Key",
+    "btnEnter": "Enter Life",
+    "btnStart": "Start Journey",
+    "forgotKey": "Forgot Key?",
+    "switchRequest": "Request New Identity",
+    "switchSync": "Already Synchronized?",
+    "confirmEmail": "Check your email to confirm!",
+    "forgotPrompt": "Enter your Identity Email:",
+    "recoverySent": "Check your email! The recovery link is sent.",
+    "new": "New",
+    "key": "Key",
+    "placeholderNewKey": "New Secret Key",
+    "btnUpdateIdentity": "Update Identity",
+    "keyUpdatedSuccess": "Key updated successfully! Welcome back to LifeOS."
+  },
+  "Settings": {
+    "titlePart1": "Account",
+    "titlePart2": "Settings",
+    "subtitle": "Manage your digital identity & security",
+    "labelName": "Display Name",
+    "labelEmail": "Email Address",
+    "labelSecurity": "Security",
+    "labelPin": "System Access PIN",
+    "pinInfo": "Protect your local LifeOS session",
+    "btnSaveName": "Save Identity",
+    "btnUpdateEmail": "Update Email",
+    "btnUpdatePassword": "Update Password",
+    "btnUpdatePin": "Change Access PIN",
+    "syncing": "Syncing...",
+    "successUpdate": "{type} updated successfully!",
+    "avatarSuccess": "Identity photo synced!",
+    "pinSuccess": "PIN updated!",
+    "version": "LifeOS Identity Management v1.0"
   },
   "year": {
     "today": "today",
@@ -61,11 +108,5 @@
     "tap_row": "TAP ROW TO SET",
     "log_button": "LOG TODAY'S ENERGY",
     "logged_success": "✓ LOGGED"
-  },
-  "Navigation": {
-    "history": "My History",
-    "finance": "Finance",
-    "vision_board": "Vision Board",
-    "settings": "Settings"
   }
 }

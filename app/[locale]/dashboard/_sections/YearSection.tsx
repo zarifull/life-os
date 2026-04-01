@@ -100,7 +100,6 @@ function StatCard({
         className="text-[10px] font-normal tracking-[0.45em] uppercase"
         style={{ color: isCenter ? "rgba(99,102,241,0.46)" : "rgba(110,100,170,0.34)" }}
       >
-        {/* Оңдолду: label мааниси stats объектинен тилге жараша которулат */}
         {t(`stats.${label}`)}
       </span>
     </motion.div>

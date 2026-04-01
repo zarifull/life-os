@@ -6,5 +6,4 @@ export const createClient = () =>
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
 
-// Сиздин LoginPage үчүн даяр объект
 export const supabase = createClient()

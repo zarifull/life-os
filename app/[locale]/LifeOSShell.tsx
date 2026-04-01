@@ -14,7 +14,9 @@ const locales = [
   { code: "ru", label: "Русский" }
 ];
 
-export function LifeOSShell({ children }: { children: React.ReactNode }) {
+export function LifeOSShell({ children,userNav }: { children: React.ReactNode;
+  userNav?: React.ReactNode;
+ }) {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -47,9 +49,14 @@ export function LifeOSShell({ children }: { children: React.ReactNode }) {
   );
 
   const handleDigit = (digit: string) => {
-    if (unlocked) return;
+    if (unlocked || loading) return; 
     setError("");
-    setPin((prev) => (prev.length >= PIN_LENGTH ? prev : prev + digit));
+    setPin((prev) => {
+      if (prev.length < PIN_LENGTH) {
+        return prev + digit;
+      }
+      return prev;
+    });
   };
 
   const handleDelete = () => {
@@ -72,8 +79,10 @@ export function LifeOSShell({ children }: { children: React.ReactNode }) {
         const res = await fetch("/api/pin", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ pin })
+          body:
+           JSON.stringify({ pin })
         });
+        await new Promise(resolve => setTimeout(resolve, 100));
         if (!res.ok) {
           setError("Incorrect PIN");
           setPin("");
@@ -112,7 +121,7 @@ export function LifeOSShell({ children }: { children: React.ReactNode }) {
     !unlocked && portalHost
       ? createPortal(
           <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-blue-500/10 backdrop-blur-[40px] pointer-events-auto">
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute inset-0 relative z-[100]pointer-events-none">
               <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-purple-200/30 blur-[120px] rounded-full animate-pulse" />
               <div className="absolute -bottom-[10%] -right-[10%] w-[60%] h-[60%] bg-cyan-200/30 blur-[70px] rounded-full animate-pulse delay-1000" />
             </div>
@@ -192,7 +201,7 @@ export function LifeOSShell({ children }: { children: React.ReactNode }) {
         <div className="absolute bottom-[-15%] left-[-10%] w-[700px] h-[700px] bg-emerald-50/50 blur-[120px] rounded-full" />
       </div>
 
-      <header className="relative z-10 flex items-center justify-between px-6 py-6 md:px-12">
+      <header className="relative z-[100] flex items-center justify-between px-6 py-6 md:px-12">
         <div className="flex items-center gap-4 group cursor-default">
           <div className="h-12 w-12 bg-white/60 backdrop-blur-xl rounded-2xl flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.03)] border border-white/80 transition-transform group-hover:scale-105">
             <span className="text-xs font-black text-slate-400 tracking-tighter">{t("os_label")}</span>
@@ -203,8 +212,8 @@ export function LifeOSShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        <div className="flex items-center gap-5">
-
+        <div className="flex items-center gap-4">
+        {unlocked && userNav}
         <div className="relative group">
           <select
             value={activeLocale.code}

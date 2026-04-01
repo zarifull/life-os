@@ -2,6 +2,7 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
+  // 1. Алгачкы жоопту түзүү
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -19,18 +20,14 @@ export async function updateSession(request: NextRequest) {
         set(name: string, value: string, options: CookieOptions) {
           request.cookies.set({ name, value, ...options })
           response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
+            request: { headers: request.headers },
           })
           response.cookies.set({ name, value, ...options })
         },
         remove(name: string, options: CookieOptions) {
           request.cookies.set({ name, value: '', ...options })
           response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
+            request: { headers: request.headers },
           })
           response.cookies.set({ name, value: '', ...options })
         },
@@ -38,24 +35,25 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // Сессияны текшерүү
   const { data: { user } } = await supabase.auth.getUser()
 
-  // КОРГОО ЛОГИКАСЫ:
   const pathname = request.nextUrl.pathname
-  const isDashboard = pathname.includes('/dashboard')
-  const isLogin = pathname.includes('/login')
+  
+  const segments = pathname.split('/')
+  const locale = segments[1] || 'en'
 
-  // 1. Кире элек болсо жана Dashboard'го киргиси келсе -> Login
-  if (!user && isDashboard) {
-    const locale = pathname.split('/')[1] || 'en'
-    return NextResponse.redirect(new URL(`/${locale}/login`, request.url))
+  const isDashboardPage = pathname.includes('/dashboard') || pathname.includes('/settings')
+  const isAuthPage = pathname.includes('/login') || pathname.includes('/register') || pathname.includes('/reset-password')
+
+  if (!user && isDashboardPage) {
+    const url = new URL(`/${locale}/login`, request.url)
+    return NextResponse.redirect(url)
   }
-
-  // 2. КИРГЕН БОЛСО жана кайра Login'го барса -> Dashboard
-  if (user && isLogin) {
-    const locale = pathname.split('/')[1] || 'en'
-    return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url))
+  if (user && isAuthPage) {
+    if (!pathname.includes('/reset-password')) {
+      const url = new URL(`/${locale}/dashboard`, request.url)
+      return NextResponse.redirect(url)
+    }
   }
 
   return response
