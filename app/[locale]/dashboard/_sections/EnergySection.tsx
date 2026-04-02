@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { useLocale } from "next-intl"
+import { logEnergy } from "@/lib/supabase/energy"
+import { useTranslations, useLocale } from 'next-intl';
 
 type EnergyLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 
@@ -26,7 +27,6 @@ function getFillStyle(e: EnergyLevel): React.CSSProperties {
 function formatDate(d: Date) {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric" })
 }
-
 
 function Wave() {
   return (
@@ -160,18 +160,19 @@ function TapDots({ value, onChange }: { value: EnergyLevel; onChange: (v: Energy
   )
 }
 
-function BatteryRow({ children, isToday = false, onClick }: {
+interface BatteryRowProps {
   children: React.ReactNode
   isToday?: boolean
   onClick?: () => void
-}) {
+}
+
+function BatteryRow({ children, isToday = false, onClick }: BatteryRowProps) {
   return (
     <motion.div
       onClick={onClick}
-      className="relative grid items-center gap-5 overflow-hidden"
+      className="relative grid items-center gap-4 sm:gap-5 overflow-hidden grid-cols-1 sm:grid-cols-[100px_1fr_auto]"
       style={{
-        gridTemplateColumns: "80px 1fr auto",
-        padding: "18px 20px",
+        padding: "16px 20px",
         borderRadius: 24,
         background: isToday ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.42)",
         border: isToday ? "1px solid rgba(255,255,255,0.82)" : "1px solid rgba(255,255,255,0.72)",
@@ -196,6 +197,8 @@ function BatteryRow({ children, isToday = false, onClick }: {
     </motion.div>
   )
 }
+
+
 function GlassPillBtn({ children, onClick, style }: {
   children: React.ReactNode
   onClick?: () => void
@@ -226,6 +229,8 @@ export default function EnergySection() {
   const [mounted, setMounted] = useState(false)
   const [state, setState] = useState<EnergyState>({ today: 0, tomorrow: 0, savedToday: false })
   const [justSaved, setJustSaved] = useState(false)
+  const [isSyncing, setIsSyncing] = useState(false)
+  const t = useTranslations('Energy')
 
   const today = new Date()
   const yesterday = new Date(today); yesterday.setDate(today.getDate() - 1)
@@ -247,10 +252,25 @@ export default function EnergySection() {
   const setTodayEnergy = (v: EnergyLevel) => setState(p => ({ ...p, today: v, savedToday: false }))
   const cycleTomorrow = () => setState(p => ({ ...p, tomorrow: (p.tomorrow >= 7 ? 0 : p.tomorrow + 1) as EnergyLevel }))
 
-  const handleSave = () => {
-    setState(p => ({ ...p, savedToday: true }))
-    setJustSaved(true)
-    setTimeout(() => setJustSaved(false), 2000)
+  const handleSave = async () => {
+    setIsSyncing(true)
+    try {
+      const { error } = await logEnergy(state.today, state.tomorrow)
+      
+      if (error) {
+        console.error("Supabase Error:", error.message)
+        return
+      }
+  
+      setState(p => ({ ...p, savedToday: true }))
+      setJustSaved(true)
+      setTimeout(() => setJustSaved(false), 2000)
+      
+    } catch (err) {
+      console.error("System Error:", err)
+    } finally {
+      setIsSyncing(false)
+    }
   }
 
   if (!mounted) return null
@@ -295,7 +315,6 @@ export default function EnergySection() {
             <motion.div
               className="absolute top-0 bottom-0 w-[28%] pointer-events-none"
               style={{ background: "linear-gradient(105deg,transparent 22%,rgba(255,255,255,0.15) 50%,transparent 78%)", transform: "skewX(-10deg)" }}
-              // animate={{ left: ["-55%", "130%", "-55%"] }}
               transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", times: [0, 0.42, 1] }}
             />
 
@@ -303,7 +322,7 @@ export default function EnergySection() {
               <div className="flex items-center gap-2">
                 <div style={{ width: 7, height: 7, borderRadius: "50%", background: "linear-gradient(135deg,#6366f1,#22d3ee)", boxShadow: "0 0 8px rgba(99,102,241,0.6)" }} />
                 <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.45em", textTransform: "uppercase", color: "rgba(70,60,150,0.6)" }}>
-                  Energy
+                  {t('title')}
                 </span>
               </div>
 
@@ -315,7 +334,7 @@ export default function EnergySection() {
                   <line x1="7" y1="1.5" x2="7" y2="4.5" stroke="rgba(99,102,241,0.5)" strokeWidth="1.2" strokeLinecap="round"/>
                 </svg>
                 <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.32em", textTransform: "uppercase", color: "rgba(99,102,241,0.65)" }}>
-                  Energy Archive
+                  {t('archive')}
                 </span>
                 <span style={{ fontSize: 11, color: "rgba(99,102,241,0.45)" }}>›</span>
               </GlassPillBtn>
@@ -325,12 +344,17 @@ export default function EnergySection() {
 
               <BatteryRow>
                 <div className="flex flex-col gap-1">
-                  <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.5em", textTransform: "uppercase", color: "rgba(110,100,170,0.45)" }}>Yesterday</span>
+                  <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.5em", textTransform: "uppercase", color: "rgba(110,100,170,0.45)" }}>{t('yesterday')}</span>
                   <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 17, fontWeight: 600, fontStyle: "italic", color: "rgba(90,80,160,0.4)" }}>
                     {formatDate(yesterday)}
                   </span>
-                  <span style={{ fontSize: 8, fontWeight: 800, letterSpacing: "0.5em", textTransform: "uppercase", marginTop: 8, display: "inline-block", padding: "5px 10px", borderRadius: 80, background: "rgba(255,255,255,0.45)", border: "5px solid rgba(255,255,255,0.7)", color: "rgba(110,100,170,0.45)" }}>
-                    Logged
+                  <span style={{ 
+                    fontSize: 8, fontWeight: 800, letterSpacing: "0.5em", textTransform: "uppercase", 
+                    marginTop: 8, display: "inline-flex", width: "fit-content", padding: "5px 10px", 
+                    borderRadius: 80, background: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.7)", 
+                    color: "rgba(110,100,170,0.45)" 
+                  }}>
+                   {t('logged')}
                   </span>
                 </div>
                 <Battery level={YESTERDAY_ENERGY} />
@@ -339,13 +363,13 @@ export default function EnergySection() {
                     {YESTERDAY_ENERGY}
                   </span>
                   <span style={{ fontSize: 15, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(110,100,170,0.38)" }}>/ 7</span>
-                  <span style={{ fontSize: 10, color: "rgba(110,100,170,0.3)", letterSpacing: "0.05em", fontWeight:"bold", textTransform: "uppercase", marginTop: 2 }}>Read only</span>
+                  <span style={{ fontSize: 10, color: "rgba(110,100,170,0.3)", letterSpacing: "0.05em", fontWeight:"bold", textTransform: "uppercase", marginTop: 2 }}>{t('readOnly')}</span>
                 </div>
               </BatteryRow>
 
               <BatteryRow isToday>
                 <div className="flex flex-col gap-1">
-                  <span style={{ fontSize: 15, fontWeight: 800, letterSpacing: "0.5em", textTransform: "uppercase", color: "rgba(99,102,241,0.6)" }}>Today</span>
+                  <span style={{ fontSize: 15, fontWeight: 800, letterSpacing: "0.5em", textTransform: "uppercase", color: "rgba(99,102,241,0.6)" }}>{t("today")}</span>
                   <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 15, fontWeight: 800, fontStyle: "italic", color: "rgba(90,80,160,0.4)" }}>
                     {formatDate(today)}
                   </span>
@@ -355,12 +379,26 @@ export default function EnergySection() {
                       initial={{ opacity: 0, y: 4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
-                      style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", marginTop: 6, display: "inline-block", padding: "3px 10px", borderRadius: 100, background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.25)", color: "rgba(99,102,241,0.7)" }}
+                      style={{ 
+                        fontSize: 8, 
+                        fontWeight: 700, 
+                        letterSpacing: "0.05em", 
+                        textTransform: "uppercase", 
+                        marginTop: 6, 
+                        display: "inline-flex", 
+                        width: "fit-content",
+                        padding: "3px 10px", 
+                        borderRadius: 100, 
+                        background: "rgba(99,102,241,0.1)", 
+                        border: "1px solid rgba(99,102,241,0.25)", 
+                        color: "rgba(99,102,241,0.7)" 
+                      }}
                     >
-                      {state.today > 0 ? "Auto-saved ✓" : "Tap to set"}
+                    {state.today > 0 ? t('autoSaved') : t('tapToSet')}
                     </motion.span>
                   </AnimatePresence>
                 </div>
+
                 <Battery level={state.today} isToday />
                 <div className="flex flex-col items-center gap-2">
                   <motion.span
@@ -384,12 +422,17 @@ export default function EnergySection() {
 
               <BatteryRow onClick={cycleTomorrow}>
                 <div className="flex flex-col gap-1" >
-                  <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.38em", textTransform: "uppercase", color: "rgba(110,100,170,0.45)" }}>Tomorrow</span>
+                  <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.38em", textTransform: "uppercase", color: "rgba(110,100,170,0.45)" }}>{t("tomorrow")}</span>
                   <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 15, fontWeight: 800, fontStyle: "italic", color: "rgba(90,80,160,0.4)" }}>
                     {formatDate(tomorrow)}
                   </span>
-                  <span style={{ fontSize: 8, fontWeight: 500, letterSpacing: "0.2em", textTransform: "uppercase", marginTop: 6, display: "inline-block", padding: "3px 10px", borderRadius: 100, background: "rgba(255,255,255,0.3)", border: "1px dashed rgba(180,170,220,0.45)", color: "rgba(110,100,170,0.4)" }}>
-                    Intention
+                  <span style={{ 
+                      fontSize: 8, fontWeight: 500, letterSpacing: "0.2em", textTransform: "uppercase", 
+                      marginTop: 6, display: "inline-flex", width: "fit-content", padding: "3px 10px", 
+                      borderRadius: 100, background: "rgba(255,255,255,0.3)", border: "1px dashed rgba(180,170,220,0.45)", 
+                      color: "rgba(110,100,170,0.4)" 
+                    }}>
+                    {t('intention')}
                   </span>
                 </div>
                 <Battery level={state.tomorrow} opacity={0.8} />
@@ -405,7 +448,7 @@ export default function EnergySection() {
                   </span>
                   <span style={{ fontSize: 12, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(110,100,170,0.38)" }}>/ 7</span>
                   <span style={{ fontSize: 8, color: "rgba(110,100,170,0.3)", letterSpacing: "0.18em", textTransform: "uppercase", marginTop: 2, textAlign: "center", lineHeight: 1.6 }}>
-                    Tap row<br />to set
+                  {t('tapRow')}
                   </span>
                 </div>
               </BatteryRow>
@@ -442,7 +485,7 @@ export default function EnergySection() {
                       color: justSaved ? "rgba(52,211,153,0.9)" : "rgba(99,102,241,0.75)",
                     }}
                   >
-                    {justSaved ? "✓ Energy Logged" : "Log Energy"}
+                   {justSaved ? t('success') : t('logButton')}
                   </motion.span>
                 </AnimatePresence>
               </motion.button>
@@ -456,7 +499,7 @@ export default function EnergySection() {
                   <path d="M7 4v3.5l2 1.5" stroke="rgba(99,102,241,0.55)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(99,102,241,0.65)" }}>
-                  View History
+                  {t('viewHistory')}
                 </span>
                 <span style={{ fontSize: 15, color: "rgba(99,102,241,0.4)" }}>›</span>
               </GlassPillBtn>

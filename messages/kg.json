@@ -92,20 +92,30 @@
       "ahead": "алдыда"
     }
   },
-  "EnergySection": {
-    "title": "ЭНЕРГИЯ",
-    "archive_btn": "АРХИВ",
-    "history_btn": "ТАРЫХЫ ›",
-    "yesterday": "КЕЧЭЭ",
-    "today": "БҮГҮН",
-    "tomorrow": "ЭРТЕҢ",
-    "logged_status": "ЖАЗЫЛДЫ",
-    "auto_saved": "САКТАЛДЫ ✓",
-    "tap_to_set": "ТАНДАҢЫЗ",
-    "intention": "ПЛАН",
-    "read_only": "ОКУУ ҮЧҮН",
-    "tap_row": "ТАНДОО ҮЧҮН БАСЫҢЫЗ",
-    "log_button": "БҮГҮНКҮНҮ САКТОО",
-    "logged_success": "✓ САКТАЛДЫ"
+  "Energy": {
+    "title": "Энергия",
+    "archive": "Энергия архиви",
+    "yesterday": "Кечээ",
+    "today": "Бүгүн",
+    "tomorrow": "Эртең",
+    "logged": "Жазылды",
+    "autoSaved": "Авто-сактоо ✓",
+    "tapToSet": "Тандоо үчүн бас",
+    "intention": "Ниет",
+    "readOnly": "Окуу үчүн гана",
+    "tapRow": "Тандоо үчүн катарды бас",
+    "logButton": "Энергияны сактоо",
+    "success": "✓ Сакталды",
+    "viewHistory": "Тарыхты көрүү",
+    "back": "Артка",
+    "archiveTitle": "Энергия архиви",
+    "loading": "Жүктөлүүдө...",
+    "overview": "Жалпы маалымат",
+    "avgLabel": "Орточо",
+    "streakLabel": "Күндөр сериясы",
+    "bestLabel": "Эң жакшы",
+    "visualHistory": "Акыркы {days} күн",
+    "days": "күн",
+    "dailyLog": "Күнүмдүк журнал"
   }
 }

@@ -92,20 +92,30 @@
       "ahead": "впереди"
     }
   },
-  "EnergySection": {
-    "title": "ЭНЕРГИЯ",
-    "archive_btn": "АРХИВ",
-    "history_btn": "ИСТОРИЯ ›",
-    "yesterday": "ВЧЕРА",
-    "today": "СЕГОДНЯ",
-    "tomorrow": "ЗАВТРА",
-    "logged_status": "ЗАПИСАНО",
-    "auto_saved": "СОХРАНЕНО ✓",
-    "tap_to_set": "НАЖМИ",
-    "intention": "ПЛАН",
-    "read_only": "ТОЛЬКО ЧТЕНИЕ",
-    "tap_row": "НАЖМИТЕ ДЛЯ ВЫБОРА",
-    "log_button": "ЗАПИСАТЬ ЭНЕРГИЮ",
-    "logged_success": "✓ ЗАПИСАНО"
+  "Energy": {
+    "title": "Энергия",
+    "archive": "Архив энергии",
+    "yesterday": "Вчера",
+    "today": "Сегодня",
+    "tomorrow": "Завтра",
+    "logged": "Записано",
+    "autoSaved": "Автосохранение ✓",
+    "tapToSet": "Нажми, чтобы выбрать",
+    "intention": "Намерение",
+    "readOnly": "Только чтение",
+    "tapRow": "Нажми на строку",
+    "logButton": "Сохранить энергию",
+    "success": "✓ Сохранено",
+    "viewHistory": "История",
+    "back": "Назад",
+    "archiveTitle": "Архив энергии",
+    "loading": "Загрузка...",
+    "overview": "Обзор",
+    "avgLabel": "Среднее",
+    "streakLabel": "Серия дней",
+    "bestLabel": "Лучший уровень",
+    "visualHistory": "Последние {days} дней",
+    "days": "дн.",
+    "dailyLog": "Дневной лог"
   }
 }

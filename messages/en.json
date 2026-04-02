@@ -93,20 +93,30 @@
       "ahead": "ahead"
     }
   },
-  "EnergySection": {
-    "title": "ENERGY",
-    "archive_btn": "ARCHIVE",
-    "history_btn": "VIEW HISTORY ›",
-    "yesterday": "YESTERDAY",
-    "today": "TODAY",
-    "tomorrow": "TOMORROW",
-    "logged_status": "LOGGED",
-    "auto_saved": "SAVED ✓",
-    "tap_to_set": "TAP",
-    "intention": "INTENTION",
-    "read_only": "READ ONLY",
-    "tap_row": "TAP ROW TO SET",
-    "log_button": "LOG TODAY'S ENERGY",
-    "logged_success": "✓ LOGGED"
+  "Energy": {
+    "title": "Energy",
+    "archive": "Energy Archive",
+    "yesterday": "Yesterday",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "logged": "Logged",
+    "autoSaved": "Auto-saved ✓",
+    "tapToSet": "Tap to set",
+    "intention": "Intention",
+    "readOnly": "Read only",
+    "tapRow": "Tap row to set",
+    "logButton": "Log Energy",
+    "success": "✓ Energy Logged",
+    "viewHistory": "View History",
+    "back": "Back",
+    "archiveTitle": "Energy Archive",
+    "loading": "Loading Logs...",
+    "overview": "Overview",
+    "avgLabel": "Avg Energy",
+    "streakLabel": "Day Streak",
+    "bestLabel": "Best Level",
+    "visualHistory": "Last {days} days",
+    "days": "days",
+    "dailyLog": "Daily Log"
   }
 }

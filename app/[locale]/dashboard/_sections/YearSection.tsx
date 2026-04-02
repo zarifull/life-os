@@ -30,7 +30,6 @@ function StatCard({
   
   return (
     <motion.div
-      /* py-4 sm:py-7 жана px-1 sm:px-4 аркылуу мобилдикте орун үнөмдөлдү */
       className="flex flex-col items-center gap-1 sm:gap-3 py-4 sm:py-7 px-1 sm:px-4 rounded-[22px] sm:rounded-[28px] mx-0.5 sm:mx-2 cursor-default backdrop-blur-xl"
       style={{
         background: isCenter ? "rgba(255,255,255,0.52)" : "rgba(255,255,255,0.42)",
@@ -74,7 +73,6 @@ function StatCard({
       )}
 
       <motion.span
-        /* Цифралар мобилдикте (text-[34px] / text-[44px]) бири-бирине тийбей тургандай кичирейтилди */
         className={`font-serif font-light leading-none ${
           isCenter
             ? "text-[44px] sm:text-[100px] tracking-[-2px] sm:tracking-[-5px]"

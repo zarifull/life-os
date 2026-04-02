@@ -4,13 +4,15 @@ import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { useLocale } from "next-intl"
+import { createClient } from "@/lib/supabase/client"
+import { useTranslations } from "next-intl" 
 
 type EnergyLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 
 interface DayRecord {
   date: Date
   energy: EnergyLevel
-  mood: number      // 1–5
+  mood: number      
   isToday: boolean
 }
 
@@ -24,27 +26,6 @@ function getFillStyle(e: EnergyLevel): React.CSSProperties {
   if (e <= 4) return { background: "linear-gradient(90deg,rgba(251,191,36,0.8),rgba(251,191,36,0.55))" }
   if (e <= 6) return { background: "linear-gradient(90deg,rgba(52,211,153,0.8),rgba(52,211,153,0.55))" }
   return { background: "linear-gradient(90deg,#6366f1,#a78bfa 50%,#22d3ee)" }
-}
-
-function makeRng(seed: number) {
-  let s = seed
-  return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 0xFFFFFFFF }
-}
-
-function generateHistory(days: number): DayRecord[] {
-  const rng = makeRng(42)
-  const today = new Date()
-  return Array.from({ length: days }, (_, i) => {
-    const d = new Date(today)
-    d.setDate(today.getDate() - (days - 1 - i))
-    const isToday = i === days - 1
-    return {
-      date: d,
-      energy: isToday ? 0 : Math.round(rng() * 6) + 1 as EnergyLevel,
-      mood: Math.round(rng() * 4) + 1,
-      isToday,
-    }
-  })
 }
 
 function EnergyChart({ data }: { data: DayRecord[] }) {
@@ -73,7 +54,7 @@ function EnergyChart({ data }: { data: DayRecord[] }) {
     >
       <div className="absolute flex flex-col justify-between" style={{ left: 4, top: 20, bottom: 28 }}>
         {[7,5,3,1].map(n => (
-          <span key={n} style={{ fontSize: 8, color: "rgba(110,100,170,0.32)", letterSpacing: "0.1em" }}>{n}</span>
+          <span key={n} style={{ fontSize: 8, color: "#4338ca", letterSpacing: "0.1em" }}>{n}</span>
         ))}
       </div>
       <svg ref={svgRef} style={{ width: "100%", height: 160, display: "block" }} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none">
@@ -143,21 +124,54 @@ function SecLabel({ children }: { children: React.ReactNode }) {
 export default function EnergyArchivePage() {
   const router = useRouter()
   const locale = useLocale()
+  const t = useTranslations('Energy')
   const [mounted, setMounted] = useState(false)
   const [filter, setFilter] = useState(30)
-  const [allHistory] = useState(() => generateHistory(80))  
+  const [history, setHistory] = useState<DayRecord[]>([]) 
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => { setMounted(true) }, [])
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) { setLoading(false); return }
+
+      const { data } = await supabase
+        .from('energy_logs')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('date', { ascending: true })
+
+      if (data) {
+        const formatted: DayRecord[] = data.map(row => ({
+          date: new Date(row.date + 'T00:00:00'),
+          energy: row.level as EnergyLevel,
+          mood: row.intention || 3,
+          isToday: row.date === new Date().toISOString().split('T')[0]
+        }))
+        setHistory(formatted)
+      }
+      setLoading(false)
+    }
+    fetchHistory()
+  }, [])
+
   if (!mounted) return null
 
-  const history = allHistory.slice(-filter)
-  const logged = history.filter(d => d.energy > 0)
-  const avg = logged.length ? (logged.reduce((a, b) => a + b.energy, 0) / logged.length).toFixed(1) : "—"
+  const filteredHistory = history.slice(-filter)
+  const logged = filteredHistory.filter(d => d.energy > 0)
+  
+  const avg = logged.length 
+    ? (logged.reduce((a, b) => a + b.energy, 0) / logged.length).toFixed(1) 
+    : "—"
+  
   const best = logged.length ? Math.max(...logged.map(d => d.energy)) : 0
 
   let streak = 0
-  for (let i = allHistory.length - 2; i >= 0; i--) {
-    if (allHistory[i].energy > 0) streak++
+  for (let i = history.length - 1; i >= 0; i--) {
+    if (history[i].energy > 0) streak++
     else break
   }
 
@@ -167,169 +181,112 @@ export default function EnergyArchivePage() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;1,200;1,300&display=swap');
+        
+        .stat-card span:last-child {
+          color: #4338ca !important; /* Deep Indigo for readability */
+          opacity: 0.8;
+        }
+        
+        .log-date-main {
+          color: #1e1b4b !important; /* Near Black-Indigo for maximum contrast */
+          font-weight: 500 !important;
+        }
+        
+        .log-date-sub {
+          color: #4338ca !important; /* Indigo for labels */
+          font-weight: 700 !important;
+        }
+        @media (max-width: 640px) {
+          .glass-header { font-size: 42px !important; letter-spacing: -1.5px !important; color: #1e1b4b !important; }
+          .stat-grid { grid-template-columns: 1fr 1fr 1fr !important; gap: 8px !important; }
+          .stat-card { padding: 12px 8px !important; border: 1.5px solid rgba(255,255,255,0.9) !important; }
+          .stat-card span:first-child { font-size: 26px !important; font-weight: 400 !important; }
+          
+          .log-row { 
+            grid-template-columns: 45px 1fr 45px !important; 
+            padding: 14px 16px !important; 
+            background: rgba(255,255,255,0.6) !important; /* Brighter background for better text pop */
+          }
+        }
+      
+        
       `}</style>
 
-      <div
-        className="min-h-screen"
-        style={{ background: "linear-gradient(145deg,#ece9ff 0%,#f3eeff 22%,#ffe8f8 52%,#e8f0ff 78%,#e4f5ff 100%)" }}
-      >
+      <div className="min-h-screen" style={{ background: "linear-gradient(145deg,#ece9ff 0%,#f3eeff 22%,#ffe8f8 52%,#e8f0ff 78%,#e4f5ff 100%)" }}>
         <div className="max-w-3xl mx-auto px-5 py-10 pb-20">
 
           <motion.button
             onClick={() => router.push(`/${locale}/dashboard`)}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
             className="inline-flex items-center gap-2 rounded-full mb-8 focus:outline-none"
-            style={{
-              padding: "8px 18px",
-              background: "rgba(255,255,255,0.52)", border: "1px solid rgba(255,255,255,0.82)",
-              backdropFilter: "blur(20px)",
-              boxShadow: "0 2px 16px rgba(120,100,200,0.08),inset 0 1px 0 rgba(255,255,255,0.95)",
-              fontSize: 10, fontWeight: 500, letterSpacing: "0.32em", textTransform: "uppercase",
-              color: "rgba(99,102,241,0.65)",
-            }}
-            whileHover={{ x: -2 }}
+            style={{ padding: "8px 18px", background: "rgba(255,255,255,0.52)", border: "1px solid rgba(255,255,255,0.82)", backdropFilter: "blur(20px)", fontSize: 10, fontWeight: 500, letterSpacing: "0.32em", textTransform: "uppercase", color: "rgba(99,102,241,0.65)" }}
           >
-            ‹ &nbsp;Back
+            ‹ &nbsp;{t('back')}
           </motion.button>
 
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.05 }}>
-            <h1
-              style={{
-                fontFamily: "'Cormorant Garamond',serif",
-                fontSize: "clamp(40px,6vw,64px)", fontWeight: 200,
-                lineHeight: 0.92, letterSpacing: "-3px",
-                background: "linear-gradient(160deg,#3730a3,#6366f1 45%,#22d3ee)",
-                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-                marginBottom: 8,
-              }}
-            >
-              Energy<br />Archive
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
+            <h1 className="glass-header" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(40px,6vw,64px)", fontWeight: 200, lineHeight: 0.92, letterSpacing: "-3px", background: "linear-gradient(160deg,#3730a3,#6366f1 45%,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", marginBottom: 8 }}>
+              {t('archiveTitle')}
             </h1>
-            <p style={{ fontSize: 10, fontWeight: 400, letterSpacing: "0.45em", textTransform: "uppercase", color: "rgba(110,100,170,0.42)", marginBottom: 32 }}>
-              Your energy history · {new Date().getFullYear()}
-            </p>
           </motion.div>
 
-          <GlassCard delay={0.1}>
-            <SecLabel>Overview</SecLabel>
-            <div className="grid grid-cols-3 gap-3 mb-7">
-              {[
-                { val: avg, lbl: "Avg / 7" },
-                { val: streak, lbl: "Day streak" },
-                { val: best ? `${best}/7` : "—", lbl: "Best level" },
-              ].map(({ val, lbl }) => (
-                <div key={lbl} className="rounded-[20px] text-center py-4 px-3"
-                  style={{ background: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.78)", boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.95)" }}>
-                  <span
-                    className="block mb-1"
-                    style={{
-                      fontFamily: "'Cormorant Garamond',serif", fontSize: 32, fontWeight: 200, lineHeight: 1, letterSpacing: "-1px",
-                      background: "linear-gradient(160deg,#6366f1,#22d3ee)",
-                      WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-                    }}
-                  >{val}</span>
-                  <span style={{ fontSize: 8, fontWeight: 500, letterSpacing: "0.35em", textTransform: "uppercase", color: "rgba(110,100,170,0.4)" }}>{lbl}</span>
-                </div>
-              ))}
-            </div>
-
-            <SecLabel>Last {filter} days</SecLabel>
-            <EnergyChart data={history} />
-          </GlassCard>
-
-          <GlassCard delay={0.2}>
-            <div className="flex gap-2 mb-6">
-              {FILTERS.map(f => (
-                <button
-                  key={f}
-                  onClick={() => setFilter(f)}
-                  className="rounded-full focus:outline-none transition-all duration-200"
-                  style={{
-                    padding: "6px 16px",
-                    fontSize: 9, fontWeight: 500, letterSpacing: "0.3em", textTransform: "uppercase",
-                    background: filter === f ? "rgba(99,102,241,0.12)" : "rgba(255,255,255,0.32)",
-                    border: filter === f ? "1px solid rgba(99,102,241,0.3)" : "1px solid rgba(255,255,255,0.6)",
-                    color: filter === f ? "rgba(99,102,241,0.75)" : "rgba(110,100,170,0.5)",
-                    boxShadow: filter === f ? "0 2px 12px rgba(99,102,241,0.1)" : "none",
-                  }}
-                >
-                  {f} days
-                </button>
-              ))}
-            </div>
-
-            <SecLabel>Daily log</SecLabel>
-
-            <div className="flex flex-col gap-[10px]">
-              {[...history].reverse().map((h, i) => (
-                <motion.div
-                  key={h.date.toISOString()}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.015, duration: 0.3 }}
-                  className="grid items-center gap-4"
-                  style={{
-                    gridTemplateColumns: "auto 1fr auto auto",
-                    padding: "14px 18px",
-                    borderRadius: 18,
-                    background: h.isToday ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.38)",
-                    border: h.isToday ? "1px solid rgba(255,255,255,0.85)" : "1px solid rgba(255,255,255,0.68)",
-                    backdropFilter: "blur(20px)",
-                    boxShadow: h.isToday
-                      ? "0 4px 20px rgba(99,102,241,0.08),inset 0 1.5px 0 rgba(255,255,255,1)"
-                      : "inset 0 1px 0 rgba(255,255,255,0.9)",
-                    cursor: "default",
-                  }}
-                >
-                  <div className="flex flex-col gap-[1px]" style={{ minWidth: 52 }}>
-                    <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, fontWeight: 300, lineHeight: 1, color: "rgba(90,80,160,0.55)", letterSpacing: "-1px" }}>
-                      {String(h.date.getDate()).padStart(2, "0")}
-                    </span>
-                    <span style={{ fontSize: 8, fontWeight: 500, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(110,100,170,0.38)" }}>
-                      {MONTHS[h.date.getMonth()]}
-                    </span>
-                    <span style={{ fontSize: 7, color: "rgba(110,100,170,0.3)", letterSpacing: "0.2em", textTransform: "uppercase" }}>
-                      {WEEKDAYS[h.date.getDay()]}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1 relative overflow-hidden" style={{ height: 6, borderRadius: 6, background: "rgba(200,195,230,0.25)" }}>
-                      <motion.div
-                        className="absolute top-0 left-0 h-full rounded-full"
-                        style={getFillStyle(h.energy)}
-                        initial={{ width: 0 }}
-                        animate={{ width: h.isToday ? "0%" : `${Math.round(h.energy / 7 * 100)}%` }}
-                        transition={{ duration: 0.8, delay: i * 0.015, ease: [0.22, 1, 0.36, 1] }}
-                      />
+          {loading ? (
+            <div className="py-20 text-center opacity-30 tracking-[0.5em] text-[10px] uppercase">{t('loading')}</div>
+          ) : (
+            <>
+              <GlassCard delay={0.1}>
+                <SecLabel>{t('overview')}</SecLabel>
+                <div className="stat-grid grid grid-cols-3 gap-3 mb-7">
+                  {[
+                    { val: avg, lbl: t('avgLabel') },
+                    { val: streak, lbl: t('streakLabel') },
+                    { val: best ? `${best}/7` : "—", lbl: t('bestLabel') },
+                  ].map(({ val, lbl }) => (
+                    <div key={lbl} className="stat-card rounded-[20px] text-center py-4 px-3" style={{ background: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.78)" }}>
+                      <span className="block mb-1" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 32, fontWeight: 200, background: "linear-gradient(160deg,#6366f1,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{val}</span>
+                      <span style={{ fontSize: 8, fontWeight: 500, letterSpacing: "0.35em", textTransform: "uppercase", color: "rgba(110,100,170,0.4)" }}>{lbl}</span>
                     </div>
-                  </div>
+                  ))}
+                </div>
 
-                  <span style={{
-                    fontFamily: "'Cormorant Garamond',serif", fontSize: 18, fontWeight: 300, letterSpacing: "-0.5px",
-                    minWidth: 36, textAlign: "right",
-                    background: h.energy > 0 ? "linear-gradient(160deg,#6366f1,#22d3ee)" : "none",
-                    WebkitBackgroundClip: h.energy > 0 ? "text" : undefined,
-                    WebkitTextFillColor: h.energy > 0 ? "transparent" : "rgba(110,100,170,0.3)",
-                    backgroundClip: h.energy > 0 ? "text" : undefined,
-                  }}>
-                    {h.isToday ? "—" : `${h.energy}/7`}
-                  </span>
+                <SecLabel>{t('visualHistory', { days: filter })}</SecLabel>
+                <EnergyChart data={filteredHistory} />
+              </GlassCard>
 
-                  {h.isToday ? (
-                    <span style={{ fontSize: 7, fontWeight: 500, letterSpacing: "0.3em", textTransform: "uppercase", padding: "2px 8px", borderRadius: 100, background: "rgba(99,102,241,0.1)", border: "0.5px solid rgba(99,102,241,0.25)", color: "rgba(99,102,241,0.65)" }}>
-                      Today
-                    </span>
-                  ) : (
-                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: MOOD_COLORS[h.mood], flexShrink: 0 }} />
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </GlassCard>
+              <GlassCard delay={0.2}>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {FILTERS.map(f => (
+                    <button key={f} onClick={() => setFilter(f)} className="rounded-full px-4 py-1.5 text-[9px] tracking-widest uppercase transition-all" style={{ background: filter === f ? "rgba(99,102,241,0.12)" : "rgba(255,255,255,0.32)", border: filter === f ? "1px solid rgba(99,102,241,0.3)" : "1px solid rgba(255,255,255,0.6)", color: filter === f ? "rgba(99,102,241,0.75)" : "rgba(110,100,170,0.5)" }}>
+                      {f} {t('days')}
+                    </button>
+                  ))}
+                </div>
 
+                <SecLabel>{t('dailyLog')}</SecLabel>
+                <div className="flex flex-col gap-[10px]">
+                  {[...filteredHistory].reverse().map((h, i) => (
+                    <motion.div key={h.date.toISOString()} className="log-row grid items-center gap-4" style={{ gridTemplateColumns: "auto 1fr auto auto", padding: "14px 18px", borderRadius: 18, background: "rgba(255,255,255,0.38)", border: "1px solid rgba(255,255,255,0.68)" }}>
+                      <div className="flex flex-col" style={{ minWidth: 40 }}>
+                        <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: "rgba(90,80,160,0.6)" }}>{String(h.date.getDate()).padStart(2, "0")}</span>
+                        <span style={{ fontSize: 7, textTransform: "uppercase", opacity: 0.4 }}>{MONTHS[h.date.getMonth()]}</span>
+                      </div>
+                      <div className="energy-bar-container flex-1 h-1 rounded-full bg-indigo-100/30 overflow-hidden">
+                         <div className="h-full rounded-full" style={{ width: `${(h.energy/7)*100}%`, ...getFillStyle(h.energy) }} />
+                      </div>
+                      <span style={{ 
+                      fontFamily: "'Cormorant Garamond',serif", 
+                      fontSize: 20, 
+                      minWidth: 40, 
+                      textAlign: "right", 
+                      color: "#4338ca", 
+                      fontWeight: 600 
+                    }}>{h.isToday ? "—" : `${h.energy}/7`}</span>
+                      {!h.isToday && <div className="mood-indicator" style={{ width: 8, height: 8, borderRadius: "50%", background: MOOD_COLORS[h.mood] }} />}
+                    </motion.div>
+                  ))}
+                </div>
+              </GlassCard>
+            </>
+          )}
         </div>
       </div>
     </>
