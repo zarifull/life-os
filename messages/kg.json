@@ -117,5 +117,20 @@
     "visualHistory": "Акыркы {days} күн",
     "days": "күн",
     "dailyLog": "Күнүмдүк журнал"
+  },
+  "Plan": {
+    "titleToday": "Бүгүнкү ниеттер",
+    "titleTomorrow": "Эртеңки пландар",
+    "titleArchive": "Жетишкендиктер архиви",
+    "futureProtocol": "Келечек протоколу",
+    "addNew": "Жаңы ниет кошуу",
+    "placeholder": "Кийинки ниетиңиз кандай?",
+    "cancel": "Жокко чыгаруу",
+    "save": "Сактоо",
+    "empty": "Бул күн үчүн пландар жок.",
+    "archiveLink": "Архив",
+    "tomorrowLink": "Эртең",
+    "todayLink": "Бүгүн",
+    "scoreLabel": "Аткарылды"
   }
 }

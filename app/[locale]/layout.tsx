@@ -5,7 +5,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { locales } from "../../i18n/request";
 import { LifeOSShell } from "./LifeOSShell";
-import UserNav from "@/components/layout/UserNav";
+import UserNav from "@/app/[locale]/dashboard/_components/layout/UserNav";
 
 export default async function LocaleLayout({
   children,

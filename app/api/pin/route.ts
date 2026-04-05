@@ -6,18 +6,16 @@ export async function POST(request: NextRequest) {
     const { pin } = await request.json();
     const supabase = await createClient();
 
-    // 1. Учурдагы кирген колдонуучунун ID-син алуу
     const { data: { user } } = await supabase.auth.getUser();
 
-    let targetPin = "1234"; // Default
+    let targetPin = "1234"; 
     let source = "default";
 
     if (user) {
-      // 2. Ошол колдонуучунун профилинен PIN-кодду алуу
       const { data } = await supabase
         .from("profiles")
         .select("pin_code")
-        .eq("id", user.id) // Бул жерде UUID колдонулат
+        .eq("id", user.id) 
         .maybeSingle();
 
       if (data?.pin_code) {
@@ -26,7 +24,6 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // 3. Эгер базадан табылбаса гана ENV-ди текшерүү (же тескерисинче, каалооңузча)
     const envPin = process.env.LIFEOS_PIN_CODE;
     if (source === "default" && envPin) {
       targetPin = envPin;

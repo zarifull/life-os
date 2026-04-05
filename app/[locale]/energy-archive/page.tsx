@@ -241,8 +241,8 @@ export default function EnergyArchivePage() {
                     { val: streak, lbl: t('streakLabel') },
                     { val: best ? `${best}/7` : "—", lbl: t('bestLabel') },
                   ].map(({ val, lbl }) => (
-                    <div key={lbl} className="stat-card rounded-[20px] text-center py-4 px-3" style={{ background: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.78)" }}>
-                      <span className="block mb-1" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 32, fontWeight: 200, background: "linear-gradient(160deg,#6366f1,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{val}</span>
+                    <div key={lbl} className="stat-card rounded-[20px] text-center py-4 px-3" style={{ background: "rgba(255,255,255,0.45)", border: "3px solid rgba(255,255,255,0.78)" }}>
+                      <span className="block mb-1" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 32, fontWeight: 800, background: "linear-gradient(160deg,#6366f1,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{val}</span>
                       <span style={{ fontSize: 8, fontWeight: 500, letterSpacing: "0.35em", textTransform: "uppercase", color: "rgba(110,100,170,0.4)" }}>{lbl}</span>
                     </div>
                   ))}
@@ -264,9 +264,9 @@ export default function EnergyArchivePage() {
                 <SecLabel>{t('dailyLog')}</SecLabel>
                 <div className="flex flex-col gap-[10px]">
                   {[...filteredHistory].reverse().map((h, i) => (
-                    <motion.div key={h.date.toISOString()} className="log-row grid items-center gap-4" style={{ gridTemplateColumns: "auto 1fr auto auto", padding: "14px 18px", borderRadius: 18, background: "rgba(255,255,255,0.38)", border: "1px solid rgba(255,255,255,0.68)" }}>
+                    <motion.div key={h.date.toISOString()} className="log-row grid items-center gap-4" style={{ gridTemplateColumns: "auto 1fr auto auto", padding: "14px 18px", borderRadius: 18, background: "rgba(255,255,255,0.38)", border: "3px solid rgba(255,255,255,0.68)" }}>
                       <div className="flex flex-col" style={{ minWidth: 40 }}>
-                        <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 18, color: "rgba(90,80,160,0.6)" }}>{String(h.date.getDate()).padStart(2, "0")}</span>
+                        <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 25, fontWeight:"500", color: "rgba(90,80,160,0.6)" }}>{String(h.date.getDate()).padStart(2, "0")}</span>
                         <span style={{ fontSize: 7, textTransform: "uppercase", opacity: 0.4 }}>{MONTHS[h.date.getMonth()]}</span>
                       </div>
                       <div className="energy-bar-container flex-1 h-1 rounded-full bg-indigo-100/30 overflow-hidden">
@@ -278,7 +278,7 @@ export default function EnergyArchivePage() {
                       minWidth: 40, 
                       textAlign: "right", 
                       color: "#4338ca", 
-                      fontWeight: 600 
+                      fontWeight: 800 
                     }}>{h.isToday ? "—" : `${h.energy}/7`}</span>
                       {!h.isToday && <div className="mood-indicator" style={{ width: 8, height: 8, borderRadius: "50%", background: MOOD_COLORS[h.mood] }} />}
                     </motion.div>

@@ -117,5 +117,20 @@
     "visualHistory": "Последние {days} дней",
     "days": "дн.",
     "dailyLog": "Дневной лог"
+  },
+  "Plan": {
+    "titleToday": "Планы на сегодня",
+    "titleTomorrow": "Планы на завтра",
+    "titleArchive": "Архив достижений",
+    "futureProtocol": "Протокол будущего",
+    "addNew": "Добавить намерение",
+    "placeholder": "Какое ваше следующее намерение?",
+    "cancel": "Отмена",
+    "save": "Сохранить",
+    "empty": "На этот день планов нет.",
+    "archiveLink": "Архив",
+    "tomorrowLink": "Завтра",
+    "todayLink": "Сегодня",
+    "scoreLabel": "Выполнено"
   }
 }

@@ -118,5 +118,20 @@
     "visualHistory": "Last {days} days",
     "days": "days",
     "dailyLog": "Daily Log"
+  },
+  "Plan": {
+    "titleToday": "Today’s Intentions",
+    "titleTomorrow": "Tomorrow’s Protocol",
+    "titleArchive": "Past Achievements",
+    "futureProtocol": "Future Protocol",
+    "addNew": "Add new intention",
+    "placeholder": "What is your next intention?",
+    "cancel": "Cancel",
+    "save": "Save Intention",
+    "empty": "No intentions set for this day.",
+    "archiveLink": "Archive",
+    "tomorrowLink": "Tomorrow",
+    "todayLink": "Today",
+    "scoreLabel": "Completed"
   }
 }
