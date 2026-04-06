@@ -14,9 +14,14 @@
   },
   "Navigation": {
     "history": "История",
-    "finance": "Финансы",
     "vision_board": "Карта желаний",
-    "settings": "Настройки"
+    "settings": "Настройки",
+    "notebook": "Мой Дневник",
+    "notebookSub": "ИНСАЙТЫ И СОБЫТИЯ",
+    "finance": "Мои Финансы",
+    "financeSub": "УЧЕТ И ПЛАНЫ",
+    "vision": "Карта Желаний",
+    "visionSub": "МЕЧТЫ И ЦЕЛИ"
   },
   "Dashboard": {
     "life_journey": "Путь жизни",
@@ -132,5 +137,29 @@
     "tomorrowLink": "Завтра",
     "todayLink": "Сегодня",
     "scoreLabel": "Выполнено"
+  },
+  "History": {
+    "title": "Моя Летопись",
+    "subtitle": "Инсайты и События",
+    "placeholder": "Запечатлейте суть сегодняшнего дня...",
+    "filters": {
+      "all": "Все",
+      "achievement": "Достижение",
+      "insight": "Озарение",
+      "goal": "Цель"
+    },
+    "actions": {
+      "save": "Закрепить",
+      "edit": "Изменить",
+      "delete": "Удалить",
+      "cancel": "Отмена",
+      "confirmDelete": "Вы уверены, что хотите стереть это воспоминание?",
+      "showMore": "Читать далее", 
+      "showLess": "Свернуть"
+    },
+    "empty": {
+      "title": "Чистая страница ждет",
+      "description": "Начните писать свою историю..."
+    }
   }
 }
