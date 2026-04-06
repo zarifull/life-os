@@ -15,9 +15,14 @@
   },
   "Navigation": {
     "history": "My History",
-    "finance": "Finance",
     "vision_board": "Vision Board",
-    "settings": "Settings"
+    "settings": "Settings",
+    "notebook": "My Notebook",
+    "notebookSub": "INSIGHTS & ADVENTURES",
+    "finance": "My Finance",
+    "financeSub": "WEALTH TRACKER",
+    "vision": "Vision Board",
+    "visionSub": "DREAMS & GOALS"
   },
   "Dashboard": {
     "life_journey": "Life Journey",
@@ -133,5 +138,29 @@
     "tomorrowLink": "Tomorrow",
     "todayLink": "Today",
     "scoreLabel": "Completed"
+  },
+  "History": {
+    "title": "My Chronicle",
+    "subtitle": "Insights & Milestones",
+    "placeholder": "Capture the essence of today...",
+    "filters": {
+      "all": "All",
+      "achievement": "Achievement",
+      "insight": "Insight",
+      "goal": "Goal"
+    },
+    "actions": {
+      "save": "Pin to Life",
+      "edit": "Refine",
+      "delete": "Erase",
+      "cancel": "Discard",
+      "confirmDelete": "Are you sure you want to erase this memory?",
+      "showMore": "Read more",
+      "showLess": "Show less"
+    },
+    "empty": {
+      "title": "A blank page awaits",
+      "description": "Start writing your story..."
+    }
   }
 }

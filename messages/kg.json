@@ -14,9 +14,14 @@
   },
   "Navigation": {
     "history": "Менин тарыхым",
-    "finance": "Каржы",
     "vision_board": "Тилектер картасы",
-    "settings": "Жөндөөлөр"
+    "settings": "Жөндөөлөр",
+    "notebook": "Менин күндөлүгүм",
+    "notebookSub": "ОКУЯЛАР ЖАНА ОЙЛОР",
+    "finance": "Менин каржым",
+    "financeSub": "ЭЖЕП ЖАНА ПЛАНДАР",
+    "vision": "Тилектер картасы",
+    "visionSub": "КЫЯЛДАР ЖАНА МАКСАТТАР"
   },
   "Dashboard": {
     "life_journey": "Жашоо жолу",
@@ -132,5 +137,29 @@
     "tomorrowLink": "Эртең",
     "todayLink": "Бүгүн",
     "scoreLabel": "Аткарылды"
+  },
+  "History": {
+    "title": "Менин Баяным",
+    "subtitle": "Түшүнүктөр жана Окуялар",
+    "placeholder": "Бүгүнкү күндүн маңызын жазыңыз...",
+    "filters": {
+      "all": "Баары",
+      "achievement": "Жетишкендик",
+      "insight": "Ачылыш",
+      "goal": "Максат"
+    },
+    "actions": {
+      "save": "Сактоо",
+      "edit": "Өзгөртүү",
+      "delete": "Өчүрүү",
+      "cancel": "Жокко чыгаруу",
+      "confirmDelete": "Бул эскерүүнү өчүрүүнү каалайсызбы?",
+      "showMore": "Кененирээк", 
+      "showLess": "Жабуу"
+    },
+    "empty": {
+      "title": "Таза барак күтүүдө",
+      "description": "Өз окуяңызды жаза баштаңыз..."
+    }
   }
 }
