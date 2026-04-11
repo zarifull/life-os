@@ -137,7 +137,8 @@
     "tomorrowLink": "Завтра",
     "todayLink": "Сегодня",
     "scoreLabel": "Выполнено",
-    "loading": "Загрузка намерений..."
+    "loading": "Загрузка намерений...",
+    "intentions": "Намерения"
   },
   "History": {
     "title": "Моя Летопись",
