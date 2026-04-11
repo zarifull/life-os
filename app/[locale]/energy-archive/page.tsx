@@ -212,7 +212,9 @@ export default function EnergyArchivePage() {
         
       `}</style>
 
-      <div className="min-h-screen" style={{ background: "linear-gradient(145deg,#ece9ff 0%,#f3eeff 22%,#ffe8f8 52%,#e8f0ff 78%,#e4f5ff 100%)" }}>
+      <div className="min-h-screen" style={{ background: "linear-gradient(145deg,#ece9ff 0%,#f3eeff 22%,#ffe8f8 52%,#e8f0ff 78%,#e4f5ff 100%)",
+        borderRadius: "20px",
+       }}>
         <div className="max-w-3xl mx-auto px-5 py-10 pb-20">
 
           <motion.button
@@ -239,7 +241,7 @@ export default function EnergyArchivePage() {
                   {[
                     { val: avg, lbl: t('avgLabel') },
                     { val: streak, lbl: t('streakLabel') },
-                    { val: best ? `${best}/7` : "—", lbl: t('bestLabel') },
+                    { val: best ? `${best}` : "—", lbl: t('bestLabel') },
                   ].map(({ val, lbl }) => (
                     <div key={lbl} className="stat-card rounded-[20px] text-center py-4 px-3" style={{ background: "rgba(255,255,255,0.45)", border: "3px solid rgba(255,255,255,0.78)" }}>
                       <span className="block mb-1" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 32, fontWeight: 800, background: "linear-gradient(160deg,#6366f1,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{val}</span>
@@ -270,7 +272,7 @@ export default function EnergyArchivePage() {
                         <span style={{ fontSize: 7, textTransform: "uppercase", opacity: 0.4 }}>{MONTHS[h.date.getMonth()]}</span>
                       </div>
                       <div className="energy-bar-container flex-1 h-1 rounded-full bg-indigo-100/30 overflow-hidden">
-                         <div className="h-full rounded-full" style={{ width: `${(h.energy/7)*100}%`, ...getFillStyle(h.energy) }} />
+                         <div className="h-full rounded-full" style={{ width: `${(h.energy)*100}%`, ...getFillStyle(h.energy) }} />
                       </div>
                       <span style={{ 
                       fontFamily: "'Cormorant Garamond',serif", 
@@ -279,7 +281,7 @@ export default function EnergyArchivePage() {
                       textAlign: "right", 
                       color: "#4338ca", 
                       fontWeight: 800 
-                    }}>{h.isToday ? "—" : `${h.energy}/7`}</span>
+                    }}>{h.isToday ? "—" : `${h.energy}`}</span>
                       {!h.isToday && <div className="mood-indicator" style={{ width: 8, height: 8, borderRadius: "50%", background: MOOD_COLORS[h.mood] }} />}
                     </motion.div>
                   ))}
