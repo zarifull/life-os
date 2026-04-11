@@ -136,7 +136,8 @@
     "archiveLink": "Архив",
     "tomorrowLink": "Эртең",
     "todayLink": "Бүгүн",
-    "scoreLabel": "Аткарылды"
+    "scoreLabel": "Аткарылды",
+    "loading": "Пландар жүктөлүүдө..."
   },
   "History": {
     "title": "Менин Баяным",

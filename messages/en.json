@@ -137,7 +137,8 @@
     "archiveLink": "Archive",
     "tomorrowLink": "Tomorrow",
     "todayLink": "Today",
-    "scoreLabel": "Completed"
+    "scoreLabel": "Completed",
+    "loading": "Loading intentions..."
   },
   "History": {
     "title": "My Chronicle",

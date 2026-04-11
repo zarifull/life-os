@@ -13,15 +13,15 @@ export default async function Dashboard() {
 
       <div className="flex flex-col gap-12">
         {/* <YearSection /> */}
-        {/* <PlanSection targetDate={today} />  */}
-        <EnergySection />
+        <PlanSection targetDate={today} /> 
+        {/* <EnergySection /> */}
 
-        <div className="mt-12 border-t border-slate-200/50 pt-12">
+        {/* <div className="mt-12 border-t border-slate-200/50 pt-12">
           <h2 className="text-sm font-bold tracking-[0.2em] text-slate-400 uppercase text-center mb-8">
             Explore LifeOS
           </h2>
           <NavigationGrid />
-        </div>
+        </div> */}
       </div>
     </main>
   );

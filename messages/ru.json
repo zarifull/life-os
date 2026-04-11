@@ -136,7 +136,8 @@
     "archiveLink": "Архив",
     "tomorrowLink": "Завтра",
     "todayLink": "Сегодня",
-    "scoreLabel": "Выполнено"
+    "scoreLabel": "Выполнено",
+    "loading": "Загрузка намерений..."
   },
   "History": {
     "title": "Моя Летопись",

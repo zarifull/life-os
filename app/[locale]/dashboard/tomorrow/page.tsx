@@ -12,7 +12,7 @@ export default function TomorrowPage() {
   const dateStr = tomorrowDate.toISOString().split('T')[0];
   tomorrowDate.setDate(tomorrowDate.getDate() + 1);
   const { plans } = usePlanStore();
-    const t = useTranslations('Dashboard');
+    const t = useTranslations('Plan');
 
   
 
