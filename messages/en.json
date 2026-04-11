@@ -138,7 +138,8 @@
     "tomorrowLink": "Tomorrow",
     "todayLink": "Today",
     "scoreLabel": "Completed",
-    "loading": "Loading intentions..."
+    "loading": "Loading intentions...",
+    "intentions": "Intentions"
   },
   "History": {
     "title": "My Chronicle",

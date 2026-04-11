@@ -25,7 +25,6 @@ export default function PlanArchivePage() {
     load();
   }, []);
 
-  // Organizes history into daily chapters
   const groupedPlans = planHistory.reduce((acc: any, plan: any) => {
     const dateKey = new Date(plan.created_at).toLocaleDateString(); 
     if (!acc[dateKey]) acc[dateKey] = [];
@@ -73,7 +72,6 @@ export default function PlanArchivePage() {
 
           return (
             <section key={date} className="space-y-6">
-              {/* Minimalist Date Pill */}
               <div className="flex justify-center">
                 <div 
                   className="px-4 py-1.5 rounded-full bg-white/50 border border-white/80 backdrop-blur-md shadow-sm"

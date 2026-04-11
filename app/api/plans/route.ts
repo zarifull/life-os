@@ -5,19 +5,16 @@ export async function GET() {
   try {
     const supabase = await createClient();
 
-    // 1. Set the 30-day window
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     
-    // We use ISO string because created_at is a 'timestamptz' type
     const dateLimit = thirtyDaysAgo.toISOString();
 
-    // 2. Query using 'created_at' (matches your screenshot)
     const { data, error } = await supabase
       .from('plans')
       .select('*')
       .gte('created_at', dateLimit) 
-      .order('created_at', { ascending: false }); // Sort by newest created_at
+      .order('created_at', { ascending: false }); 
 
     if (error) {
       console.error("Supabase Error:", error.message);
