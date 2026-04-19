@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Plan, updatePlanStatus, createPlan, deletePlanApi } from '@/lib/supabase/plans';
+import { Plan, updatePlanStatus, createPlan, deletePlanApi } from '@/lib/actions/plans';
 
 interface PlanState {
   plans: Plan[];

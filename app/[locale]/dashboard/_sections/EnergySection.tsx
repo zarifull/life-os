@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { logEnergy } from "@/lib/supabase/energy"
+import { logEnergy } from "@/lib/actions/energy"
 import { useTranslations, useLocale } from 'next-intl';
 
 type EnergyLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7

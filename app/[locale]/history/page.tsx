@@ -13,7 +13,7 @@ export default function HistoryPage() {
 
   return (
     <main 
-      className="min-h-screen relative pt-24 pb-20 px-4 md:px-6 overflow-hidden border-white/70 border-4 md:border-[7px] rounded-[40px] md:rounded-[80px]"
+      className="min-h-screen relative pt-24 pb-20 px-4 md:px-6 overflow-hidden border-white/70 border-2 md:border-[7px] rounded-[20px] md:rounded-[80px]"
       style={{
         background: "linear-gradient(145deg, #ece9ff 0%, #f3eeff 22%, #ffe8f8 52%, #e8f0ff 78%, #e4f5ff 100%)",
       }}
