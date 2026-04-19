@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { PlanSection } from '../_sections/PlanSection';
 import { usePlanStore } from '../Plan/_lib/planStore';
-import { fetchPlansByDate } from '@/lib/supabase/plans';
+import { fetchPlansByDate } from '@/lib/actions/plans';
 import { useTranslations } from 'next-intl';
 
 export default function TomorrowPage() {

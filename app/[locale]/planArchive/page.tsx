@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl'; 
-import { PlanCard } from '../_components/PlanCard';
+import { PlanCard } from '../dashboard/_components/PlanCard';
 
 export default function PlanArchivePage() {
   const t = useTranslations('Plan');

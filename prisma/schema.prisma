@@ -1,0 +1,40 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["public"]
+}
+
+model DailyBurn {
+  id        String   @id @default(cuid())
+  amount    Float
+  category  String
+  note      String?
+  createdAt DateTime @default(now())
+
+  @@schema("public")
+}
+
+model WealthVault {
+  id          String   @id @default(cuid())
+  balance     Float    @default(0)
+  lastUpdated DateTime @updatedAt
+  autoSave    Boolean  @default(true)
+
+  @@schema("public")
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  amount    Float
+  type      String   
+  category  String   
+  label     String   
+  date      DateTime @default(now())
+  userId    String   
+
+  @@schema("public") 
+}
