@@ -28,7 +28,6 @@ export default function UpdateModal({ transaction, onClose }: UpdateModalProps) 
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-        {/* The "Liquid" Backdrop */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -37,7 +36,6 @@ export default function UpdateModal({ transaction, onClose }: UpdateModalProps) 
           className="absolute inset-0 bg-indigo-950/20 backdrop-blur-xl" 
         />
 
-        {/* The Glass Card */}
         <motion.div 
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -45,7 +43,6 @@ export default function UpdateModal({ transaction, onClose }: UpdateModalProps) 
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
           className="relative w-full max-w-sm bg-white/40 border border-white/60 backdrop-blur-2xl rounded-[40px] p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] overflow-hidden"
         >
-          {/* Subtle light reflection highlight */}
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent" />
 
           <h2 className="text-2xl font-serif text-indigo-950/80 mb-8 italic text-center">Adjust Entry</h2>
