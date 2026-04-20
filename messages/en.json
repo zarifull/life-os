@@ -165,40 +165,40 @@
       "description": "Start writing your story..."
     }
   },
-  "finance": {
-    "title": "Стратегическая выручка",
-    "edit_sources": "Изменить источники",
-    "system_tax": "Системный налог",
-    "auto_save": "Автосохранение излишков",
-    "active": "Активно",
-    "todays_burn": "Расход за сегодня",
-    "live_clock": "Живое время",
-    "log_placeholder": "Введите расход...",
-    "amount_placeholder": "0",
-    "btn_log": "Записать",
-    "quick_tags": {
-      "lunch": "Обед",
-      "taxi": "Такси",
-      "gift": "Подарок",
-      "uni": "Университет",
-      "tax": "Налог"
-    },
-    "status": {
-      "strategy": "Стратегия",
-      "inflow": "Потоки доходов",
-      "obligations": "Обязательства системы",
-      "syncing": "Синхронизация...",
-      "commit": "Применить изменения",
-      "sync": "Глобальная финансовая архитектура",
-      "waiting": "Ожидание записей",
-      "stability": "Стабильность системы"
-    },
-    "placeholders": {
-      "salary": "Месячная зарплата",
-      "freelance": "Фриланс проекты",
-      "gifts": "Подарки / Другое"
-    },
-    "archive_link": "Библиотека месячных архивов ›",
-    "delete_confirm": "Удалить?"
-  }
+    "finance": {
+      "title": "Strategic Revenue",
+      "edit_sources": "Edit Sources",
+      "system_tax": "System Tax",
+      "auto_save": "Surplus Auto-Save",
+      "active": "Active",
+      "todays_burn": "Today's Burn",
+      "live_clock": "Live Clock",
+      "log_placeholder": "Log expense...",
+      "amount_placeholder": "0",
+      "btn_log": "Log",
+      "quick_tags": {
+        "lunch": "Lunch",
+        "taxi": "Taxi",
+        "gift": "Gift",
+        "uni": "Uni",
+        "tax": "Tax"
+      },
+      "status": {
+        "strategy": "Strategy",
+        "inflow": "Inflow Streams",
+        "obligations": "System Obligations",
+        "syncing": "Syncing...",
+        "commit": "Commit Changes",
+        "sync": "Global Financial Architecture",
+        "waiting": "Waiting for entry",
+        "stability": "System Stability"
+      },
+      "placeholders": {
+        "salary": "Monthly Salary",
+        "freelance": "Freelance Projects",
+        "gifts": "Gifts / Other"
+      },
+      "archive_link": "Monthly Archive Library ›",
+      "delete_confirm": "Delete?"
+    }
 }
