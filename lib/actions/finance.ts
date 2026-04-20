@@ -17,7 +17,6 @@ export async function addTransaction(
   if (!user) throw new Error("Unauthorized");
 
   try {
-    // Note: ensure your model name in schema.prisma is 'Transaction'
     const transaction = await prisma.transaction.create({
       data: {
         amount,
@@ -47,7 +46,6 @@ export async function getBalance() {
     select: { amount: true, type: true }
   });
 
-  // Explicitly typing the reducer to satisfy strict mode
   return result.reduce((acc: number, curr: { amount: number; type: string }) => {
     return curr.type === 'income' ? acc + curr.amount : acc - curr.amount;
   }, 0);
@@ -61,7 +59,6 @@ export async function deleteTransaction(id: string) {
             where: { id }
         });
         
-        // This clears the cache and forces the UI to show the new list
         revalidatePath('/[locale]/finance', 'page');
         return { success: true };
     } catch (error) {

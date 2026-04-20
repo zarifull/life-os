@@ -164,5 +164,41 @@
       "title": "A blank page awaits",
       "description": "Start writing your story..."
     }
+  },
+  "finance": {
+    "title": "Стратегическая выручка",
+    "edit_sources": "Изменить источники",
+    "system_tax": "Системный налог",
+    "auto_save": "Автосохранение излишков",
+    "active": "Активно",
+    "todays_burn": "Расход за сегодня",
+    "live_clock": "Живое время",
+    "log_placeholder": "Введите расход...",
+    "amount_placeholder": "0",
+    "btn_log": "Записать",
+    "quick_tags": {
+      "lunch": "Обед",
+      "taxi": "Такси",
+      "gift": "Подарок",
+      "uni": "Университет",
+      "tax": "Налог"
+    },
+    "status": {
+      "strategy": "Стратегия",
+      "inflow": "Потоки доходов",
+      "obligations": "Обязательства системы",
+      "syncing": "Синхронизация...",
+      "commit": "Применить изменения",
+      "sync": "Глобальная финансовая архитектура",
+      "waiting": "Ожидание записей",
+      "stability": "Стабильность системы"
+    },
+    "placeholders": {
+      "salary": "Месячная зарплата",
+      "freelance": "Фриланс проекты",
+      "gifts": "Подарки / Другое"
+    },
+    "archive_link": "Библиотека месячных архивов ›",
+    "delete_confirm": "Удалить?"
   }
 }
