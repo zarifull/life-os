@@ -165,40 +165,72 @@
       "description": "Start writing your story..."
     }
   },
-    "finance": {
-      "title": "Strategic Revenue",
-      "edit_sources": "Edit Sources",
-      "system_tax": "System Tax",
-      "auto_save": "Surplus Auto-Save",
-      "active": "Active",
-      "todays_burn": "Today's Burn",
-      "live_clock": "Live Clock",
-      "log_placeholder": "Log expense...",
-      "amount_placeholder": "0",
-      "btn_log": "Log",
-      "quick_tags": {
-        "lunch": "Lunch",
-        "taxi": "Taxi",
-        "gift": "Gift",
-        "uni": "Uni",
-        "tax": "Tax"
-      },
-      "status": {
-        "strategy": "Strategy",
-        "inflow": "Inflow Streams",
-        "obligations": "System Obligations",
-        "syncing": "Syncing...",
-        "commit": "Commit Changes",
-        "sync": "Global Financial Architecture",
-        "waiting": "Waiting for entry",
-        "stability": "System Stability"
-      },
-      "placeholders": {
-        "salary": "Monthly Salary",
-        "freelance": "Freelance Projects",
-        "gifts": "Gifts / Other"
-      },
-      "archive_link": "Monthly Archive Library ›",
-      "delete_confirm": "Delete?"
-    }
+  "finance": {
+    "title": "Strategic Revenue",
+    "edit_sources": "Edit Sources",
+    "system_tax": "System Tax",
+    "auto_save": "Surplus Auto-Save",
+    "active": "Active",
+    "todays_burn": "Today's Burn",
+    "live_clock": "Live Clock",
+    "log_placeholder": "Log expense...",
+    "amount_placeholder": "0",
+    "btn_log": "Log",
+    "quick_tags": {
+      "lunch": "Lunch",
+      "taxi": "Taxi",
+      "gift": "Gift",
+      "uni": "Uni",
+      "tax": "Tax"
+    },
+    "status": {
+      "strategy": "Strategy",
+      "inflow": "Inflow Streams",
+      "obligations": "System Obligations",
+      "syncing": "Syncing...",
+      "commit": "Commit Changes",
+      "sync": "Global Financial Architecture",
+      "waiting": "Waiting for entry",
+      "stability": "System Stability",
+      "return_today": "Return to Today",
+      "view_report": "View Victory Report",
+      "vault_settings": "Vault Settings",
+      "archive_title": "Archive Library",
+      "total_surplus": "Total Surplus Secured",
+      "history": "View Full History",
+      "collapse": "Collapse Library",
+      "verified": "Archive Verified"
+    },
+    "placeholders": {
+      "salary": "Monthly Salary",
+      "freelance": "Freelance Projects",
+      "gifts": "Gifts / Other",
+      "vault_adjust": "e.g. -5000 (Car) or +1000 (Save)"
+    },
+    "vault": {
+      "title": "Vault Settings",
+      "subtitle": "Manage Saved Surplus",
+      "auto_vault": "Auto-Vault Surplus",
+      "transfer": "End of month transfer",
+      "adjustment": "Vault Adjustment (Car/Home/Save)",
+      "execute": "Execute",
+      "apply": "Apply Changes",
+      "note": "Use negative numbers (-) for purchases like a car."
+    },
+    "report": {
+      "title": "Yearly Progress",
+      "cumulative": "Cumulative {year} Strategic Data",
+      "total_inflow": "Total Inflow",
+      "daily_burn": "Daily Burn",
+      "system_tax": "System Tax"
+    },
+    "archive": {
+      "library_title": "Archive Library",
+      "total_secured": "Total Surplus Secured",
+      "secured_surplus": "Surplus Secured",
+      "retained": "Surplus Retained"
+    },
+    "archive_link": "Monthly Archive Library ›",
+    "delete_confirm": "Delete?"
+  }
 }

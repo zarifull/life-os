@@ -38,3 +38,21 @@ model Transaction {
 
   @@schema("public") 
 }
+
+model Vault {
+  id        String   @id @default(cuid())
+  balance   Float    @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@schema("public") 
+}
+
+model UserSettings {
+  id           String   @id @default(cuid()) // Standard Postgres ID
+  userId       String   @unique
+  autoVault    Boolean  @default(true)
+  vaultBalance Int      @default(0)
+  updatedAt    DateTime @updatedAt
+
+  @@schema("public")
+}
