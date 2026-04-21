@@ -2,9 +2,36 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { updateVaultSettings, executeVaultAdjustment } from '@/lib/actions/finance';
 
-export function VaultManager({ onClose }: { onClose: () => void }) {
+
+interface VaultManagerProps {
+    onClose: () => void;
+    currentBalance: number; 
+}
+export function VaultManager({ onClose, currentBalance }: VaultManagerProps) {
     const [isAutoSave, setIsAutoSave] = useState(true);
+    const [adjustment, setAdjustment] = useState<string>('');
+    const [isPending, setIsPending] = useState(false);
+    
+    const handleToggle = async () => {
+        const newState = !isAutoSave;
+        setIsAutoSave(newState);
+        await updateVaultSettings(newState);
+    };
+
+    const handleExecute = async () => {
+        if (!adjustment) return;
+        setIsPending(true);
+        try {
+            await executeVaultAdjustment(parseInt(adjustment));
+            setAdjustment('');
+        } catch (error) {
+            console.error("Adjustment failed", error);
+        } finally {
+            setIsPending(false);
+        }
+    };
 
     return (
         <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-6">
@@ -16,22 +43,21 @@ export function VaultManager({ onClose }: { onClose: () => void }) {
             <motion.div 
                 initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
                 className="relative w-full max-w-md overflow-hidden rounded-[30px] md:rounded-[40px] border border-white/80 p-6 md:p-10 shadow-2xl"
-                style={{ background: "rgba(255, 255, 255, 0.8)", backdropFilter: "blur(40px)" }}
+                style={{ background: "rgba(255, 255, 255, 0.82)", backdropFilter: "blur(40px) saturate(180%)" }}
             >
                 <header className="mb-6 md:mb-8">
                     <h3 className="font-serif text-2xl md:text-3xl text-indigo-950">Vault Settings</h3>
-                    <p className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-indigo-400">Manage Saved Surplus</p>
+                    <p className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-indigo-400">Manage Strategic Surplus</p>
                 </header>
 
                 <div className="space-y-6 md:space-y-8">
-                    {/* Toggle for Auto-Save */}
-                    <div className="flex justify-between items-center p-4 md:p-6 bg-white/50 rounded-2xl md:rounded-3xl border border-white">
+                    <div className="flex justify-between items-center p-4 md:p-6 bg-white/50 rounded-2xl md:rounded-3xl border border-white/60">
                         <div>
                             <p className="text-xs font-bold text-indigo-950">Auto-Vault Surplus</p>
-                            <p className="text-[7px] md:text-[8px] text-indigo-400 uppercase font-bold">End of month transfer</p>
+                            <p className="text-[7px] md:text-[8px] text-indigo-400 uppercase font-bold">Automatic monthly transfer</p>
                         </div>
                         <button 
-                            onClick={() => setIsAutoSave(!isAutoSave)}
+                            onClick={handleToggle}
                             className={`w-10 md:w-12 h-5 md:h-6 rounded-full transition-all relative ${isAutoSave ? 'bg-emerald-500' : 'bg-indigo-200'}`}
                         >
                             <motion.div 
@@ -41,27 +67,31 @@ export function VaultManager({ onClose }: { onClose: () => void }) {
                         </button>
                     </div>
 
-                    {/* Adjustment Section */}
                     <div className="space-y-3 md:space-y-4">
-                        <label className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-indigo-300 ml-2">Vault Adjustment (Car/Home/Save)</label>
+                        <label className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-indigo-300 ml-2">Manual Adjustment</label>
                         <div className="flex flex-col sm:flex-row gap-2">
                             <input 
                                 type="number" 
-                                placeholder="e.g. -5000 (Car) or +1000 (Save)" 
-                                className="flex-[2] bg-white/50 border border-white rounded-xl md:rounded-2xl px-5 py-3 text-sm focus:outline-none focus:bg-white transition-all" 
+                                value={adjustment}
+                                onChange={(e) => setAdjustment(e.target.value)}
+                                placeholder="-5000 or +1000" 
+                                className="flex-[2] bg-white/50 border border-white/60 rounded-xl md:rounded-2xl px-5 py-3 text-sm focus:outline-none focus:bg-white transition-all text-indigo-950 font-medium" 
                             />
-                            <button className="flex-1 bg-indigo-950 text-white rounded-xl md:rounded-2xl py-3 px-4 font-bold text-[9px] md:text-[10px] uppercase tracking-widest">
-                                Execute
+                            <button 
+                                onClick={handleExecute}
+                                disabled={isPending}
+                                className="flex-1 bg-indigo-950 text-white rounded-xl md:rounded-2xl py-3 px-4 font-bold text-[9px] md:text-[10px] uppercase tracking-widest active:scale-95 transition-all disabled:opacity-50"
+                            >
+                                {isPending ? '...' : 'Execute'}
                             </button>
                         </div>
-                        <p className="text-[7px] md:text-[8px] text-indigo-400 italic px-2">Use negative numbers (-) for purchases like a car.</p>
                     </div>
 
                     <button 
                         onClick={onClose}
-                        className="w-full py-4 md:py-5 bg-indigo-950 text-white rounded-xl md:rounded-[24px] font-bold text-[9px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] hover:bg-black transition-all"
+                        className="w-full py-4 md:py-5 bg-indigo-950 text-white rounded-xl md:rounded-[24px] font-bold text-[9px] md:text-[10px] uppercase tracking-[0.4em] hover:bg-black transition-all shadow-xl shadow-indigo-100"
                     >
-                        Apply Changes
+                        Save & Exit
                     </button>
                 </div>
             </motion.div>
