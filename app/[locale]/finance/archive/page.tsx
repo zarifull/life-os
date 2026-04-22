@@ -8,18 +8,15 @@ export default async function Page() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  // 1. Fetch the Vault Balance
   const settings = await prisma.userSettings.findUnique({
     where: { userId: user.id },
   });
 
-  // 2. Fetch ALL transactions to build the monthly summaries
   const transactions = await prisma.transaction.findMany({
     where: { userId: user.id },
     orderBy: { date: 'desc' },
   });
 
-  // 3. Group transactions by Month
   const monthlyStats = transactions.reduce((acc: any, transaction) => {
     const date = new Date(transaction.date);
     const monthYear = date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
@@ -38,12 +35,11 @@ export default async function Page() {
     return acc;
   }, {});
 
-  // Convert the object back into a sorted array for the Grid
   const realMonthlyData = Object.values(monthlyStats);
 
   return (
     <ArchiveClientPage 
-      initialBalance={settings?.vaultBalance ?? 0} 
+     
       realMonthlyData={realMonthlyData as any} 
     />
   );
