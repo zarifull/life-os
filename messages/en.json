@@ -177,11 +177,12 @@
     "amount_placeholder": "0",
     "btn_log": "Log",
     "quick_tags": {
-      "lunch": "Lunch",
-      "taxi": "Taxi",
-      "gift": "Gift",
-      "uni": "Uni",
-      "tax": "Tax"
+      "food": "Food & Dining",
+      "transport": "Transport",
+      "product": "Product & Tools",
+      "social": "Social & Gifts",
+      "fixed": "Fixed / Fees",
+      "General": "General"
     },
     "status": {
       "strategy": "Strategy",
@@ -199,7 +200,9 @@
       "total_surplus": "Total Surplus Secured",
       "history": "View Full History",
       "collapse": "Collapse Library",
-      "verified": "Archive Verified"
+      "verified": "Archive Verified",
+        "quick_log": "Quick Log"
+    
     },
     "placeholders": {
       "salary": "Monthly Salary",

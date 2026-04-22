@@ -97,16 +97,34 @@ export default function FinancePage({
     };
 
     const handleQuickLog = async (category: string) => {
-        const defaultPrices: Record<string, number> = {
-            'Lunch': 150, 'Taxi': 70, 'Gift': 500, 'Uni': 100, 'Tax': 400
+        const quickPresets: Record<string, { price: number }> = {
+            food: { price: 250 },
+            transport: { price: 120 },
+            product: { price: 900 },
+            social: { price: 500 },
+            fixed: { price: 100 }
         };
-        const suggested = defaultPrices[category] || 0;
-        const labelSuffix = category === 'Uni' ? ' (100с Entry)' : ` (${category} Quick Log)`;
-        const userInput = window.prompt(`Enter price for ${category}:`, suggested.toString());
-        if (!userInput) return;
+    
+        const preset = quickPresets[category];
+        const suggested = preset?.price || 0;
+        
+        const userInput = window.prompt(
+            `${t(`quick_tags.${category}`)}:`, 
+            suggested.toString()
+        );
+    
+        if (!userInput || isNaN(Number(userInput))) return;
+    
         try {
-            await addTransaction(Number(userInput), 'expense', category, `${category}${labelSuffix}`);
-        } catch (e) { console.error(e); }
+            await addTransaction(
+                Number(userInput), 
+                'expense', 
+                category, 
+                category 
+            );
+        } catch (e) { 
+            console.error("Log failed:", e); 
+        }
     };
 
     return (
@@ -119,7 +137,6 @@ export default function FinancePage({
             border: "3.5px solid rgba(255, 255, 255, 0.7)",
         }}
         >
-            {/* Background Blobs */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-5%] left-[-10%] w-[60%] h-[40%] bg-indigo-200/30 blur-[80px] rounded-full" />
                 <div className="absolute bottom-[-5%] right-[-10%] w-[60%] h-[40%] bg-rose-100/20 blur-[80px] rounded-full" />
@@ -173,58 +190,80 @@ export default function FinancePage({
                         animate={{ opacity: 1, y: 0 }}
                         className="overflow-hidden rounded-[40px] border border-white/80 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] bg-white/40 backdrop-blur-3xl"
                     >
-                        <div className="bg-indigo-600 p-6 md:p-8 text-white flex justify-between items-center relative overflow-hidden">
-                            <div className="relative z-10">
-                                <div className="flex items-center gap-2 mb-1">
-                                    <p className="text-[9px] font-bold tracking-[0.3em] uppercase opacity-60">{t('todays_burn')}</p>
-                                    <span className="text-[8px] font-black bg-white/20 px-2 py-0.5 rounded-md uppercase tracking-widest">
-                                        {time.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                                    </span>
+                        <div className="bg-indigo-600 p-6 md:p-8 text-white relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
+                            
+                            <div className="flex justify-between items-center relative z-10">
+                                <div className="min-w-0 flex-1">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <p className="text-[10px] font-black tracking-[0.3em] uppercase opacity-60 truncate">
+                                            {t('todays_burn')}
+                                        </p>
+                                        <span className="text-[8px] font-black bg-white/10 px-2 py-0.5 rounded-md uppercase tracking-widest shrink-0">
+                                            {time.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                        </span>
+                                    </div>
+                                    <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif tracking-tighter leading-none truncate">
+                                        {formatValue(todaysBurn)}
+                                    </h2>
                                 </div>
-                                <h2 className="text-3xl md:text-5xl font-serif leading-none">{formatValue(todaysBurn)}</h2>
-                            </div>
-                            <div className="relative z-10 text-right">
-                                <p className="text-[9px] font-bold tracking-[0.3em] uppercase opacity-60 mb-1">{t('live_clock')}</p>
-                                <h2 className="text-xl md:text-3xl font-mono font-light tracking-tighter">
-                                    {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                </h2>
+
+                                <div className="text-right pl-4 border-l border-white/10 ml-4 shrink-0">
+                                    <p className="text-[9px] font-black tracking-[0.3em] uppercase opacity-40 mb-2 hidden sm:block">
+                                        {t('live_clock')}
+                                    </p>
+                                    <h2 className="text-2xl md:text-3xl font-mono font-light tracking-tighter tabular-nums opacity-80">
+                                        {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    </h2>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="p-5 md:p-8 bg-white/20">
-                            <div className="flex flex-col gap-3 mb-6">
+                        <div className="p-4 md:p-6 bg-white/10 border-b border-white/20">
+                            <div className="flex flex-col gap-3">
+                                
                                 <input 
                                     type="text" 
                                     placeholder={t('log_placeholder')}
                                     value={label}
                                     onChange={(e) => setLabel(e.target.value)}
-                                    className="w-full bg-white/50 border border-white rounded-[20px] px-5 py-3 text-sm focus:bg-white transition-all shadow-inner"
+                                    className="w-full bg-white/40 border border-white/60 rounded-xl px-4 py-2.5 text-sm focus:bg-white/80 transition-all outline-none"
                                 />
-                                <div className="flex gap-2">
-                                    <input 
-                                        type="number" 
-                                        placeholder={t('amount_placeholder')}
-                                        value={amount}
-                                        onChange={(e) => setAmount(e.target.value)}
-                                        className="flex-1 bg-white/50 border border-white rounded-[20px] px-5 py-3 text-sm focus:bg-white transition-all shadow-inner"
-                                    />
-                                    <button onClick={handleLog} className="bg-indigo-600 text-white px-8 rounded-[20px] font-bold text-[10px] uppercase tracking-widest hover:shadow-lg active:scale-95 transition-all">
-                                    {t('btn_log')}
+
+                                <div className="flex gap-2 h-11">
+                                    <div className="relative flex-[2] sm:flex-1">
+                                        <input 
+                                            type="number" 
+                                            placeholder="0"
+                                            value={amount}
+                                            onChange={(e) => setAmount(e.target.value)}
+                                            className="w-full h-full bg-white/40 border border-white/60 rounded-xl px-4 py-2.5 text-sm focus:bg-white/80 transition-all outline-none text-left font-bold"
+                                        />
+                                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-indigo-300">с</span>
+                                    </div>
+                                    
+                                    <button 
+                                        onClick={handleLog} 
+                                        className="flex-1 max-w-[100px] bg-indigo-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-700 active:scale-95 transition-all shadow-md shadow-indigo-200/40"
+                                    >
+                                        {t('btn_log')}
                                     </button>
                                 </div>
+
+                                <div className="flex gap-1.5 flex-wrap pt-1">
+                                    {['food', 'transport', 'product', 'social', 'fixed'].map((tag) => (
+                                        <button 
+                                            key={tag} 
+                                            onClick={() => handleQuickLog(tag)}
+                                            className="text-[8px] font-black uppercase tracking-widest bg-white/20 border border-white/30 px-3 py-1.5 rounded-full text-indigo-400/70 hover:text-indigo-600 transition-all"
+                                        >
+                                            {t(`quick_tags.${tag}`)}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="flex gap-2 flex-wrap">
-                            {['lunch', 'taxi', 'gift', 'uni', 'tax'].map((tag) => (
-                                <button 
-                                    key={tag} 
-                                    onClick={() => handleQuickLog(tag)}
-                                    className="text-[8px] font-black uppercase tracking-widest bg-white/60 border border-white px-4 py-2 rounded-full text-indigo-400 hover:text-indigo-600 hover:bg-white transition-all shadow-sm active:scale-95"
-                                >
-                                    + {tag === 'uni' ? `100с ${t(`quick_tags.${tag}`)}` : t(`quick_tags.${tag}`)}
-                                </button>
-                            ))}
                         </div>
-                        </div>
+
 
                         <div className="p-6 md:p-10 space-y-6 md:space-y-8 min-h-[300px]">
                             {todaysData?.length > 0 ? (
@@ -234,9 +273,16 @@ export default function FinancePage({
                                             <span className="text-[9px] font-mono font-bold text-indigo-300 bg-white/80 px-2 py-1 rounded-lg border border-white shadow-sm italic shrink-0">
                                                 {new Date(item.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </span>
-                                            <button onClick={() => setSelectedTransaction(item)} className="text-left flex-1">
-                                                <p className="text-sm font-bold text-indigo-950 group-hover:text-indigo-600 transition-colors line-clamp-1">{item.label}</p>
-                                                <p className="text-[8px] uppercase tracking-[0.2em] font-black text-indigo-400">{item.category}</p>
+                                            <button onClick={() => setSelectedTransaction(item)} className="text-left flex-1 min-w-0">
+                                                <p className="text-sm font-bold text-indigo-950 truncate">
+                                                  
+                                                    {['food', 'transport', 'product', 'social', 'fixed'].includes(item.label) 
+                                                        ? `${t(`quick_tags.${item.label}`)} (${t('status.quick_log') || 'Quick Log'})` 
+                                                        : item.label}
+                                                </p>
+                                                <p className="text-[9px] uppercase tracking-[0.2em] font-black text-indigo-300">
+                                                    {t(`quick_tags.${item.category}`)}
+                                                </p>
                                             </button>
                                         </div>
                                         <div className="flex items-center gap-4">
