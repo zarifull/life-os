@@ -1,11 +1,47 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["public"]
+}
+
+model profiles {
+  id         String   @id @default(dbgenerated("auth.uid()"))
+  username   String?
+  full_name  String?
+  avatar_url String?
+  pin_code   String?
+  updated_at DateTime @updatedAt
+
+  @@map("profiles") // This matches the Supabase naming convention
+}
+
+model Plan {
+  id          String   @id @default(cuid())
+  title       String
+  time        String
+  target_date String
+  completed   Boolean  @default(false)
+  userId      String
+
+}
+
+model EnergyLog {
+  id      String   @id @default(cuid())
+  level   Int
+  date    DateTime @default(now())
+  userId  String
+
+}
+
+model Memory {
+  id        String   @id @default(cuid())
+  content   String
+  category  String?
+  createdAt DateTime @default(now())
+  userId    String
+
 }
 
 model DailyBurn {
@@ -15,7 +51,6 @@ model DailyBurn {
   note      String?
   createdAt DateTime @default(now())
 
-  @@schema("public")
 }
 
 model WealthVault {
@@ -24,19 +59,17 @@ model WealthVault {
   lastUpdated DateTime @updatedAt
   autoSave    Boolean  @default(true)
 
-  @@schema("public")
 }
 
 model Transaction {
-  id        String   @id @default(cuid())
-  amount    Float
-  type      String   
-  category  String   
-  label     String   
-  date      DateTime @default(now())
-  userId    String   
+  id       String   @id @default(cuid())
+  amount   Float
+  type     String
+  category String
+  label    String
+  date     DateTime @default(now())
+  userId   String
 
-  @@schema("public") 
 }
 
 model Vault {
@@ -44,15 +77,13 @@ model Vault {
   balance   Float    @default(0)
   updatedAt DateTime @updatedAt
 
-  @@schema("public") 
 }
 
 model UserSettings {
-  id           String   @id @default(cuid()) // Standard Postgres ID
+  id           String   @id @default(cuid())
   userId       String   @unique
   autoVault    Boolean  @default(true)
   vaultBalance Int      @default(0)
   updatedAt    DateTime @updatedAt
 
-  @@schema("public")
 }

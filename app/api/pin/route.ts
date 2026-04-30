@@ -6,10 +6,11 @@ export async function POST(request: NextRequest) {
     const { pin } = await request.json();
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
-
+    // 1. Initialize variables OUTSIDE the blocks so everyone can see them
     let targetPin = "1234"; 
     let source = "default";
+
+    const { data: { user } } = await supabase.auth.getUser();
 
     if (user) {
       const { data } = await supabase
@@ -30,14 +31,16 @@ export async function POST(request: NextRequest) {
       source = "env";
     }
 
-    const isValid = pin === targetPin;
-
+    // 2. The fix: Compare both as Strings to avoid type bugs
+    const isValid = String(pin) === String(targetPin);
+    console.log("Input:", pin, "Target:", targetPin);
     if (!isValid) {
       return NextResponse.json({ ok: false, source }, { status: 401 });
     }
 
     return NextResponse.json({ ok: true, source });
   } catch (error) {
+    console.error("PIN Route Error:", error);
     return NextResponse.json({ ok: false }, { status: 400 });
   }
 }

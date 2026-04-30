@@ -67,14 +67,39 @@ export default function SettingsPage() {
 
   const updatePin = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (newPin.length !== 4) return;
+    
     setLoading(true);
-    const { data: { user } } = await supabase.auth.getUser();
-    const { error } = await supabase.from('profiles').update({ pin_code: newPin }).eq('id', user?.id);
-    if (error) setMessage({ type: "error", text: error.message });
-    else setMessage({ type: "success", text: t("pinSuccess") });
-    setLoading(false);
-    setNewPin("");
+  
+    try {
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+  
+      if (authError || !user) {
+        throw new Error("You must be logged in to update your PIN.");
+      }
+  
+      const { error: dbError } = await supabase
+        .from('profiles')
+        .upsert({ 
+          id: user.id,                      
+          pin_code: newPin,                 
+          updated_at: new Date().toISOString() 
+        }, { 
+          onConflict: 'id'              
+        });
+  
+      if (dbError) throw dbError;
+  
+      setMessage({ type: "success", text: t("pinSuccess") });
+      setNewPin(""); 
+  
+    } catch (err: any) {
+      console.error("PIN Update Error:", err);
+      setMessage({ type: "error", text: err.message || "An unexpected error occurred" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

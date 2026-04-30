@@ -1,10 +1,14 @@
 import { EnergySection } from "./_sections";
 import { NavigationGrid } from './_components/NavigationGrid';
+import YearSection from "./_sections/YearSection";
+import PlanSection  from "./_sections/PlanSection";
 
 export default function Dashboard() {
   return (
     <main className="mx-auto max-w-4xl px-4 pt-6 pb-20 flex flex-col gap-10">
       <div className="flex flex-col gap-12">
+        <YearSection />
+        <PlanSection targetDate={new Date().toISOString()}/>
         <EnergySection />
 
         <div className="mt-12 border-t border-slate-200/50 pt-12">
