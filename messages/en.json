@@ -235,5 +235,36 @@
     },
     "archive_link": "Monthly Archive Library ›",
     "delete_confirm": "Delete?"
+  },
+  "Vision": {
+    "header": {
+      "quote": "\"Your goal is the sum of choices you make",
+      "accent": "today.\""
+    },
+    "labels": {
+      "done": "✓ REACHED",
+      "vision": "VISION"
+    },
+    "actions": {
+      "deleteConfirm": "Are you sure you want to remove this vision?"
+    },
+    "emptyState": {
+      "quote": "Your vision will become clear only when you can look into your own heart.",
+      "status": "Awaiting your first intention..."
+    },
+    "powerWords": {
+      "motivated": "Motivated",
+      "impactful": "Impactful",
+      "empowered": "Empowered",
+      "limitless": "Limitless",
+      "architect": "Architect"
+    },
+    "modal": {
+      "title": "New Vision",
+      "subtitle": "Architecting Tomorrow",
+      "upload": "Upload Inspiration",
+      "input_placeholder": "What is your destiny?",
+      "submit_btn": "Confirm Path"
+    }
   }
 }

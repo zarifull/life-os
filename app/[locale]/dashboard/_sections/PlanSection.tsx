@@ -14,7 +14,7 @@ interface PlanSectionProps {
   targetDate: string;
 }
 
-export function PlanSection({ targetDate }: PlanSectionProps) {
+export default function PlanSection({ targetDate }: PlanSectionProps) {
   const t = useTranslations('Plan');
   const { plans, setPlans, togglePlan, addPlan, deletePlan } = usePlanStore();
   

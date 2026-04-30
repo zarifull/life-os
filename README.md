@@ -1,18 +1,50 @@
-# LifeTrack App 🚀
+🚀 LifeTrack OS
+A high-end, minimalist life-management ecosystem built for precision and clarity. Developed with a focus on Liquid Glassmorphism and surgical UI efficiency.
 
-A modern, minimalist life-tracking dashboard built with **Next.js 15**, **Supabase**, and **Tailwind CSS**.
+💎 The Finance Module (New!)
+The core of LifeTrack now includes a professional-grade finance dashboard:
 
-## 🌟 Features
-- **Secure Access:** Custom PIN-code entry system with liquid glass design.
-- **Life Progress:** Dynamic visualization of the current year's progress.
-- **Mood Tracking:** Daily mood logger (in development).
-- **Tech Stack:** Next.js (App Router), TypeScript, Supabase (Backend/Auth), Tailwind CSS.
+Surgical Tracking: Real-time "Daily Burn" visualization.
 
-## 🛠️ Getting Started
-1. Clone the repository: `git clone <your-repo-link>`
-2. Install dependencies: `npm install`
-3. Set up `.env.local` with your Supabase credentials.
-4. Run the development server: `npm run dev`
+Tri-Currency Engine: Live exchange rates for KGS, USD, and RUB via Open Exchange Rates API.
 
-## 🎨 Design Philosophy
-Inspired by **Liquid Glassmorphism**, focusing on soft shadows, backdrop blurs, and an intuitive user interface.
+Multi-Language Core: Full localization support for Kyrgyz, Russian, and English using next-intl.
+
+Responsive Action Bar: Optimized "Quick Log" system designed for MacBook and mobile precision.
+
+🛠️ Tech Stack
+Framework: Next.js 15 (App Router)
+
+Language: TypeScript (Strict Mode)
+
+Styling: Tailwind CSS + Framer Motion (Animations)
+
+Backend: Supabase (PostgreSQL & Auth)
+
+Internationalization: Next-intl
+
+🎨 Design Philosophy: "Surgical Glass"
+Inspired by the "LifeOS" aesthetic, the interface utilizes:
+
+Backdrop Blurs: 45px saturation for a premium glass feel.
+
+Tabular Typography: Mono-spaced fonts for financial data to prevent layout shift.
+
+Fluid UI: Custom-engineered media queries ensuring a 1:1 experience between mobile and desktop.
+
+🚀 Getting Started
+Clone & Install:
+
+Bash
+git clone <your-repo-link>
+npm install
+Environment Setup:
+Create a .env.local file:
+
+Code snippet
+NEXT_PUBLIC_SUPABASE_URL=your_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
+Launch:
+
+Bash
+npm run dev
