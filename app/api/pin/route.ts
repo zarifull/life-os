@@ -1,46 +1,67 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
+export async function GET() {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return NextResponse.json({ hasPin: false });
+
+    const { data } = await supabase
+      .from("profiles")
+      .select("pin_code")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    return NextResponse.json({ hasPin: !!data?.pin_code });
+  } catch (error) {
+    console.error("PIN Status Check Error:", error);
+    return NextResponse.json({ hasPin: false });
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { pin } = await request.json();
     const supabase = await createClient();
+    
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-    // 1. Initialize variables OUTSIDE the blocks so everyone can see them
-    let targetPin = "1234"; 
-    let source = "default";
-
-    const { data: { user } } = await supabase.auth.getUser();
-
-    if (user) {
-      const { data } = await supabase
-        .from("profiles")
-        .select("pin_code")
-        .eq("id", user.id) 
-        .maybeSingle();
-
-      if (data?.pin_code) {
-        targetPin = data.pin_code;
-        source = "supabase";
-      }
+    if (authError || !user) {
+      return NextResponse.json(
+        { ok: false, message: "Session expired or unauthorized" }, 
+        { status: 401 }
+      );
     }
 
-    const envPin = process.env.LIFEOS_PIN_CODE;
-    if (source === "default" && envPin) {
-      targetPin = envPin;
-      source = "env";
-    }
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("pin_code")
+      .eq("id", user.id)
+      .maybeSingle();
 
-    // 2. The fix: Compare both as Strings to avoid type bugs
+    const targetPin = profile?.pin_code || process.env.LIFEOS_PIN_CODE || "1234";
+
     const isValid = String(pin) === String(targetPin);
-    console.log("Input:", pin, "Target:", targetPin);
+
     if (!isValid) {
-      return NextResponse.json({ ok: false, source }, { status: 401 });
+      return NextResponse.json({ ok: false }, { status: 401 });
     }
 
-    return NextResponse.json({ ok: true, source });
+    const response = NextResponse.json({ ok: true });
+    
+    response.cookies.set('life_os_pin_verified', 'true', {
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24, 
+    });
+
+    return response;
+
   } catch (error) {
-    console.error("PIN Route Error:", error);
+    console.error("PIN Verification Error:", error);
     return NextResponse.json({ ok: false }, { status: 400 });
   }
 }

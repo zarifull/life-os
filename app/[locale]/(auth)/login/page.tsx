@@ -1,8 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { useRouter, useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import { Eye, EyeSlash } from "@phosphor-icons/react"; 
+
 
 export default function AuthCard() {
   const t = useTranslations("Auth");
@@ -15,6 +18,15 @@ export default function AuthCard() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [showPassword, setShowPassword] = useState(false);
+
+  
+  useEffect(() => {
+    if (searchParams.get("reset") === "true") {
+      handleForgot();
+    }
+  }, [searchParams]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,15 +43,17 @@ export default function AuthCard() {
           } 
         });
 
-    if (error) {
-      alert(error.message);
-    } else {
-      if (!isLogin) alert(t("confirmEmail"));
-      else {
-        router.refresh();
-        window.location.href = `/${locale}/dashboard`;
-      }
-    }
+        if (error) {
+          alert(error.message);
+        } else {
+          if (!isLogin) {
+            alert(t("confirmEmail"));
+          } else {
+            sessionStorage.removeItem("lifeos-unlocked");
+            router.refresh(); 
+            window.location.href = `/${locale}/dashboard`;
+          }
+        }
     setLoading(false);
   };
 
@@ -94,12 +108,26 @@ export default function AuthCard() {
             required
           />
 
-          <input
-            type="password" placeholder={t("placeholderKey")}
-            className="w-full p-4 rounded-3xl bg-white/40 border border-white/50 text-sm font-bold text-slate-700 placeholder:text-slate-300 transition-all outline-none focus:bg-emerald-100/80 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-400/10"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="relative group">
+            <input
+              type={showPassword ? "text" : "password"} 
+              placeholder={t("placeholderKey")}
+              className="w-full p-4 pr-12 rounded-3xl bg-white/40 border border-white/50 text-sm font-bold text-slate-700 placeholder:text-slate-300 transition-all outline-none focus:bg-emerald-100/80 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-400/10"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-emerald-500 transition-colors"
+            >
+              {showPassword ? (
+                <EyeSlash size={20} weight="bold" />
+              ) : (
+                <Eye size={20} weight="bold" />
+              )}
+            </button>
+          </div>
                       
           <button className="w-full py-4 mt-2 bg-emerald-400 text-white rounded-[24px] text-[11px] font-[1000] uppercase tracking-widest transition-all duration-200 shadow-xl shadow-blue-500/20 hover:bg-emerald-500 hover:shadow-emerald-500/40 active:scale-95 active:bg-slate-200 active:text-emerald-400">
             {loading ? "..." : isLogin ? t("btnEnter") : t("btnStart")}

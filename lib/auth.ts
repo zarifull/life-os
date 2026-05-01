@@ -1,7 +1,16 @@
+import { createClient } from '@/lib/supabase/server';
 
 export async function getAuthenticatedUser() {
+    const supabase = await createClient();
+    const { data: { user }, error } = await supabase.auth.getUser();
+
+    if (error || !user) {
+        return null;
+    }
+
     return {
-        id: "user_cluck_123", // Replace with real session ID later
-        email: "zari@example.com"
+        id: user.id,
+        email: user.email,
+        user_metadata: user.user_metadata
     };
 }

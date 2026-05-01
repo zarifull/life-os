@@ -1,10 +1,11 @@
 "use client";
-
+import { createClient } from "@/lib/supabase/client";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+
 
 const PIN_LENGTH = 4;
 
@@ -15,6 +16,7 @@ const locales = [
 ];
 
 export function LifeOSShell({ children, userNav }: { children: React.ReactNode; userNav?: React.ReactNode; }) {
+  const supabase = createClient();
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -24,6 +26,36 @@ export function LifeOSShell({ children, userNav }: { children: React.ReactNode; 
   const [loading, setLoading] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
   const [portalHost, setPortalHost] = useState<HTMLElement | null>(null);
+  const [hasPinConfigured, setHasPinConfigured] = useState<boolean | null>(null); 
+const isAuthPage = pathname.includes('/login') || pathname.includes('/register');
+
+useEffect(() => {
+  if (isAuthPage) {
+    setUnlocked(true); 
+    return;
+  }
+
+  const checkPinStatus = async () => {
+    if (sessionStorage.getItem("lifeos-unlocked") === "true") {
+      setUnlocked(true);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/pin");
+      if (res.status === 401) {
+        setUnlocked(true); 
+        return;
+      }
+      const { hasPin } = await res.json();
+      if (!hasPin) setUnlocked(true);
+      setHasPinConfigured(hasPin);
+    } catch {
+      setUnlocked(true);
+    }
+  };
+  checkPinStatus();
+}, [pathname, isAuthPage]);
 
   useEffect(() => {
     setPortalHost(document.body);
@@ -45,7 +77,17 @@ export function LifeOSShell({ children, userNav }: { children: React.ReactNode; 
     () => locales.find((l) => l.code === locale) ?? locales[0],
     [locale]
   );
-
+  const handleLocaleChange = (code: string) => {
+    if (code === locale) return;
+    const segments = pathname.split("/").filter(Boolean);
+    if (segments.length === 0) {
+      router.push(`/${code}`);
+      return;
+    }
+    segments[0] = code;
+    const nextPath = `/${segments.join("/")}`;
+    router.push(nextPath);
+  };
   const handleDigit = (digit: string) => {
     if (unlocked || loading) return; 
     setError("");
@@ -102,21 +144,18 @@ export function LifeOSShell({ children, userNav }: { children: React.ReactNode; 
     void verify();
   }, [pin, unlocked]);
 
-  const handleLocaleChange = (code: string) => {
-    if (code === locale) return;
-    const segments = pathname.split("/").filter(Boolean);
-    if (segments.length === 0) {
-      router.push(`/${code}`);
-      return;
+  const handleForgotPin = async () => {
+    if (confirm(t("reset_pin_confirm"))) { 
+      await supabase.auth.signOut();
+      sessionStorage.removeItem("lifeos-unlocked");
+      window.location.href = `/${locale}/login?reset=true`;
     }
-    segments[0] = code;
-    const nextPath = `/${segments.join("/")}`;
-    router.push(nextPath);
   };
+  
 
-  const pinOverlay =
-    !unlocked && portalHost
-      ? createPortal(
+        const pinOverlay =
+        !unlocked && hasPinConfigured && portalHost
+        ? createPortal(
           <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-blue-500/10 backdrop-blur-[40px] pointer-events-auto">
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
               <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-purple-200/30 blur-[120px] rounded-full animate-pulse" />
@@ -179,6 +218,12 @@ export function LifeOSShell({ children, userNav }: { children: React.ReactNode; 
                     {loading ? t("verifying") : t("system_encrypted")}
                   </p>
                 </div>
+                <button 
+                  onClick={handleForgotPin}
+                  className="mt-6 text-[9px] font-black text-slate-400/60 hover:text-rose-400 transition-colors uppercase tracking-[0.2em] border-b border-transparent hover:border-rose-400/30 pb-1"
+                >
+                  {t("forgot_pin")}?
+                </button>
               </div>
             </div>
           </div>,

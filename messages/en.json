@@ -11,7 +11,9 @@
     "dashboard_label": "Dashboard",
     "energy_widget_label": "Energy",
     "navSettings": "Settings",
-    "navDisconnect": "Disconnect"
+    "navDisconnect": "Disconnect",
+    "forgot_pin": "Forgot PIN",
+  "reset_pin_confirm": "To reset your PIN, we will log you out. You can then use the 'Forgot Password' flow to reset your credentials. Continue?"
   },
   "Navigation": {
     "history": "My History",
@@ -48,6 +50,7 @@
     "btn_complete": "Complete Day"
   },
   "Auth": {
+    "back": "Back",
     "synchronize": "Synchronize",
     "initialize": "Initialize",
     "placeholderName": "Identity Name",
@@ -65,7 +68,11 @@
     "key": "Key",
     "placeholderNewKey": "New Secret Key",
     "btnUpdateIdentity": "Update Identity",
-    "keyUpdatedSuccess": "Key updated successfully! Welcome back to LifeOS."
+    "keyUpdatedSuccess": "Key updated successfully! Welcome back to LifeOS.",
+    "reset_identity": "Reset Identity",
+    "new_pin": "New PIN",
+    "new_password" : "New Password",
+    "btnCompleteReset": "Complete Reset"
   },
   "Settings": {
     "titlePart1": "Account",
@@ -84,7 +91,16 @@
     "successUpdate": "{type} updated successfully!",
     "avatarSuccess": "Identity photo synced!",
     "pinSuccess": "PIN updated!",
-    "version": "LifeOS Identity Management v1.0"
+    "version": "LifeOS Identity Management v1.0",
+    "reset_identity": "Reset Identity",
+  "new_password": "New Password",
+  "new_pin": "New PIN",
+  "btnCompleteReset": "Complete Reset",
+  "back": "Back",
+  "placeholderNewKey": "Enter new password...",
+  "keyUpdatedSuccess": "Security credentials updated successfully!",
+  "secure": "SECURE", 
+  "allSynced": "ALL SYSTEMS OPERATIONAL"
   },
   "year": {
     "today": "today",

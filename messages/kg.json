@@ -10,7 +10,13 @@
     "lifeos_label": "LIFE OS",
     "dashboard_label": "Башкаруу панели",
     "navSettings": "Жөндөөлөр",
-    "navDisconnect": "Чыгуу"
+    "navDisconnect": "Чыгуу",
+    "forgot_pin": "ПИН-кодду унутуп калдыңызбы?",
+  "reset_pin_confirm": "ПИН-кодду кайра орнотуу үчүн системадан чыгуу керек. Андан кийин сырсөздү калыбына келтирүү аркылуу маалыматты жаңырта аласыз. Улантасызбы?",
+  "reset_identity": "сыр создорду калыбына келтирүү",
+  "new_pin": "Жаңы PIN-код",
+  "new_password": "Жаңы сырсөз",
+  "btnCompleteReset": "Калыбына келтирүүнү бүтүрүү"
   },
   "Navigation": {
     "history": "Менин тарыхым",
@@ -47,6 +53,7 @@
     "btn_complete": "Күндү аяктоо"
   },
   "Auth": {
+    "back": "Артка",
     "synchronize": "Синхрондоштуруу",
     "initialize": "Инициализация",
     "placeholderName": "Атыңыз",
@@ -83,7 +90,16 @@
     "successUpdate": "{type} ийгиликтүү жаңыртылды!",
     "avatarSuccess": "Профиль сүрөтү синхрондоштурулду!",
     "pinSuccess": "ПИН-код жаңыртылды!",
-    "version": "LifeOS Инсандыкты Башкаруу v1.0"
+    "version": "LifeOS Инсандыкты Башкаруу v1.0",
+    "reset_identity": "Өздүктү Калыбына Келтирүү",
+  "new_password": "Жаңы Сырсөз",
+  "new_pin": "Жаңы ПИН-код",
+  "btnCompleteReset": "Калыбына Келтирүүнү Аяктоо",
+  "back": "Артка",
+  "placeholderNewKey": "Жаңы сырсөздү жазыңыз...",
+  "keyUpdatedSuccess": "Коопсуздук маалыматтары ийгиликтүү жаңыртылды!",
+  "secure": "КООРГОЛГОН", 
+  "allSynced": "БАРДЫК СИСТЕМАЛАР СИНХРОНДОЛДУ"
   },
   "year": {
     "today": "бүгүн",

@@ -8,7 +8,6 @@ const intlMiddleware = createIntlMiddleware({
   localePrefix: 'always'
 });
 
-// DEFAULT EXPORT - бул Next.js 16 үчүн эң коопсуз жол
 export default async function (request: NextRequest) {
   let response = intlMiddleware(request) || NextResponse.next();
 
@@ -44,12 +43,10 @@ export default async function (request: NextRequest) {
   const segments = pathname.split('/');
   const locale = ['en', 'kg', 'ru'].includes(segments[1]) ? segments[1] : 'en';
 
-  // 1. Кирген болсо жана кайра /login'го барса -> Dashboard
   if (user && pathname.includes('/login')) {
     const url = new URL(`/${locale}/dashboard`, request.url);
     const redirectResponse = NextResponse.redirect(url);
     
-    // Кукилерди жоготпоо үчүн көчүрөбүз
     response.cookies.getAll().forEach((cookie) => {
       redirectResponse.cookies.set(cookie.name, cookie.value);
     });
@@ -57,7 +54,6 @@ export default async function (request: NextRequest) {
     return redirectResponse;
   }
 
-  // 2. Кире элек болсо жана /dashboard'го киргиси келсе -> Login
   if (!user && pathname.includes('/dashboard')) {
     const url = new URL(`/${locale}/login`, request.url);
     return NextResponse.redirect(url);
