@@ -2,6 +2,14 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { useTranslations } from "next-intl";
+import { 
+  User, 
+  Envelope, 
+  Key, 
+  ShieldCheck, 
+  CameraPlus, 
+  CheckCircle 
+} from "@phosphor-icons/react";
 
 export default function SettingsPage() {
   const t = useTranslations("Settings");
@@ -38,24 +46,16 @@ export default function SettingsPage() {
     try {
       setLoading(true);
       if (!event.target.files || event.target.files.length === 0) return;
-      
       const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random()}.${fileExt}`;
-  
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(fileName, file);
-  
+      const { error: uploadError } = await supabase.storage.from('avatars').upload(fileName, file);
       if (uploadError) throw uploadError;
-  
       const { data } = supabase.storage.from('avatars').getPublicUrl(fileName);
       const publicUrl = data.publicUrl;
       const { data: { user } } = await supabase.auth.getUser();
-      
       await supabase.auth.updateUser({ data: { avatar_url: publicUrl } });
       await supabase.from('profiles').update({ avatar_url: publicUrl }).eq('id', user?.id);
-  
       setAvatarUrl(publicUrl);
       setMessage({ type: "success", text: t("avatarSuccess") });
     } catch (e: any) {
@@ -67,171 +67,179 @@ export default function SettingsPage() {
 
   const updatePin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (newPin.length !== 4) return;
-    
     setLoading(true);
-  
     try {
-      const { data: { user }, error: authError } = await supabase.auth.getUser();
-  
-      if (authError || !user) {
-        throw new Error("You must be logged in to update your PIN.");
-      }
-  
-      const { error: dbError } = await supabase
-        .from('profiles')
-        .upsert({ 
-          id: user.id,                      
-          pin_code: newPin,                 
-          updated_at: new Date().toISOString() 
-        }, { 
-          onConflict: 'id'              
-        });
-  
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Unauthorized");
+      const { error: dbError } = await supabase.from('profiles').upsert({ 
+          id: user.id, pin_code: newPin, updated_at: new Date().toISOString() 
+      });
       if (dbError) throw dbError;
-  
+      await supabase.auth.updateUser({ data: { has_pin: true } });
       setMessage({ type: "success", text: t("pinSuccess") });
       setNewPin(""); 
-  
     } catch (err: any) {
-      console.error("PIN Update Error:", err);
-      setMessage({ type: "error", text: err.message || "An unexpected error occurred" });
+      setMessage({ type: "error", text: err.message });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-8 md:py-16 px-4 md:px-8 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+    <div className="max-w-4xl mx-auto py-12 px-6 space-y-12 animate-in fade-in zoom-in duration-700">
       
-      <header className="space-y-2 md:text-center">
-        <h1 className="text-3xl md:text-5xl font-medium text-slate-700 tracking-tighter">
-          {t("titlePart1")} <span className="text-[#6366F1] italic font-light">{t("titlePart2")}</span>
+      <header className="space-y-4 text-center">
+        <h1 className="text-4xl md:text-6xl font-[1000] italic tracking-tighter text-slate-800 uppercase">
+          {t("titlePart1")} <span className="text-emerald-400">{t("titlePart2")}</span>
         </h1>
-        <p className="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-[0.3em]">
+        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em] opacity-60">
           {t("subtitle")}
         </p>
       </header>
 
       {message.text && (
-        <div className={`fixed bottom-8 right-8 z-[1000] p-5 rounded-[28px] text-[10px] font-black uppercase tracking-widest border shadow-2xl animate-in slide-in-from-bottom-10 backdrop-blur-xl ${
-          message.type === "success" ? "bg-white/90 text-indigo-500 border-indigo-100" : "bg-white/90 text-rose-500 border-rose-100"
+        <div className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] px-8 py-4 rounded-[30px] text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl backdrop-blur-2xl border animate-in slide-in-from-bottom-10 ${
+          message.type === "success" ? "bg-emerald-400/90 text-white border-emerald-300" : "bg-rose-500/90 text-white border-rose-400"
         }`}>
           {message.text}
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-8 md:gap-12">
-        <section className="bg-white/40 backdrop-blur-3xl p-6 md:p-12 rounded-[45px] border border-white/80 shadow-[0_20px_50px_rgba(0,0,0,0.02)]">
-          <div className="flex flex-col md:flex-row items-center gap-10">
+      <div className="grid grid-cols-1 gap-10">
+        
+        <section className="group relative overflow-hidden bg-white/30 backdrop-blur-[40px] p-8 md:p-12 rounded-[60px] border border-white/80 shadow-[0_30px_100px_rgba(0,0,0,0.04)] transition-all hover:shadow-emerald-400/5">
+          <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="relative">
-              <div className="w-32 h-32 md:w-40 md:h-40 rounded-[38px] bg-white border border-indigo-50 shadow-inner flex items-center justify-center overflow-hidden">
+              <div className="w-36 h-36 md:w-44 md:h-44 rounded-[50px] bg-white/60 p-1 border border-white shadow-xl overflow-hidden group-hover:scale-105 transition-transform duration-500">
                 {avatarUrl ? (
-                  <img src={avatarUrl} className="w-full h-full object-cover" alt="Profile" />
+                  <img src={avatarUrl} className="w-full h-full object-cover rounded-[48px]" alt="Profile" />
                 ) : (
-                  <span className="text-5xl text-indigo-100 font-light">{name?.[0] || "?"}</span>
+                  <div className="w-full h-full flex items-center justify-center bg-emerald-50 rounded-[48px]">
+                    <User size={60} weight="thin" className="text-emerald-200" />
+                  </div>
                 )}
               </div>
-              <label className="absolute -bottom-2 -right-2 bg-white text-indigo-600 w-11 h-11 rounded-2xl shadow-xl border border-indigo-50 flex items-center justify-center cursor-pointer hover:bg-indigo-500 hover:text-white transition-all">
+              <label className="absolute -bottom-2 -right-2 bg-emerald-400 text-white w-12 h-12 rounded-[20px] shadow-lg shadow-emerald-400/30 flex items-center justify-center cursor-pointer hover:bg-emerald-500 hover:scale-110 transition-all border-4 border-white/80">
                 <input type="file" className="hidden" accept="image/*" onChange={uploadAvatar} />
-                <span className="text-lg">📸</span>
+                <CameraPlus size={20} weight="bold" />
               </label>
             </div>
             
-            <div className="flex-1 w-full space-y-5">
+            <div className="flex-1 w-full space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">{t("labelName")}</label>
+                <label className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">
+                  <User size={14} weight="bold" /> {t("labelName")}
+                </label>
                 <input 
                   type="text" 
                   value={name} 
                   onChange={(e) => setName(e.target.value)} 
-                  className="w-full p-5 rounded-3xl bg-white/60 border border-indigo-50/50 focus:border-indigo-200 outline-none text-slate-600 font-light text-lg" 
+                  className="w-full p-5 rounded-[28px] bg-white/40 border border-white/60 focus:bg-white/80 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-400/5 outline-none text-slate-700 font-bold text-lg transition-all" 
                 />
               </div>
               <button 
                 onClick={() => handleUpdate("Name", { data: { display_name: name } })}
-                className="w-full md:w-auto px-10 py-4 bg-[#6366F1] text-white rounded-[22px] text-[10px] font-bold uppercase tracking-widest hover:bg-indigo-600 shadow-lg shadow-indigo-100 active:scale-95"
+                className="w-full md:w-auto px-12 py-5 bg-emerald-400 text-white rounded-[24px] text-[10px] font-black uppercase tracking-widest hover:bg-emerald-500 shadow-xl shadow-emerald-500/20 active:scale-95 transition-all"
               >
-                {loading ? t("syncing") : t("btnSaveName")}
+                {loading ? "..." : t("btnSaveName")}
               </button>
             </div>
           </div>
         </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white/40 backdrop-blur-3xl p-8 rounded-[45px] border border-white/80 flex flex-col justify-between group hover:border-indigo-100 transition-colors">
-            <div className="space-y-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          
+          <div className="bg-white/30 backdrop-blur-[40px] p-10 rounded-[60px] border border-white/80 shadow-xl flex flex-col justify-between hover:border-emerald-100 transition-all">
+            <div className="space-y-6">
               <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.5)]" /> {t("labelEmail")}
+                <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-400">
+                  <Envelope size={16} weight="bold" />
+                </div>
+                {t("labelEmail")}
               </h3>
               <input 
                 type="email" 
                 value={newEmail} 
                 onChange={(e) => setNewEmail(e.target.value)} 
                 placeholder="new.identity@lifeos.com"
-                className="w-full p-4 rounded-2xl bg-white/50 border border-indigo-50/30 outline-none text-sm font-light text-slate-600" 
+                className="w-full p-5 rounded-3xl bg-white/50 border border-white/60 outline-none text-sm font-bold text-slate-600 focus:bg-white transition-all" 
               />
             </div>
             <button 
               onClick={() => handleUpdate("Email", { email: newEmail })}
-              className="mt-8 w-full py-4 bg-slate-800 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-[#6366F1] transition-all"
+              className="mt-10 w-full py-5 bg-emerald-50 text-emerald-600 rounded-[24px] text-[10px] font-black uppercase tracking-widest hover:bg-emerald-400 hover:text-white transition-all shadow-sm border border-emerald-100"
             >
               {t("btnUpdateEmail")}
             </button>
           </div>
 
-          <div className="bg-white/40 backdrop-blur-3xl p-8 rounded-[45px] border border-white/80 flex flex-col justify-between group hover:border-rose-100 transition-colors">
-            <div className="space-y-5">
+          <div className="bg-white/30 backdrop-blur-[40px] p-10 rounded-[60px] border border-white/80 shadow-xl flex flex-col justify-between hover:border-rose-100 transition-all">
+            <div className="space-y-6">
               <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shadow-[0_0_8px_rgba(251,146,60,0.5)]" /> {t("labelSecurity")}
+                <div className="w-8 h-8 rounded-xl bg-rose-50 flex items-center justify-center text-rose-400">
+                  <Key size={16} weight="bold" />
+                </div>
+                {t("labelSecurity")}
               </h3>
               <input 
                 type="password" 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
                 placeholder="••••••••"
-                className="w-full p-4 rounded-2xl bg-white/50 border border-indigo-50/30 outline-none text-sm font-light text-slate-600" 
+                className="w-full p-5 rounded-3xl bg-white/50 border border-white/60 outline-none text-sm font-bold text-slate-600 focus:bg-white transition-all" 
               />
             </div>
             <button 
-              onClick={() => handleUpdate("Password", { password: password })}
-              className="mt-8 w-full py-4 bg-slate-800 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-rose-500 transition-all"
-            >
-              {t("btnUpdatePassword")}
-            </button>
+                onClick={() => handleUpdate("Password", { password: password })}
+                className="mt-10 w-full py-5 bg-rose-50 text-rose-500 rounded-[24px] text-[10px] font-black uppercase tracking-widest hover:bg-rose-500 hover:text-white transition-all shadow-sm border border-rose-100"
+              >
+                {t("btnUpdatePassword")}
+              </button>
           </div>
         </div>
 
-        <section className="bg-white/40 backdrop-blur-3xl p-8 md:p-12 rounded-[45px] border border-white/80 space-y-8">
-          <div className="space-y-1">
-            <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.5)]" /> {t("labelPin")}
-            </h3>
-            <p className="text-[10px] text-slate-400 font-light italic ml-5">{t("pinInfo")}</p>
+        <section className="bg-white/30 backdrop-blur-[40px] p-10 md:p-12 rounded-[60px] border border-white/80 shadow-xl space-y-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="space-y-2">
+              <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500">
+                  <ShieldCheck size={18} weight="bold" />
+                </div>
+                {t("labelPin")}
+              </h3>
+              <p className="text-[10px] text-slate-400 font-bold italic ml-11 uppercase opacity-60 tracking-wider">{t("pinInfo")}</p>
+            </div>
+            <div className="hidden md:block px-4 py-1 rounded-full bg-amber-50 text-amber-600 text-[9px] font-black uppercase tracking-widest border border-amber-100">
+              {t("secure")}
+            </div>
           </div>
           
-          <div className="flex flex-col md:flex-row gap-5 items-center">
+          <div className="flex flex-col md:flex-row gap-6 items-center">
             <input 
               type="text" 
               maxLength={4} 
               value={newPin} 
               onChange={(e) => setNewPin(e.target.value.replace(/\D/g, ""))}
               placeholder="XXXX" 
-              className="w-full md:w-64 p-5 rounded-3xl bg-white/60 border border-indigo-50/30 text-center tracking-[0.8em] font-mono text-2xl outline-none text-slate-600" 
+              className="w-full md:w-64 p-6 rounded-[30px] bg-white/60 border border-white/80 text-center tracking-[1em] font-mono text-2xl outline-none text-slate-700 shadow-inner focus:bg-white focus:ring-4 focus:ring-amber-400/5 transition-all" 
             />
-            <button 
-              onClick={updatePin}
-              className="w-full md:flex-1 h-[68px] bg-amber-400 text-white rounded-3xl text-[10px] font-bold uppercase tracking-widest hover:bg-amber-500 shadow-lg shadow-amber-100 transition-all"
-            >
-              {t("btnUpdatePin")}
-            </button>
+         <button 
+            onClick={updatePin}
+            className="w-full md:flex-1 py-6 bg-amber-400/80 text-white rounded-[30px] text-[10px] font-black uppercase tracking-widest backdrop-blur-md hover:bg-amber-400 shadow-xl shadow-amber-400/10 active:scale-95 transition-all border border-white/20"
+          >
+            {t("btnUpdatePin")}
+          </button>
           </div>
         </section>
       </div>
       
       <footer className="pt-10 text-center">
-        <p className="text-[9px] text-slate-300 font-bold uppercase tracking-[0.5em]">{t("version")}</p>
+        <div className="flex items-center justify-center gap-2 mb-2">
+           <CheckCircle size={14} weight="bold" className="text-emerald-400" />
+           <p className="text-[9px] text-slate-400 font-black uppercase tracking-[0.3em]">{t("allSynced")}</p>
+        </div>
+        <p className="text-[8px] text-slate-300 font-bold uppercase tracking-[0.8em] mt-4">{t("version")}</p>
       </footer>
     </div>
   );

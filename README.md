@@ -1,50 +1,45 @@
-🚀 LifeTrack OS
-A high-end, minimalist life-management ecosystem built for precision and clarity. Developed with a focus on Liquid Glassmorphism and surgical UI efficiency.
+🧬 LifeOS | Personal Ecosystem
+A high-performance, Liquid Glassmorphism productivity suite designed for total life management. This system bridges the gap between technical project tracking and personal energy management.
 
-💎 The Finance Module (New!)
-The core of LifeTrack now includes a professional-grade finance dashboard:
-
-Surgical Tracking: Real-time "Daily Burn" visualization.
-
-Tri-Currency Engine: Live exchange rates for KGS, USD, and RUB via Open Exchange Rates API.
-
-Multi-Language Core: Full localization support for Kyrgyz, Russian, and English using next-intl.
-
-Responsive Action Bar: Optimized "Quick Log" system designed for MacBook and mobile precision.
-
-🛠️ Tech Stack
-Framework: Next.js 15 (App Router)
+🛠️ Technical Stack
+Framework: Next.js 15+ (App Router)
 
 Language: TypeScript (Strict Mode)
 
-Styling: Tailwind CSS + Framer Motion (Animations)
+Styling: Tailwind CSS (Utility-first)
 
-Backend: Supabase (PostgreSQL & Auth)
+Database & Auth: Supabase (PostgreSQL + GoTrue)
 
-Internationalization: Next-intl
+Internationalization: next-intl (EN | RU | KY support)
 
-🎨 Design Philosophy: "Surgical Glass"
-Inspired by the "LifeOS" aesthetic, the interface utilizes:
+🛡️ Core Features (V1.0)
+Hybrid Authentication: Combines standard Supabase Email/Password login with a custom Secure PIN-code Overlay for secondary verification.
 
-Backdrop Blurs: 45px saturation for a premium glass feel.
+Recovery Loop: Seamless "Forgot PIN" integration that triggers a secure email recovery flow back to the reset-identity module.
 
-Tabular Typography: Mono-spaced fonts for financial data to prevent layout shift.
+Liquid UI: A pixel-perfect implementation of Glassmorphism focusing on transparency, backdrop blurs, and tactile feedback.
 
-Fluid UI: Custom-engineered media queries ensuring a 1:1 experience between mobile and desktop.
+Multilingual Support: Fully translated interface supporting English, Russian, and Kyrgyz.
 
-🚀 Getting Started
-Clone & Install:
+🚀 Upcoming Optimizations
+Energy Tracking: Daily metrics visualization with liquid glass sliders.
+
+Life Management Modules: Integration of finance tracking and planning modules.
+
+Performance: Advanced browser performance tuning (EPAM Standard).
+
+🏗️ Getting Started
+Clone the repository:
 
 Bash
-git clone <your-repo-link>
+git clone https://github.com/your-username/life-os.git
+Install dependencies:
+
+Bash
 npm install
-Environment Setup:
-Create a .env.local file:
 
-Code snippet
-NEXT_PUBLIC_SUPABASE_URL=your_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
-Launch:
+3. **Environment Setup:** Create a `.env.local` file with your `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+4. **Run Development:**
 
-Bash
-npm run dev
+   ```bash
+   npm run dev

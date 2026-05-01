@@ -10,7 +10,10 @@
     "energy_label": "Энергия",
     "dashboard_label": "Панель управления",
     "navSettings": "Настройки",
-    "navDisconnect": "Выйти"
+    "navDisconnect": "Выйти",
+    "forgot_pin": "Забыли ПИН-код?",
+  "reset_pin_confirm": "Для сброса ПИН-кода необходимо выйти из системы. Затем вы сможете использовать восстановление пароля для обновления данных. Продолжить?"
+
   },
   "Navigation": {
     "history": "История",
@@ -47,6 +50,7 @@
     "btn_complete": "Завершить день"
   },
   "Auth": {
+    "back": "Назад",
     "synchronize": "Синхронизация",
     "initialize": "Инициализация",
     "placeholderName": "Имя личности",
@@ -64,7 +68,11 @@
     "key": "Ключ",
     "placeholderNewKey": "Новый секретный ключ",
     "btnUpdateIdentity": "Обновить личность",
-    "keyUpdatedSuccess": "Ключ успешно обновлен! С возвращением в LifeOS."
+    "keyUpdatedSuccess": "Ключ успешно обновлен! С возвращением в LifeOS.",
+    "reset_identity": "Сброс личности",
+    "new_pin": "Новый ПИН",
+    "new_password" : "Новый пароль",
+    "btnCompleteReset": "Завершить сброс"
   },
   "Settings": {
     "titlePart1": "Настройки",
@@ -83,7 +91,16 @@
     "successUpdate": "{type} успешно обновлен!",
     "avatarSuccess": "Фото профиля синхронизировано!",
     "pinSuccess": "ПИН-код обновлен!",
-    "version": "LifeOS Управление Личностью v1.0"
+    "version": "LifeOS Управление Личностью v1.0",
+    "reset_identity": "Сброс Личности",
+  "new_password": "Новый Пароль",
+  "new_pin": "Новый ПИН-код",
+  "btnCompleteReset": "Завершить Сброс",
+  "back": "Назад",
+  "placeholderNewKey": "Введите новый пароль...",
+  "keyUpdatedSuccess": "Данные безопасности успешно обновлены!",
+  "secure": "ЗАЩИЩЕНО", 
+  "allSynced": "ВСЕ СИСТЕМЫ СИНХРОНИЗИРОВАНЫ"
   },
   "year": {
     "today": "сегодня",
