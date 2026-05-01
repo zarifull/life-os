@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation"; 
+import { ArrowLeft } from "@phosphor-icons/react";
 import { 
   User, 
   Envelope, 
@@ -15,7 +17,7 @@ export default function SettingsPage() {
   const t = useTranslations("Settings");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
-  
+  const router = useRouter();
   const [name, setName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [newEmail, setNewEmail] = useState("");
@@ -87,16 +89,27 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-12 px-6 space-y-12 animate-in fade-in zoom-in duration-700">
-      
-      <header className="space-y-4 text-center">
-        <h1 className="text-4xl md:text-6xl font-[1000] italic tracking-tighter text-slate-800 uppercase">
-          {t("titlePart1")} <span className="text-emerald-400">{t("titlePart2")}</span>
-        </h1>
-        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em] opacity-60">
-          {t("subtitle")}
-        </p>
-      </header>
+<div className="max-w-4xl mx-auto py-12 px-6 space-y-12 animate-in fade-in zoom-in duration-700 relative">      <div className="absolute top-0 left-6">
+      <button 
+        onClick={() => router.back()}
+        className="flex items-center gap-2 px-5 py-2 rounded-full bg-white/40 backdrop-blur-md border border-white/60 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-emerald-500 hover:bg-white transition-all active:scale-95 group shadow-sm"
+      >
+        <ArrowLeft size={14} weight="bold" className="group-hover:-translate-x-1 transition-transform" />
+        {t("back")}
+      </button>
+    </div>
+      <header className="space-y-6 text-center">
+  <div className="space-y-2">
+    <h1 className="text-4xl md:text-6xl font-[1000] italic tracking-tighter text-slate-800 uppercase">
+      {t("titlePart1")} <span className="text-emerald-400">{t("titlePart2")}</span>
+    </h1>
+    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] opacity-60">
+      {t("subtitle")}
+    </p>
+  </div>
+
+
+</header>
 
       {message.text && (
         <div className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] px-8 py-4 rounded-[30px] text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl backdrop-blur-2xl border animate-in slide-in-from-bottom-10 ${
