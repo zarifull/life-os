@@ -1,4 +1,4 @@
-import { EnergySection } from "./_sections";
+import  EnergySection  from "./_sections/EnergySection";
 import { NavigationGrid } from './_components/NavigationGrid';
 import YearSection from "./_sections/YearSection";
 import PlanSection  from "./_sections/PlanSection";

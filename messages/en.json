@@ -141,6 +141,8 @@
     "dailyLog": "Daily Log"
   },
   "Plan": {
+    "achieved": "Achieved",
+    "back": "Back",
     "titleToday": "Today’s Intentions",
     "titleTomorrow": "Tomorrow’s Protocol",
     "titleArchive": "Past Achievements",
@@ -155,7 +157,12 @@
     "todayLink": "Today",
     "scoreLabel": "Completed",
     "loading": "Loading intentions...",
-    "intentions": "Intentions"
+    "intentions": "Intentions",
+    "last30Days": "Last 30 Days",
+    "confirmDelete": "Are you sure you want to remove this record from history?",
+    "delete": "Delete",
+    "markComplete": "Mark as Completed",
+    "markIncomplete": "Mark as Incomplete"
   },
   "History": {
     "title": "My Chronicle",
