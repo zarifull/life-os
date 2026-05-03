@@ -7,25 +7,39 @@ interface PlanCardProps {
   time: string;
   completed: boolean;
   onToggle: () => void;
+  onEdit?: () => void;
+  isHistory?: boolean;
 }
 
-export const PlanCard = ({ title, time, completed, onToggle }: PlanCardProps) => {
+export const PlanCard = ({ title, time, completed, onToggle, onEdit,isHistory }: PlanCardProps) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.5)" }}
+      style={{
+        backgroundColor: "rgba(255, 255, 255, 0.15)", 
+        backdropFilter: "blur(24px) saturate(160%)",
+        WebkitBackdropFilter: "blur(24px) saturate(160%)",
+        borderRadius: "24px",
+        border: "1px solid rgba(255, 255, 255, 0.4)",
+        boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.07)"
+      }}
+      whileHover={{ 
+        backgroundColor: "rgba(255, 255, 255, 0.25)",
+        translateY: -2,
+        boxShadow: "0 12px 40px 0 rgba(31, 38, 135, 0.12)"
+      }}
       className={`group relative flex items-center justify-between p-5 rounded-[24px] border border-white/40 backdrop-blur-md transition-all cursor-pointer
         ${completed ? 'bg-white/40 shadow-inner' : 'bg-white/20 shadow-sm hover:shadow-md'}`}
       onClick={onToggle}
     >
       <div className="flex items-center gap-5">
-        <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all duration-500
-          ${completed 
-            ? 'bg-emerald-500 border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.4)]' 
-            : 'border-white/60 bg-white/10 group-hover:border-indigo-400'}`}>
-          {completed && <Check size={18} className="text-white" />}
-        </div>
+      <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all duration-500
+        ${completed 
+          ? 'bg-indigo-500 border-indigo-300 shadow-[0_0_15px_rgba(99,102,241,0.5)]' 
+          : 'border-white/60 bg-white/10 group-hover:border-indigo-400'}`}>
+        {completed && <Check size={18} className="text-white" />}
+      </div>
 
         <div className="flex flex-col">
           <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-500/60 flex items-center gap-1 mb-1">
@@ -37,9 +51,17 @@ export const PlanCard = ({ title, time, completed, onToggle }: PlanCardProps) =>
         </div>
       </div>
 
-      <button className="opacity-0 group-hover:opacity-100 p-2 rounded-full hover:bg-white/50 text-slate-400 transition-all">
-        <MoreVertical size={18} />
-      </button>
+      {!isHistory && (
+  <button 
+    onClick={(e) => {
+      e.stopPropagation(); 
+      onEdit?.();
+    }} 
+    className="opacity-0 group-hover:opacity-100 p-2 rounded-full hover:bg-white/50 text-slate-400 transition-all z-10"
+  >
+    <MoreVertical size={18} />
+  </button>
+)}
       
       <div className="absolute inset-0 rounded-[24px] bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
     </motion.div>

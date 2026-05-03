@@ -140,6 +140,8 @@
     "dailyLog": "Күнүмдүк журнал"
   },
   "Plan": {
+    "achieved": "Жетишкендик",
+    "back": "Артка",
     "titleToday": "Бүгүнкү ниеттер",
     "titleTomorrow": "Эртеңки пландар",
     "titleArchive": "Жетишкендиктер архиви",
@@ -154,7 +156,12 @@
     "todayLink": "Бүгүн",
     "scoreLabel": "Аткарылды",
     "loading": "Пландар жүктөлүүдө...",
-    "intentions": "Ниеттер"
+    "intentions": "Ниеттер",
+    "last30Days": "Акыркы 30 күн",
+    "confirmDelete": "Бул ниетти өчүрүүнү каалайсызбы?",
+    "delete":"Өчүрүү",
+    "markComplete": "Аяктады",
+    "markIncomplete": "Аякталган эмес"
   },
   "History": {
     "title": "Менин Баяным",

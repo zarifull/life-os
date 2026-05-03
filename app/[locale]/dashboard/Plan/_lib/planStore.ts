@@ -1,43 +1,110 @@
 import { create } from 'zustand';
-import { Plan, updatePlanStatus, createPlan, deletePlanApi } from '@/lib/actions/plans';
+import { 
+  Plan, 
+  updatePlanStatus, 
+  createPlan, 
+  deletePlanApi,
+  updatePlanText 
+} from '@/lib/actions/plans';
 
 interface PlanState {
   plans: Plan[];
+  isSyncing: boolean; 
   setPlans: (plans: Plan[]) => void;
   togglePlan: (planId: string) => Promise<void>;
   addPlan: (title: string, time: string, target_date: string) => Promise<void>; 
   deletePlan: (planId: string) => Promise<void>;
+  editPlan: (planId: string, title: string, time: string) => Promise<void>;
 }
 
 export const usePlanStore = create<PlanState>()((set, get) => ({
   plans: [],
-  setPlans: (plans) => set({ plans }),
-  
-  getPlansByDate: (date: string) => {
-    return get().plans.filter(p => p.target_date === date);
-  }, 
+  isSyncing: false,
+
+  setPlans: (plans) => {
+    if (!get().isSyncing) {
+      set({ plans });
+    }
+  },
 
   togglePlan: async (planId) => {
-    const currentPlans = get().plans;
-    const plan = currentPlans.find(p => p.id === planId);
+    const previousPlans = get().plans;
+    const plan = previousPlans.find(p => p.id === planId);
     if (!plan) return;
 
     const newStatus = !plan.completed;
-    set({
-      plans: currentPlans.map(p => p.id === planId ? { ...p, completed: newStatus } : p)
+
+    set({ 
+      isSyncing: true,
+      plans: previousPlans.map(p => 
+        p.id === planId ? { ...p, completed: newStatus } : p
+      )
     });
 
-    await updatePlanStatus(planId, newStatus);
+    try {
+      const { error } = await updatePlanStatus(planId, newStatus);
+      if (error) throw error;
+    } catch (error) {
+      console.error("Toggle failed, rolling back:", error);
+      set({ plans: previousPlans }); 
+    } finally {
+      set({ isSyncing: false });
+    }
   },
 
-  addPlan: async (title: string, time: string, target_date: string) => {
-    const { data } = await createPlan(title, time, target_date);
-    if (data) set({ plans: [...get().plans, data] });
+  addPlan: async (title, time, target_date) => {
+    set({ isSyncing: true });
+    
+    try {
+      const { data, error } = await createPlan(title, time, target_date);
+      if (error) throw error;
+      if (data) {
+        set({ plans: [...get().plans, data] });
+      }
+    } catch (error) {
+      console.error("Add failed:", error);
+    } finally {
+      set({ isSyncing: false });
+    }
   },
 
   deletePlan: async (planId) => {
-    const currentPlans = get().plans;
-    set({ plans: currentPlans.filter(p => p.id !== planId) });
-    await deletePlanApi(planId);
+    const previousPlans = get().plans;
+    
+    set({ 
+      isSyncing: true,
+      plans: previousPlans.filter(p => p.id !== planId) 
+    });
+
+    try {
+      const { error } = await deletePlanApi(planId);
+      if (error) throw error;
+    } catch (error) {
+      console.error("Delete failed, rolling back:", error);
+      set({ plans: previousPlans }); 
+    } finally {
+      set({ isSyncing: false });
+    }
+  },
+
+  editPlan: async (planId, title, time) => {
+    const previousPlans = get().plans;
+    set({ isSyncing: true });
+
+    set({
+      plans: previousPlans.map((p: Plan) => 
+        p.id === planId ? { ...p, title, time } : p
+      )
+    });
+
+    try {
+      const { error } = await updatePlanText(planId, title, time);
+      if (error) throw error;
+    } catch (error) {
+      console.error("Edit failed, rolling back:", error);
+      set({ plans: previousPlans }); 
+    } finally {
+      set({ isSyncing: false });
+    }
   }
 }));
