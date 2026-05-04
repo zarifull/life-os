@@ -17,6 +17,7 @@ interface EnergyState {
 const YESTERDAY_ENERGY: EnergyLevel = 5  
 
 function getFillStyle(e: EnergyLevel, isGhost: boolean): React.CSSProperties {
+
   if (isGhost || e <= 0) return { background: "transparent" }
   if (e <= 2) return { background: "linear-gradient(to top,rgba(251,113,133,0.85),rgba(251,113,133,0.6))" }
   if (e <= 4) return { background: "linear-gradient(to top,rgba(251,191,36,0.85),rgba(251,191,36,0.6))" }
@@ -54,7 +55,7 @@ function Battery({
   const pct = Math.round((level / 7) * 100)
 
   return (
-    <div className="flex flex-col items-center gap-[3px]" style={{ opacity: isGhost ? 0.45 : 1 }}>
+    <div className="flex flex-col items-center gap-[3px] " style={{ opacity: isGhost ? 0.45 : 1 }}>
       <div
         className="rounded-t-[3px]"
         style={{
@@ -131,8 +132,8 @@ function TapDots({ value, onChange }: { value: EnergyLevel; onChange: (v: Energy
             onClick={() => onChange(value === n ? Math.max(0, n - 1) as EnergyLevel : n as EnergyLevel)}
             className="flex items-center justify-center rounded-full focus:outline-none"
             style={{
-              width: 26, height: 26,
-              fontSize: 9, fontWeight: 800,
+              width: 20, height: 20,
+              fontSize: 8,
               background: filled
                 ? "linear-gradient(135deg,rgba(99,102,241,0.18),rgba(34,211,238,0.12))"
                 : "rgba(255,255,255,0.3)",
@@ -156,18 +157,29 @@ function BatteryRow({ children, isToday = false, onClick, isGhost = false }: { c
   return (
     <motion.div
       onClick={onClick}
-      className="relative grid items-center gap-4 sm:gap-5 overflow-hidden grid-cols-1 sm:grid-cols-[100px_1fr_auto]"
+      className="relative flex flex-row items-center justify-between gap-2 sm:gap-5 overflow-hidden"
       style={{
-        padding: "20px 24px",
+        padding: "16px 20px",
         borderRadius: 32,
-        background: isToday ? "rgba(255,255,255,0.6)" : isGhost ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.4)",
-        border: isToday ? "1px solid rgba(255,255,255,0.9)" : "1px solid rgba(255,255,255,0.6)",
+        background: isToday 
+          ? "rgba(255,255,255,0.65)" 
+          : isGhost 
+            ? "rgba(255,255,255,0.25)" 
+            : "rgba(255,255,255,0.4)",
+        
+        border: isToday 
+          ? "3px solid rgba(255,255,255,1)" 
+          : isGhost 
+            ? "1.5px solid rgba(255,255,255,1)"
+            : "1px solid rgba(255,255,255,0.6)", 
+        
         backdropFilter: "blur(40px)",
         WebkitBackdropFilter: "blur(40px)",
         cursor: onClick ? "pointer" : "default",
-        opacity: isGhost ? 0.6 : 1
+        opacity: isGhost ? 0.8 : 1,
+        boxShadow: isToday ? "0 20px 40px rgba(0,0,0,0.05)" : "none"
       }}
-      whileHover={onClick ? { y: -2, background: "rgba(255,255,255,0.5)" } : {}}
+      whileHover={onClick ? { y: -2, background: "rgba(255,255,255,0.4)" } : {}}
     >
       {children}
     </motion.div>
@@ -261,7 +273,7 @@ export default function EnergySection() {
                 {t('title')}
               </span>
             </div>
-            <GlassPillBtn onClick={() => router.push(`/${locale}/energy-archive`)}>
+            <GlassPillBtn onClick={() => router.push(`/${locale}/history/energy`)}>
                <span className="text-[9px] font-bold tracking-widest text-indigo-500/60 uppercase">{t('archive')}</span>
             </GlassPillBtn>
           </div>
@@ -269,8 +281,8 @@ export default function EnergySection() {
           <div className="flex flex-col gap-6">
             <BatteryRow>
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] font-bold tracking-widest text-slate-400 uppercase">{t('yesterday')}</span>
-                <span className="font-serif italic text-slate-500">{formatDate(yesterday, locale)}</span>
+                <span className="text-[8px] sm:text-[10px] font-bold tracking-widest text-slate-400 uppercase">{t('yesterday')}</span>
+                <span className="text-xs sm:text-base font-serif italic text-slate-500">{formatDate(yesterday, locale)}</span>
               </div>
               <Battery level={YESTERDAY_ENERGY} />
               <div className="flex flex-col items-center opacity-30">
@@ -281,8 +293,8 @@ export default function EnergySection() {
 
             <BatteryRow isToday>
               <div className="flex flex-col gap-1">
-                <span className="text-[12px] font-black tracking-[0.3em] text-indigo-600 uppercase">{t('today')}</span>
-                <span className="font-serif italic text-xl text-slate-800">{formatDate(today, locale)}</span>
+                <span className="text-[10px] sm:text-[10px] font-black tracking-[0.3em] text-indigo-600 uppercase">{t('today')}</span>
+                <span className="text-xs sm:text-base font-serif italic text-xl text-slate-800">{formatDate(today, locale)}</span>
               </div>
               <Battery level={state.today} isToday />
               <div className="flex flex-col items-center gap-2">
@@ -293,8 +305,8 @@ export default function EnergySection() {
 
             <BatteryRow onClick={cycleTomorrow} isGhost>
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] font-bold tracking-widest text-slate-400 uppercase">{t('tomorrow')}</span>
-                <span className="font-serif italic text-slate-400">{formatDate(tomorrowDate, locale)}</span>
+                <span className="text-[8px] sm:text-[10px] font-bold tracking-widest text-slate-400 uppercase">{t('tomorrow')}</span>
+                <span className="text-xs sm:text-base font-serif italic text-slate-400">{formatDate(tomorrowDate, locale)}</span>
               </div>
               <Battery level={state.tomorrow} isGhost />
               <div className="flex flex-col items-center">
@@ -305,16 +317,31 @@ export default function EnergySection() {
           </div>
 
           <div className="mt-12 flex flex-col gap-4">
-            <motion.button
-              onClick={handleSave}
-              disabled={state.today === 0}
-              className="w-full py-5 rounded-full bg-white/30 border border-white/60 backdrop-blur-xl shadow-lg transition-all"
-              whileTap={{ scale: 0.98 }}
-            >
-              <span className="text-[10px] font-black tracking-[0.5em] text-indigo-500 uppercase">
-                {justSaved ? t('success') : t('logButton')}
-              </span>
-            </motion.button>
+          <motion.button
+            onClick={handleSave}
+            disabled={state.today === 0}
+            className="w-full py-5 rounded-full transition-all relative overflow-hidden group"
+            style={{
+              border: "3px solid rgba(255, 255, 255, 1)",
+              background: "rgba(255, 255, 255, 0.45)",
+              backdropFilter: "blur(30px) saturate(140%)",
+              WebkitBackdropFilter: "blur(30px) saturate(140%)",
+              boxShadow: "0 20px 40px rgba(120, 100, 200, 0.15)",
+              cursor: state.today === 0 ? "not-allowed" : "pointer"
+            }}
+            whileHover={state.today !== 0 ? { 
+              y: -3, 
+              background: "rgba(255, 255, 255, 0.6)",
+              boxShadow: "0 25px 50px rgba(120, 100, 200, 0.25)" 
+            } : {}}
+            whileTap={{ scale: 0.97 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent pointer-events-none" />
+            
+            <span className="relative z-10 text-[10px] font-black tracking-[0.5em] text-indigo-600 uppercase">
+              {justSaved ? t('success') : t('logButton')}
+            </span>
+          </motion.button>
           </div>
         </div>
       </section>
