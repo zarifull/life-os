@@ -16,11 +16,12 @@
 
   },
   "Navigation": {
+    "explore_lifeos": "Исследуйте LifeOS",
     "history": "История",
     "vision_board": "Карта желаний",
     "settings": "Настройки",
-    "notebook": "Мой Дневник",
-    "notebookSub": "ИНСАЙТЫ И СОБЫТИЯ",
+    "diary": "Мой Дневник",
+    "diarySub": "ИНСАЙТЫ И СОБЫТИЯ",
     "finance": "Мои Финансы",
     "financeSub": "УЧЕТ И ПЛАНЫ",
     "vision": "Карта Желаний",

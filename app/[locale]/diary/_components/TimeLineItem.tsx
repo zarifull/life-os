@@ -4,6 +4,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Trash2, Check, Pencil, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+interface MemoryItem {
+    id: string;
+    content: string;
+    type: string;
+    user_id: string;
+    created_at: string;
+  }
+
+  interface TimelineItemProps {
+    item: MemoryItem; // This fixes the "Cannot find name 'item'" error
+    onDelete: (id: string) => void;
+  }
 export function TimelineItem({ id, date, content, type, onUpdate, onDelete }: any) {
   const t = useTranslations('History');
   
@@ -27,9 +39,23 @@ export function TimelineItem({ id, date, content, type, onUpdate, onDelete }: an
     }
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = async () => {
     if (window.confirm(t('actions.confirmDelete'))) {
-      onDelete(id);
+      try {
+        // Change item.id to just id (since id is in your props)
+        const res = await fetch(`/api/memories?id=${id}`, { 
+          method: 'DELETE' 
+        });
+  
+        if (res.ok) {
+          // Change item.id to just id
+          onDelete(id);
+        } else {
+          console.error("Failed to delete from database");
+        }
+      } catch (error) {
+        console.error("Error during deletion:", error);
+      }
     }
   };
 

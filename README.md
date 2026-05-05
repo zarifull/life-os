@@ -15,54 +15,63 @@ Animation: Framer Motion
 Internationalization: next-intl (EN | RU | KY support)
 
 🛡️ Core Features (V1.0)
-1. Hybrid Authentication & Security
+
+1. 🧠 Contextual Awareness & UX
+
+Dynamic Greeting Engine: A time-aware greeting system that adapts to the user's local hour (Morning, Afternoon, Evening) and language.
+
+Temporal Visualization: A high-performance dashboard that visualizes the current day of the year (e.g., "125 of 365") to foster a sense of temporal awareness and focus.
+
+2. Hybrid Authentication & Security
 Dual-Layer Entry: Combines standard Supabase Email/Password login with a custom Secure PIN-code Overlay for secondary verification.
 
 Row Level Security (RLS): Strict PostgreSQL policies ensuring users can only interact with their own data.
 
-2. The "Future Protocol" & Temporal Planning
-Intelligent Routing: Architecture that separates plans into Today, Tomorrow, and a 30-day History Archive based on Target Date logic rather than creation timestamps.
+3. The "Future Protocol" & Temporal Planning
+Intelligent Routing: Architecture that separates plans into Today, Tomorrow, and a 30-day History Archive based on Target Date logic.
 
-Archive Engine: A filtered historical view grouping data by date with automated progress metrics (e.g., "5/8 Achieved").
+Archive Engine: A filtered historical view grouping data by date with automated progress metrics.
 
-3. 🔋 Energy & Biometric Logging (Phase 3)
-Liquid Glass UI: A pixel-perfect implementation of Glassmorphism focusing on transparency, 3px solid white borders, and 40px backdrop blurs.
+4. 🔋 Energy & Biometric Logging
+Liquid Glass UI: A pixel-perfect implementation focusing on transparency, 3px solid white borders, and 40px backdrop blurs.
 
-Dual-State Metrics: Capture "Today's Actuals" alongside "Tomorrow's Intentions" to visualize readiness.
+Automated Data Retention: Integrated pg_cron tasks to purge logs older than 30 days, maintaining peak performance.
 
-Automated Data Retention: Integrated PostgreSQL pg_cron janitor tasks that instinctively purge logs older than 30 days to maintain system performance.
+5. 📖 Personal Narrative & Diary (New Phase)
+Reflective Journaling: A dedicated "My Diary" (formerly Notebook) module for capturing achievements, goals, and daily insights.
+
+Optimized Mobile UX: Adaptive grid layouts with localized button widths and a Floating Action Back-Button (FAB) for ergonomic thumb-navigation.
+
+Full CRUD Integration: Real-time Create, Read, Update, and Delete capabilities with defensive error handling to ensure UI/Database synchronization.
 
 📡 Architecture: Data Lifecycle
-Plan & Energy Persistence
-On-Conflict Upsert: Uses composite unique keys (user_id, date) to ensure data is updated seamlessly without duplicates.
+On-Conflict Upsert: Uses composite unique keys (user_id, date) to update data seamlessly without duplicates.
 
-Timezone Resilience: Implements toLocaleDateString('en-CA') to normalize dates, preventing UTC "date-bleed" for users in regions like Kyrgyzstan.
+Timezone Resilience: Implements normalized date strings to prevent UTC "date-bleed" in regions like Central Asia.
 
-Validation at Source: Enforced database Check Constraints (1-10 scale) to ensure data integrity before it reaches the UI.
+Strict Type-Safety: End-to-end TypeScript interfaces mapping Supabase schemas to React components to prevent runtime crashes.
 
 🚀 Upcoming Optimizations
 Insight Engine: Data visualization charts (Recharts) correlating Energy levels with Plan completion rates.
 
 PWA Integration: Transforming the suite into a Progressive Web App for a native mobile experience.
 
-Finance Module: Integrating a secure planning module for personal financial tracking.
+Finance Module: A secure planning module for personal financial tracking and budget forecasting.
 
 🏗️ Getting Started
 Clone the repository:
 
 Bash
-git clone https://github.com/your-username/life-os.git
+git clone https://github.com/zarifull/life-os-app.git
 Install dependencies:
 
 Bash
 npm install
-Environment Setup: Create a .env.local file:
+Environment Setup: Create a .env.local file with your NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.
 
-Code snippet
-NEXT_PUBLIC_SUPABASE_URL=your_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
 Run Development:
 
 Bash
 npm run dev
-Author: Self-taught Full-Stack Developer specializing in React, Node.js, and High-Performance Web Architectures.
+
+Author: Zarina — Full-Stack Developer specializing in React, Node.js, and High-Performance Web Architectures.
