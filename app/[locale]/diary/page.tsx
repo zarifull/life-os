@@ -1,25 +1,46 @@
 'use client';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { ArrowLeft } from 'lucide-react'; 
+import { useRouter } from 'next/navigation';
 import { AdventureHeader } from './_components/AdventureHeader';
 import { QuickLog } from './_components/QuickLog';
 import Timeline from './TimeLine';
 
-export default function HistoryPage() {
+export default function DiaryPage() {
     const [activeFilter, setActiveFilter] = useState('All');
     const [refreshKey, setRefreshKey] = useState(0);
+    const router = useRouter(); 
     
     const refreshTimeline = () => setRefreshKey(prev => prev + 1);
 
   return (
     <main 
-      className="min-h-screen relative pt-24 pb-20 px-4 md:px-6 overflow-hidden border-white/70 border-2 md:border-[7px] rounded-[20px] md:rounded-[80px]"
+      className="min-h-screen relative pt-24 pb-20 px-4 md:px-6 overflow-hidden border-white/70 border-2 md:border-[5px] rounded-[20px] md:rounded-[80px]"
       style={{
         background: "linear-gradient(145deg, #ece9ff 0%, #f3eeff 22%, #ffe8f8 52%, #e8f0ff 78%, #e4f5ff 100%)",
       }}
     >
       <div className="relative z-10 max-w-3xl mx-auto">
-      <AdventureHeader activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+        <motion.button
+          onClick={() => router.back()}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          whileHover={{ x: -5, backgroundColor: "rgba(255, 255, 255, 0.6)" }}
+          whileTap={{ scale: 0.95 }}
+          className="
+          fixed bottom-8 right-8 z-50
+          flex items-center justify-center w-14 h-14 rounded-full 
+          bg-white/60 backdrop-blur-xl border border-white/80 
+          text-indigo-500 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1)]
+          hover:bg-white/80 transition-all
+    "
+        >
+          <ArrowLeft size={18} />
+          
+        </motion.button>
+
+        <AdventureHeader activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
 
         <div className="relative mt-8 md:mt-12 px-4 md:px-8 py-8 md:py-12">
           

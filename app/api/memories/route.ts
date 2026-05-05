@@ -78,13 +78,18 @@ export async function GET() {
       const id = searchParams.get('id');
       const supabase = await createClient();
   
-      const { error } = await supabase
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  
+      const { error, count } = await supabase
         .from('memories')
-        .delete()
-        .eq('id', id);
+        .delete({ count: 'exact' }) 
+        .eq('id', id)
+        .eq('user_id', user.id); 
   
       if (error) throw error;
-      return NextResponse.json({ message: "Deleted" });
+      
+      return NextResponse.json({ message: "Deleted", count });
     } catch (err: any) {
       return NextResponse.json({ error: err.message }, { status: 400 });
     }

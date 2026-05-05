@@ -16,11 +16,12 @@
   "reset_pin_confirm": "To reset your PIN, we will log you out. You can then use the 'Forgot Password' flow to reset your credentials. Continue?"
   },
   "Navigation": {
+    "explore_lifeos": "Explore LifeOS",
     "history": "My History",
     "vision_board": "Vision Board",
     "settings": "Settings",
-    "notebook": "My Notebook",
-    "notebookSub": "INSIGHTS & ADVENTURES",
+    "diary": "My Diary",
+    "diarySub": "INSIGHTS & ADVENTURES",
     "finance": "My Finance",
     "financeSub": "WEALTH TRACKER",
     "vision": "Vision Board",

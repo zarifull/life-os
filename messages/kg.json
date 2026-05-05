@@ -19,11 +19,12 @@
   "btnCompleteReset": "Калыбына келтирүүнү бүтүрүү"
   },
   "Navigation": {
+    "explore_lifeos": "LifeOS'ту изилдөө",
     "history": "Менин тарыхым",
     "vision_board": "Тилектер картасы",
     "settings": "Жөндөөлөр",
-    "notebook": "Менин күндөлүгүм",
-    "notebookSub": "ОКУЯЛАР ЖАНА ОЙЛОР",
+    "diary": "Менин күндөлүгүм",
+    "diarySub": "ОКУЯЛАР ЖАНА ОЙЛОР",
     "finance": "Менин каржым",
     "financeSub": "ЭЖЕП ЖАНА ПЛАНДАР",
     "vision": "Тилектер картасы",

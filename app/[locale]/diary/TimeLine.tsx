@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { TimelineItem } from './_components/TimelineItem'
+import { TimelineItem } from './_components/TimeLineItem'
 
 export default function Timeline({ activeFilter }: { activeFilter: string }) {
   const [loading, setLoading] = useState(true);
@@ -22,9 +22,9 @@ export default function Timeline({ activeFilter }: { activeFilter: string }) {
     fetchMemories();
   }, []);
 
-  const filteredMemories = memories.filter((m: any) => 
-    activeFilter === 'All' || m.type?.toLowerCase() === activeFilter.toLowerCase()
-  );
+  const filteredMemories = Array.isArray(memories) 
+  ? memories.filter(memory => activeFilter === 'All' || memory.type === activeFilter)
+  : []; 
 
   if (loading) return <div className="p-10 text-indigo-500 animate-pulse">Loading adventures...</div>;
   const handleDelete = async (id: string) => {
