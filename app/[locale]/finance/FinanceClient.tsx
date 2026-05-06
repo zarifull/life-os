@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { RevenueModal } from './_components/RevenueModal';
 import { addTransaction, deleteTransaction } from '@/lib/actions/finance';
 import UpdateModal from './_components/UpdateModal';
 import { useTranslations } from 'next-intl';
+import { ArrowLeft } from 'lucide-react';
 
 type Currency = 'USD' | 'KGS' | 'RUB';
 
@@ -37,6 +38,8 @@ export default function FinancePage({
     const [rates, setRates] = useState<Record<Currency, number>>({ KGS: 1, USD: 0.011, RUB: 1.05 });
     const [isLoadingRates, setIsLoadingRates] = useState(true);
     const t = useTranslations('finance'); 
+    const params = useParams(); 
+    const locale = params?.locale || 'en';
     
     useEffect(() => {
         setMounted(true);
@@ -128,6 +131,7 @@ export default function FinancePage({
     };
 
     return (
+        <>
         <main 
         className="min-h-screen pt-4 md:pt-12 pb-10 px-4 md:px-10 overflow-x-hidden relative"
         style={{
@@ -137,12 +141,13 @@ export default function FinancePage({
             border: "3.5px solid rgba(255, 255, 255, 0.7)",
         }}
         >
-            <div className="fixed inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[40px]">
                 <div className="absolute top-[-5%] left-[-10%] w-[60%] h-[40%] bg-indigo-200/30 blur-[80px] rounded-full" />
                 <div className="absolute bottom-[-5%] right-[-10%] w-[60%] h-[40%] bg-rose-100/20 blur-[80px] rounded-full" />
             </div>
 
             <div className="max-w-5xl mx-auto relative z-10">
+                
                 <header className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 md:mb-10 px-2">
                     <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-auto">
                         <div className="flex items-center gap-3 mb-2">
@@ -163,8 +168,8 @@ export default function FinancePage({
                         </div>
                     </div>
 
-                    <div className="flex flex-row md:flex-col items-center md:items-end justify-between w-full md:w-auto gap-4 border-t border-indigo-100 pt-6 md:pt-0 md:border-none">
-                        <div className="flex p-1 bg-white/40 backdrop-blur-xl border border-white/80 rounded-2xl shadow-sm shrink-0">
+                    <div className="flex flex-row md:flex-col items-center md:items-end justify-end w-full md:w-auto gap-4 border-t border-indigo-100 pt-6 md:pt-0 md:border-none">
+                    <div className="flex p-1 bg-white/40 backdrop-blur-xl border border-white/80 rounded-2xl shadow-sm shrink-0 ml-auto md:ml-0">
                             {(['KGS', 'USD', 'RUB'] as Currency[]).map((curr) => (
                                 <button 
                                     key={curr}
@@ -178,9 +183,9 @@ export default function FinancePage({
                             ))}
                         </div>
                         <div className="text-right hidden sm:block">
-                             <p className="text-[9px] font-bold text-indigo-300 uppercase tracking-[0.2em]">{t('auto_save')}</p>
-                             <p className="text-[9px] font-bold text-emerald-500 uppercase">{t('active')}</p>
-                        </div>
+                        <p className="text-[9px] font-bold text-indigo-300 uppercase tracking-[0.2em]">{t('auto_save')}</p>
+                        <p className="text-[9px] font-bold text-emerald-500 uppercase">{t('active')}</p>
+                    </div>
                     </div>
                 </header>
 
@@ -304,13 +309,28 @@ export default function FinancePage({
                         </div>
                     </motion.div>
                     <button 
-                        onClick={() => router.push('/en/finance/archive')}
-                        className="w-full mt-10 py-4 text-[11px] font-bold uppercase tracking-[0.6em] text-indigo-300 hover:text-indigo-600 transition-all hover:tracking-[0.8em]"
-                    >
-                       {t('archive_link')} ›
-                    </button>
+                onClick={() => router.push(`/${locale}/history/finance`)}
+                className="w-full mt-10 py-4 text-[11px] font-bold uppercase tracking-[0.6em] text-indigo-300 hover:text-indigo-600 transition-all hover:tracking-[0.8em]"
+            >
+               {t('archive_link')} 
+            </button>
                 </div>
             </div>
+        </main>
+            <motion.button
+                onClick={() => router.push(`/${locale}/dashboard`)}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ 
+                    scale: 1.1, 
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
+                    boxShadow: "0 15px 30px rgba(79, 70, 229, 0.15)"
+                }}
+                whileTap={{ scale: 0.9 }}
+                className="fixed bottom-10 right-10 z-[200] flex items-center justify-center w-14 h-14 rounded-full bg-white/70 backdrop-blur-2xl border border-white/80 shadow-xl text-indigo-600 transition-all"
+            >
+                <ArrowLeft size={24} strokeWidth={2.5} />
+            </motion.button>
 
             <AnimatePresence>
                 {showRevenueModal && (
@@ -352,6 +372,6 @@ export default function FinancePage({
                     </div>
                 )}
             </AnimatePresence>
-        </main>
+        </>
     );
 }

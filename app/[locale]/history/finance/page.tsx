@@ -1,16 +1,12 @@
 import { prisma } from '@/lib/db/prisma';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import ArchiveClientPage from './_components/ArchiveClientPage';
+import FinanceArchivePage from './financeArchivePage';
 
 export default async function Page() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-
-  const settings = await prisma.userSettings.findUnique({
-    where: { userId: user.id },
-  });
 
   const transactions = await prisma.transaction.findMany({
     where: { userId: user.id },
@@ -38,8 +34,7 @@ export default async function Page() {
   const realMonthlyData = Object.values(monthlyStats);
 
   return (
-    <ArchiveClientPage 
-     
+    <FinanceArchivePage 
       realMonthlyData={realMonthlyData as any} 
     />
   );
