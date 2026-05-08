@@ -1,86 +1,63 @@
 🧬 LifeOS | Personal Ecosystem
 "Clean Data, Deep Focus."
 
-A high-performance, Liquid Glassmorphism productivity suite built to bridge the gap between technical project tracking and personal energy management. LifeOS is designed for total life management, operating on a philosophy of architectural elegance and high-performance UX.
+LifeOS is a high-performance productivity suite built on the philosophy of architectural elegance. This system bridges the gap between technical project tracking and personal energy management through a high-saturation Liquid Glassmorphism interface.
 
-🛠️ Technical Stack
-Framework: Next.js 15+ (App Router).
+🕹️ System Walkthrough (The User Journey)
+1. 🔐 Secure Entry & Hybrid Auth
+The experience begins with a dual-layer security protocol.
 
-Language: TypeScript (Strict Mode).
+Secure Access: A custom-built PIN-code overlay for secondary verification.
 
-Styling: Tailwind CSS (Utility-first) with custom glassmorphism filters.
+System Encryption: Integration with Supabase Auth (GoTrue) to ensure a "System Encrypted" environment.
 
-ORM: Prisma for type-safe database queries.
+2. 🧠 Temporal Intelligence (Dashboard)
+Once unlocked, the system provides immediate contextual awareness.
 
-Database & Auth: Supabase (PostgreSQL + GoTrue).
+Year Visualization: A macro-view of the current year (e.g., "128 of 365") to track temporal progress.
 
-Animation: Framer Motion for fluid layout transitions.
+Focus Metrics: Real-time tracking of "Days Lived" vs. "Days Ahead" to drive urgency and focus.
 
-Internationalization: next-intl with full support for English, Russian, and Kyrgyz.
+3. 📝 Tactical Planning (Intentions)
+A clean, serif-driven interface for daily objectives.
 
-🛡️ Core Features (V1.0)
-1. 🧠 Contextual Awareness & Intelligence
-Dynamic Greeting Engine: Adapts to the user’s local hour (Morning, Afternoon, Evening) and selected language.
+Intentions Engine: Separates objectives into "Today" and "Tomorrow".
 
-Temporal Visualization: Dashboard tracking the current day of the year (e.g., "125 of 365") to enhance temporal awareness and focus.
+Progress Tracking: Integrated completion counters (e.g., "0/2 Achieved") to maintain momentum.
 
-2. 💰 Finance Module & Archive (New)
-Multi-Currency Logic: Integrated support for KGS, USD, and RUB with real-time scaling and localized formatting.
+4. 🔋 Energy & Biometric Logging
+A pixel-perfect module designed to track the user's primary resource: Energy.
 
-Financial Library: A sophisticated Archive Engine that groups historical transactions by month, providing data-driven insights into surplus and spending.
+Visual Batteries: Real-time logging of energy levels with color-coded gradients.
 
-Full CRUD Integration: Secure logging of income and expenses with real-time UI/Database synchronization.
+Historical Lookback: A 30-day window to correlate yesterday's energy with today's performance.
 
-3. 🔋 Energy & Biometric Logging
-Liquid Glass UI: Pixel-perfect implementation featuring 80px organic border-radii, 1.5px specular edges, and high-saturation backdrop blurs (blur: 60px).
+5. 🧭 Navigation & Core Modules (Action Dock)
+The ecosystem is unified by a minimalist "Explore LifeOS" dock, granting access to three specialized pillars:
 
-Performance Optimization: Automated pg_cron tasks to maintain a clean 30-day lookback window, ensuring the system remains high-performance.
+📖 My Chronicle (Diary): A journaling engine for capturing achievements, insights, and goals with optimized mobile UX.
 
-4. 📖 Personal Narrative & Temporal Planning
-Future Protocol: Architectural routing that separates objectives into Today, Tomorrow, and a filtered History Archive based on target-date logic.
+💰 My Finance (Wealth Tracker): A sophisticated dashboard for strategic revenue tracking, localized currency scaling (KGS, USD, RUB), and "Burn" analysis.
 
-Reflective Journaling: A dedicated "My Diary" module for capturing achievements and daily insights with optimized mobile UX.
+✨ Vision Board (Dreams & Goals): A goal visualization engine featuring 4:5 aspect ratio cards and an ergonomic Action Dock.
 
-Mobile-First Design: Floating Action Back-Buttons (FAB) and adaptive grid layouts for ergonomic thumb-navigation.
+🛠️ Technical Specifications
+Engine: Next.js 15+ (App Router) with Turbopack.
 
-5. 🔐 Hybrid Security
-Dual-Layer Entry: Combines Supabase Auth with a custom Secure PIN-code Overlay for secondary verification.
+Database & RLS: PostgreSQL (Supabase) with strict Row Level Security.
 
-Row Level Security (RLS): Strict PostgreSQL policies ensuring complete data isolation per user.
+i18n: Full internationalization for English, Russian, and Kyrgyz (next-intl).
 
-📡 Architecture: Data Lifecycle
-On-Conflict Upsert: Seamless data updates using composite unique keys (user_id, date) to prevent duplicates.
+UX/UI: Tailwind CSS with 60px backdrop blurs and 1.5px specular edges.
 
-Timezone Resilience: Implementation of normalized date strings to prevent UTC "date-bleed" across Central Asian timezones.
-
-Strict Type-Safety: End-to-end TypeScript interfaces mapping database schemas directly to React components to eliminate runtime crashes.
-
-🚀 Upcoming Optimizations
-Insight Engine: Data visualization (Recharts) correlating energy levels with plan completion rates.
-
-PWA Integration: Transforming LifeOS into a Progressive Web App for a native mobile experience.
-
-🏗️ Getting Started
-Clone the repository:
+🚀 Getting Started
+Clone & Install:
 
 Bash
 git clone https://github.com/zarifull/life-os-app.git
-Install dependencies:
-
-Bash
 npm install
+Environment: Configure .env.local with your Supabase and Database URLs.
 
-3.  **Environment Setup**: Create a `.env.local` file:
-    ```env
-    NEXT_PUBLIC_SUPABASE_URL=your_url
-    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
-    DATABASE_URL=your_prisma_url
-    ```
-4.  **Run Development**:
-    ```bash
-    npm run dev
-    ```
+Launch: npm run dev.
 
----
-
-**Author**: **Zarina** — Full-Stack Developer specializing in React, Node.js, and High-Performance Web Architectures.
+Author: Zarina — Specializing in High-Performance Web Architectures and Surgical UI Design.

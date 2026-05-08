@@ -73,7 +73,9 @@
     "reset_identity": "Reset Identity",
     "new_pin": "New PIN",
     "new_password" : "New Password",
-    "btnCompleteReset": "Complete Reset"
+    "btnCompleteReset": "Complete Reset",
+    "reset_password_title": "Сөздүктү жаңыртуу",
+    "confirm_new_pin": "ПИН-кодду ырастаңыз"
   },
   "Settings": {
     "titlePart1": "Account",
@@ -270,6 +272,7 @@
       "vision": "VISION"
     },
     "actions": {
+      "editPrompt": "Change vision title:",
       "deleteConfirm": "Are you sure you want to remove this vision?"
     },
     "emptyState": {
