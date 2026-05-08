@@ -73,7 +73,9 @@
     "reset_identity": "Сброс личности",
     "new_pin": "Новый ПИН",
     "new_password" : "Новый пароль",
-    "btnCompleteReset": "Завершить сброс"
+    "btnCompleteReset": "Завершить сброс",
+    "reset_password_title": "Обновление учетных данных",
+    "confirm_new_pin": "Подтвердите новый ПИН-код"
   },
   "Settings": {
     "titlePart1": "Настройки",
@@ -269,6 +271,7 @@
       "vision": "ВИДЕНИЕ"
     },
     "actions": {
+      "editPrompt": "Изменить название цели:",
       "deleteConfirm": "Вы уверены, что хотите удалить эту цель?"
     },
     "emptyState": {

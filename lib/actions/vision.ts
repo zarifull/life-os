@@ -29,15 +29,25 @@ export async function addVision(formData: { title: string; image_url: string;}) 
   return { success: true };
 }
 
-
-export async function toggleVisionStatus(id: string) {
+export async function toggleVisionStatus(id: string, currentStatus: boolean) {
   const supabase = await createClient();
-  
-  const { data: vision } = await supabase.from('vision_board').select('completed').eq('id', id).single();
   
   const { error } = await supabase
     .from('vision_board')
-    .update({ completed: !vision?.completed })
+    .update({ completed: !currentStatus })
+    .eq('id', id);
+
+  if (error) return { success: false, error: error.message };
+  
+  revalidatePath('/vision');
+  return { success: true };
+}
+
+export async function updateVision(id: string, title: string) {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from('vision_board')
+    .update({ title })
     .eq('id', id);
 
   if (error) return { success: false, error: error.message };
