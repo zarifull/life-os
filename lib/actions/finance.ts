@@ -182,15 +182,15 @@ export async function getYearlySummary(year: number) {
 }
 
 export async function updateVaultSettings(autoVault: boolean) {
-    const user = await getAuthUser()
+  const user = await getAuthenticatedUser();
 
-    await prisma.userSettings.upsert({
-        where: { userId: user.id },
-        update: { autoVault },
-        create: { userId: user.id, autoVault }
-    });
+  await prisma.finance.upsert({
+    where: { userId: user.id },
+    update: { autoVault },
+    create: { userId: user.id, autoVault }
+  });
 
-    revalidatePath('/finance/archive');
+  revalidatePath('/finance/archive');
 }
 
 export async function executeVaultAdjustment(amount: number) {
