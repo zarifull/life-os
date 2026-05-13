@@ -17,7 +17,9 @@ export const FINANCE_CATEGORIES = [
   "Tech", 
   "Freelance", 
   "Shopping", 
-  "Other"
+  "Other",
+  "Strategy",
+  "Obligations",
 ] as const;
 
 export type FinanceCategory = typeof FINANCE_CATEGORIES[number];

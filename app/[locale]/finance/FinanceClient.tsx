@@ -15,6 +15,7 @@ interface Transaction {
     id: string;
     amount: number;
     category: string;
+    description?: string;
     type: string;
     label: string;
     date: Date;
@@ -40,6 +41,8 @@ export default function FinancePage({
     const t = useTranslations('finance'); 
     const params = useParams(); 
     const locale = params?.locale || 'en';
+    const [transactions, setTransactions] = useState(initialTransactions);
+
     
     useEffect(() => {
         setMounted(true);
@@ -61,12 +64,28 @@ export default function FinancePage({
         return () => clearInterval(timer);
     }, []);
 
+    const systemTaxAmount = transactions
+    .filter(t => {
+        const category = (t.category || "").toLowerCase().trim();
+        const description = (t.description || "").toLowerCase().trim();
+
+        return category === 'obligations' || description === 'system tax';
+    })
+    .reduce((acc, t) => acc + t.amount, 0);
+    console.log("Sum of your taxes",systemTaxAmount)
+
     const formatValue = (val: number) => {
         if (isLoadingRates && activeCurrency !== 'KGS') return "...";
-        const converted = val * rates[activeCurrency];
+    
+        const rate = activeCurrency === 'KGS' ? 1 : (rates[activeCurrency] || 1);
+        const converted = val * rate;
+    
         if (activeCurrency === 'KGS') {
-            return `${Math.floor(converted).toLocaleString().replace(/,/g, ' ')} с`;
+            return new Intl.NumberFormat('ru-KG', { 
+                maximumFractionDigits: 0,
+            }).format(converted) + ' с';
         }
+    
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: activeCurrency,
@@ -164,7 +183,7 @@ export default function FinancePage({
                         </h1>
                         <div className="mt-4 flex items-center gap-3 px-3 py-1.5 bg-white/30 backdrop-blur-md rounded-2xl border border-white/60 shadow-sm">
                             <span className="text-[8px] font-black uppercase tracking-widest text-rose-400">{t('system_tax')}</span>
-                            <span className="text-xs font-bold text-rose-600">-{formatValue(400)}</span>
+                            <span className="text-xs font-bold text-rose-600">- ! ! !</span>
                         </div>
                     </div>
 

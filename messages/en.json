@@ -208,7 +208,9 @@
       "product": "Product & Tools",
       "social": "Social & Gifts",
       "fixed": "Fixed / Fees",
-      "General": "General"
+      "General": "General",
+      "Strategy": "Strategy",
+      "Obligations": "Obligations"
     },
     "status": {
       "strategy": "Strategy",
@@ -227,8 +229,7 @@
       "history": "View Full History",
       "collapse": "Collapse Library",
       "verified": "Archive Verified",
-        "quick_log": "Quick Log"
-    
+      "quick_log": "Quick Log"
     },
     "placeholders": {
       "salary": "Monthly Salary",

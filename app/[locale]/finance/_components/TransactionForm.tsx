@@ -41,7 +41,6 @@ export function TransactionForm({ onSuccess, onClose }: Props) {
       style={{ background: "rgba(255, 255, 255, 0.7)", backdropFilter: "blur(20px)" }}
     >
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Type Toggle */}
         <div className="flex p-1 bg-indigo-100/30 rounded-2xl">
           {(['expense', 'income'] as const).map((t) => (
             <button
@@ -57,7 +56,6 @@ export function TransactionForm({ onSuccess, onClose }: Props) {
           ))}
         </div>
 
-        {/* Amount Input */}
         <div className="text-center">
           <input 
             type="number"
@@ -69,7 +67,6 @@ export function TransactionForm({ onSuccess, onClose }: Props) {
           />
         </div>
 
-        {/* Category Grid */}
         <div className="grid grid-cols-4 gap-2">
           {FINANCE_CATEGORIES.map((cat) => (
             <button
@@ -104,5 +101,7 @@ const CATEGORY_ICONS: Record<string, string> = {
     Tech: "💻",
     Freelance: "💰",
     Shopping: "🛍️",
-    Other: "✨"
+    Other: "✨",
+    Strategy: "🎯",
+    Obligations: "📌",
   };
