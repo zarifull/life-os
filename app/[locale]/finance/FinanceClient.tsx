@@ -72,7 +72,6 @@ export default function FinancePage({
         return category === 'obligations' || description === 'system tax';
     })
     .reduce((acc, t) => acc + t.amount, 0);
-    console.log("Sum of your taxes",systemTaxAmount)
 
     const formatValue = (val: number) => {
         if (isLoadingRates && activeCurrency !== 'KGS') return "...";
@@ -95,13 +94,13 @@ export default function FinancePage({
 
     const todaysData = useMemo(() => {
         const now = new Date();
-        return initialTransactions.filter(t => {
+        return transactions.filter(t => { 
             const d = new Date(t.date);
             return d.getDate() === now.getDate() &&
                    d.getMonth() === now.getMonth() &&
                    d.getFullYear() === now.getFullYear();
         });
-    }, [initialTransactions]);
+    }, [transactions]);
 
     const todaysBurn = useMemo(() => {
         return todaysData
@@ -113,6 +112,8 @@ export default function FinancePage({
         if (!label || !amount) return;
         try {
             await addTransaction(Number(amount), 'expense', 'General', label);
+            const newTx = await addTransaction(Number(amount), 'expense', 'General', label);
+            setTransactions(prev => [newTx, ...prev]);
             setLabel('');
             setAmount('');
         } catch (error) { alert("Check connection."); }
@@ -144,6 +145,12 @@ export default function FinancePage({
                 category, 
                 category 
             );
+            const newTx = await addTransaction(
+                Number(userInput), 
+                'expense', 
+                category, 
+                category);
+            setTransactions(prev => [newTx, ...prev]);
         } catch (e) { 
             console.error("Log failed:", e); 
         }
@@ -181,9 +188,9 @@ export default function FinancePage({
                         <h1 className="text-5xl md:text-6xl font-serif text-indigo-950 tracking-tight leading-tight">
                             {mounted ? formatValue(initialBalance) : "---"}
                         </h1>
-                        <div className="mt-4 flex items-center gap-3 px-3 py-1.5 bg-white/30 backdrop-blur-md rounded-2xl border border-white/60 shadow-sm">
+                        <div onClick={() => setShowRevenueModal(true)} className="mt-4 flex items-center gap-3 px-3 py-1.5 bg-white/30 backdrop-blur-md rounded-2xl border border-white/60 shadow-sm">
                             <span className="text-[8px] font-black uppercase tracking-widest text-rose-400">{t('system_tax')}</span>
-                            <span className="text-xs font-bold text-rose-600">- ! ! !</span>
+                            <span className="text-xs font-bold text-rose-600">-{formatValue(systemTaxAmount)}</span>
                         </div>
                     </div>
 
