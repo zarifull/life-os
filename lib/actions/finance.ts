@@ -34,7 +34,7 @@ export async function addTransaction(
       }
     });
 
-    revalidatePath('/[locale]/finance', 'layout');
+    revalidatePath('/[locale]/finance', 'page');
     return transaction;
   } catch (error) {
     console.error("Prisma Error:", error);

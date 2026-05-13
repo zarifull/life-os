@@ -10,7 +10,7 @@ interface Props {
   onClose: () => void;
 }
 
-export function TransactionForm({ onSuccess, onClose }: Props) {
+export default function TransactionForm({ onSuccess, onClose }: Props) {
   const [amount, setAmount] = useState("")
   const [type, setType] = useState<'expense' | 'income'>('expense')
   const [category, setCategory] = useState("Food")
