@@ -44,7 +44,8 @@ export default function ResetPassword() {
     } else {
       alert(t("keyUpdatedSuccess"));
       sessionStorage.removeItem("lifeos-unlocked");
-      window.location.href = `/${locale}/dashboard`;
+      router.refresh(); 
+      router.push(`/${locale}/dashboard`);
     }
     setLoading(false);
   };
