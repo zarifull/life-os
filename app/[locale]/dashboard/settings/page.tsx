@@ -12,6 +12,8 @@ import {
   CameraPlus, 
   CheckCircle 
 } from "@phosphor-icons/react";
+import { Eye, EyeSlash } from "@phosphor-icons/react"; 
+
 
 export default function SettingsPage() {
   const t = useTranslations("Settings");
@@ -23,6 +25,7 @@ export default function SettingsPage() {
   const [newEmail, setNewEmail] = useState("");
   const [password, setPassword] = useState("");
   const [newPin, setNewPin] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -195,20 +198,31 @@ export default function SettingsPage() {
                 </div>
                 {t("labelSecurity")}
               </h3>
-              <input 
-                type="password" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                placeholder="••••••••"
-                className="w-full p-5 rounded-3xl bg-white/50 border border-white/60 outline-none text-sm font-bold text-slate-600 focus:bg-white transition-all" 
-              />
+              
+              <div className="relative">
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  value={password} 
+                  onChange={(e) => setPassword(e.target.value)} 
+                  placeholder="••••••••"
+                  className="w-full p-5 pr-14 rounded-3xl bg-white/50 border border-white/60 outline-none text-sm font-bold text-slate-600 focus:bg-white transition-all" 
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-rose-500 transition-colors p-1 flex items-center justify-center"
+                >
+                  {showPassword ? <EyeSlash size={20} weight="bold" /> : <Eye size={20} weight="bold" />}
+                </button>
+              </div>
             </div>
+            
             <button 
-                onClick={() => handleUpdate("Password", { password: password })}
-                className="mt-10 w-full py-5 bg-rose-50 text-rose-500 rounded-[24px] text-[10px] font-black uppercase tracking-widest hover:bg-rose-500 hover:text-white transition-all shadow-sm border border-rose-100"
-              >
-                {t("btnUpdatePassword")}
-              </button>
+              onClick={() => handleUpdate("Password", { password: password })}
+              className="mt-10 w-full py-5 bg-rose-50 text-rose-500 rounded-[24px] text-[10px] font-black uppercase tracking-widest hover:bg-rose-500 hover:text-white transition-all shadow-sm border border-rose-100"
+            >
+              {t("btnUpdatePassword")}
+            </button>
           </div>
         </div>
 

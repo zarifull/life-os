@@ -265,14 +265,15 @@ const isTomorrow = normalizedTarget > todayStr;
       </Link>
   
       <Link 
-        href={isTomorrow || isArchive ? "/dashboard" : "/dashboard/tomorrow"} 
-        className="text-[9px] sm:text-[10px] uppercase font-bold tracking-[0.2em] sm:tracking-[0.3em] text-slate-400 hover:text-emerald-500 transition-all flex items-center gap-2 group text-center sm:text-right"
-      >
-        {isTomorrow || isArchive ? t('todayLink') : t('tomorrowLink')}
-        <div className={`w-1.5 h-1.5 rounded-full transition-colors ${
-          isTomorrow || isArchive ? 'bg-indigo-200 group-hover:bg-indigo-500' : 'bg-emerald-200 group-hover:bg-emerald-500'
-        }`} />
-      </Link>
+      href={isTomorrow || isArchive ? "/dashboard" : "/dashboard/tomorrow"} 
+      prefetch={false} 
+      className="text-[9px] sm:text-[10px] uppercase font-bold tracking-[0.2em] sm:tracking-[0.3em] text-slate-400 hover:text-emerald-500 transition-all flex items-center gap-2 group text-center sm:text-right"
+    >
+      {isTomorrow || isArchive ? t('todayLink') : t('tomorrowLink')}
+      <div className={`w-1.5 h-1.5 rounded-full transition-colors ${
+        isTomorrow || isArchive ? 'bg-indigo-200 group-hover:bg-indigo-500' : 'bg-emerald-200 group-hover:bg-emerald-500'
+      }`} />
+    </Link>
     </footer>
   </section>
   );

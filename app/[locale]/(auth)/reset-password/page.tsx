@@ -41,12 +41,27 @@ export default function ResetPassword() {
 
     if (dbError) {
       alert("Password updated, but PIN failed: " + dbError.message);
-    } else {
-      alert(t("keyUpdatedSuccess"));
-      sessionStorage.removeItem("lifeos-unlocked");
-      router.refresh(); 
-      router.push(`/${locale}/dashboard`);
+      setLoading(false);
+      return;
     }
+
+    alert(t("keyUpdatedSuccess"));
+    
+    sessionStorage.removeItem("lifeos-unlocked");
+
+    await supabase.auth.signOut();
+
+    if (typeof window !== "undefined") {
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+    }
+
+    router.push(`/${locale}/login`);
+    router.refresh();
+    
     setLoading(false);
   };
 
@@ -76,7 +91,7 @@ export default function ResetPassword() {
                 required
                 minLength={6}
               />
-              <button
+            <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-emerald-500 transition-colors p-1"

@@ -6,6 +6,32 @@ import { notFound } from "next/navigation";
 import { locales } from "../../i18n/request";
 import { LifeOSShell } from "./LifeOSShell";
 import UserNav from "@/app/[locale]/dashboard/_components/layout/UserNav";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: {
+    icon: '/icon.png', 
+    shortcut: '/icon.png',
+    apple: '/apple-touch-icon.png',
+  },
+  openGraph: {
+    images: [
+      {
+        url: '/icon.png', 
+        width: 2000,
+        height: 630,
+        alt: 'LifeOS Dashboard',
+      },
+    ],
+  },
+  metadataBase: new URL(
+    process.env.NODE_ENV === "production"
+      ? "https://zari-dev-website.vercel.app" 
+      : "http://localhost:3000"
+  ),
+  title: "LifeOS",
+  description: "Personal productivity ecosystem",
+}
 
 export default async function LocaleLayout({
   children,
