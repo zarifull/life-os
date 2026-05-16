@@ -241,10 +241,10 @@ useEffect(() => {
 
     <header className="relative z-[100] flex items-center justify-between px-5 py-5 md:px-12 md:py-8">
       
-      <div className="flex items-center gap-3 md:gap-4 group cursor-default">
+      <div className="flex items-center gap-3 md:gap-4 group cursor-default" >
         <div className="h-10 w-10 md:h-12 md:w-12 bg-white/60 backdrop-blur-xl rounded-2xl flex items-center justify-center shadow-sm border border-white/80 transition-transform group-hover:scale-105 shrink-0">
           <span className="text-[10px] md:text-xs font-black text-slate-400 tracking-tighter italic uppercase">
-            {t("os_label")}
+            OS
           </span>
         </div>
         <h2 className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] md:tracking-[0.5em] text-slate-400 leading-none">
