@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { useLocale } from "next-intl"
 import { createClient } from "@/lib/supabase/client"
 import { useTranslations } from "next-intl" 
+import { ArrowLeft } from "lucide-react"
 
 type EnergyLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 
@@ -183,17 +184,17 @@ export default function EnergyArchivePage() {
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;1,200;1,300&display=swap');
         
         .stat-card span:last-child {
-          color: #4338ca !important; /* Deep Indigo for readability */
+          color: #4338ca !important;
           opacity: 0.8;
         }
         
         .log-date-main {
-          color: #1e1b4b !important; /* Near Black-Indigo for maximum contrast */
+          color: #1e1b4b !important;
           font-weight: 500 !important;
         }
         
         .log-date-sub {
-          color: #4338ca !important; /* Indigo for labels */
+          color: #4338ca !important;
           font-weight: 700 !important;
         }
         @media (max-width: 640px) {
@@ -205,31 +206,39 @@ export default function EnergyArchivePage() {
           .log-row { 
             grid-template-columns: 45px 1fr 45px !important; 
             padding: 14px 16px !important; 
-            background: rgba(255,255,255,0.6) !important; /* Brighter background for better text pop */
+            background: rgba(255,255,255,0.6) !important;
           }
         }
-      
-        
       `}</style>
 
-      <div className="min-h-screen" style={{ background: "linear-gradient(145deg,#ece9ff 0%,#f3eeff 22%,#ffe8f8 52%,#e8f0ff 78%,#e4f5ff 100%)",
+      <div className="min-h-screen relative" style={{ 
+        background: "linear-gradient(145deg,#ece9ff 0%,#f3eeff 22%,#ffe8f8 52%,#e8f0ff 78%,#e4f5ff 100%)",
         borderRadius: "20px",
        }}>
         <div className="max-w-3xl mx-auto px-5 py-10 pb-20">
 
-          <motion.button
-            onClick={() => router.push(`/${locale}/dashboard`)}
-            className="inline-flex items-center gap-2 rounded-full mb-8 focus:outline-none"
-            style={{ padding: "8px 18px", background: "rgba(255,255,255,0.52)", border: "1px solid rgba(255,255,255,0.82)", backdropFilter: "blur(20px)", fontSize: 10, fontWeight: 500, letterSpacing: "0.32em", textTransform: "uppercase", color: "rgba(99,102,241,0.65)" }}
+        <motion.div 
+          initial={{ opacity: 0, y: 16 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          className="pt-6 text-center flex flex-col items-center justify-center"
+        >
+          <h1 
+            className="glass-header w-full text-center" 
+            style={{ 
+              fontFamily: "'Cormorant Garamond',serif", 
+              fontSize: "clamp(40px,6vw,64px)", 
+              fontWeight: 200, 
+              lineHeight: 0.92, 
+              letterSpacing: "-3px", 
+              background: "linear-gradient(160deg,#3730a3,#6366f1 45%,#22d3ee)", 
+              WebkitBackgroundClip: "text", 
+              WebkitTextFillColor: "transparent", 
+              marginBottom: 8 
+            }}
           >
-            ‹ &nbsp;{t('back')}
-          </motion.button>
-
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="glass-header" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(40px,6vw,64px)", fontWeight: 200, lineHeight: 0.92, letterSpacing: "-3px", background: "linear-gradient(160deg,#3730a3,#6366f1 45%,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", marginBottom: 8 }}>
-              {t('archiveTitle')}
-            </h1>
-          </motion.div>
+            {t('archiveTitle')}
+          </h1>
+        </motion.div>
 
           {loading ? (
             <div className="py-20 text-center opacity-30 tracking-[0.5em] text-[10px] uppercase">{t('loading')}</div>
@@ -291,6 +300,21 @@ export default function EnergyArchivePage() {
           )}
         </div>
       </div>
+
+      <motion.button
+          onClick={() => router.push(`/${locale}/dashboard`)}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          whileHover={{ 
+              scale: 1.1, 
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
+              boxShadow: "0 15px 30px rgba(79, 70, 229, 0.15)"
+          }}
+          whileTap={{ scale: 0.9 }}
+          className="fixed bottom-10 right-10 z-[200] flex items-center justify-center w-14 h-14 rounded-full bg-white/70 backdrop-blur-2xl border border-white/80 shadow-xl text-indigo-600 transition-all"
+      >
+          <ArrowLeft size={24} strokeWidth={2.5} />
+      </motion.button>
     </>
   )
 }

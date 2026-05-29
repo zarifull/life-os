@@ -43,7 +43,6 @@ export default function FinancePage({
     const locale = params?.locale || 'en';
     const [transactions, setTransactions] = useState(initialTransactions);
 
-    
     useEffect(() => {
         setMounted(true);
         const timer = setInterval(() => setTime(new Date()), 60000);
@@ -68,7 +67,6 @@ export default function FinancePage({
     .filter(t => {
         const category = (t.category || "").toLowerCase().trim();
         const description = (t.description || "").toLowerCase().trim();
-
         return category === 'obligations' || description === 'system tax';
     })
     .reduce((acc, t) => acc + t.amount, 0);
@@ -111,12 +109,13 @@ export default function FinancePage({
     const handleLog = async () => {
         if (!label || !amount) return;
         try {
-            await addTransaction(Number(amount), 'expense', 'General', label);
             const newTx = await addTransaction(Number(amount), 'expense', 'General', label);
             setTransactions(prev => [newTx, ...prev]);
             setLabel('');
             setAmount('');
-        } catch (error) { alert("Check connection."); }
+        } catch (error) { 
+            alert("Check connection."); 
+        }
     };
 
     const handleQuickLog = async (category: string) => {
@@ -139,17 +138,12 @@ export default function FinancePage({
         if (!userInput || isNaN(Number(userInput))) return;
     
         try {
-            await addTransaction(
-                Number(userInput), 
-                'expense', 
-                category, 
-                category 
-            );
             const newTx = await addTransaction(
                 Number(userInput), 
                 'expense', 
                 category, 
-                category);
+                category
+            );
             setTransactions(prev => [newTx, ...prev]);
         } catch (e) { 
             console.error("Log failed:", e); 
@@ -186,7 +180,7 @@ export default function FinancePage({
                             </button>
                         </div>
                         <h1 className="text-5xl md:text-6xl font-serif text-indigo-950 tracking-tight leading-tight">
-                            {mounted ? formatValue(initialBalance) : "---"}
+                        {formatValue(initialBalance)}
                         </h1>
                         <div onClick={() => setShowRevenueModal(true)} className="mt-4 flex items-center gap-3 px-3 py-1.5 bg-white/30 backdrop-blur-md rounded-2xl border border-white/60 shadow-sm">
                             <span className="text-[8px] font-black uppercase tracking-widest text-rose-400">{t('system_tax')}</span>
@@ -295,35 +289,32 @@ export default function FinancePage({
                             </div>
                         </div>
 
-
                         <div className="p-6 md:p-10 space-y-6 md:space-y-8 min-h-[300px]">
                             {todaysData?.length > 0 ? (
                                 todaysData.map((item) => (
-                                    <div key={item.id} className="flex justify-between items-center group p-2 -mx-2 rounded-2xl hover:bg-white/40 transition-all duration-300">
-                                        <div className="flex items-center gap-4 flex-1">
-                                            <span className="text-[9px] font-mono font-bold text-indigo-300 bg-white/80 px-2 py-1 rounded-lg border border-white shadow-sm italic shrink-0">
+                                    <div key={item.id} className="flex justify-between items-start gap-4 group p-2 -mx-2 rounded-2xl hover:bg-white/40 transition-all duration-300">
+                                        <div className="flex items-start gap-3 flex-1 min-w-0">
+                                            <span className="text-[9px] font-mono font-bold text-indigo-300 bg-white/80 px-2 py-1 rounded-lg border border-white shadow-sm italic shrink-0 mt-0.5">
                                                 {new Date(item.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </span>
+                                            
                                             <button onClick={() => setSelectedTransaction(item)} className="text-left flex-1 min-w-0">
-                                                <p className="text-sm font-bold text-indigo-950 truncate">
-                                                  
+                                                <p className="text-sm font-bold text-indigo-950 break-words leading-snug">
                                                     {['food', 'transport', 'product', 'social', 'fixed'].includes(item.label) 
                                                         ? `${t(`quick_tags.${item.label}`)} (${t('status.quick_log') || 'Quick Log'})` 
                                                         : item.label}
                                                 </p>
-                                                <p className="text-[9px] uppercase tracking-[0.2em] font-black text-indigo-300">
-                                                    {t(`quick_tags.${item.category}`)}
-                                                </p>
                                             </button>
                                         </div>
-                                        <div className="flex items-center gap-4">
+                        
+                                        <div className="flex items-center gap-2 shrink-0 pl-2">
                                             <button 
                                                 onClick={() => confirm("Delete?") && deleteTransaction(item.id)}
-                                                className="opacity-0 group-hover:opacity-100 transition-opacity p-2 text-indigo-300 hover:text-red-500"
+                                                className="opacity-0 group-hover:opacity-100 transition-opacity p-2 text-indigo-300 hover:text-red-500 hidden sm:block"
                                             >
                                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /></svg>
                                             </button>
-                                            <span className={`font-serif text-lg md:text-xl ${item.type === 'income' ? 'text-emerald-600' : 'text-indigo-950'}`}>
+                                            <span className={`font-serif text-base md:text-xl whitespace-nowrap ${item.type === 'income' ? 'text-emerald-600' : 'text-indigo-950'}`}>
                                                 {item.type === 'income' ? '+' : '-'}{formatValue(item.amount)}
                                             </span>
                                         </div>
