@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(
     process.env.NODE_ENV === "production"
-      ? "https://zari-dev-website.vercel.app" 
+      ? "https://lifeos-system.vercel.app" 
       : "http://localhost:3000"
   ),
   title: "LifeOS",
