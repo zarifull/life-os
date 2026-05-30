@@ -220,20 +220,22 @@ export default function EnergyArchivePage() {
         <motion.div 
           initial={{ opacity: 0, y: 16 }} 
           animate={{ opacity: 1, y: 0 }} 
-          className="pt-6 text-center flex flex-col items-center justify-center"
+          className="pt-2 w-full flex flex-col items-center justify-center text-center" 
         >
           <h1 
             className="glass-header w-full text-center" 
             style={{ 
               fontFamily: "'Cormorant Garamond',serif", 
-              fontSize: "clamp(40px,6vw,64px)", 
-              fontWeight: 200, 
-              lineHeight: 0.92, 
-              letterSpacing: "-3px", 
+              fontSize: "clamp(42px, 6vw, 64px)", 
+              fontWeight: 500, 
+              lineHeight: 1.1, 
+              letterSpacing: "-1.5px", 
+              paddingRight: "6px", 
+              paddingLeft: "6px",
               background: "linear-gradient(160deg,#3730a3,#6366f1 45%,#22d3ee)", 
               WebkitBackgroundClip: "text", 
               WebkitTextFillColor: "transparent", 
-              marginBottom: 8 
+              marginBottom: 24 
             }}
           >
             {t('archiveTitle')}
