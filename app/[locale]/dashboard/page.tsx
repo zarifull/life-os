@@ -13,7 +13,7 @@ export default function Dashboard() {
         <PlanSection targetDate={new Date().toISOString()}/>
         <EnergySection />
 
-        <div className="mt-12 border-t border-slate-200/50 pt-12">
+        <div id="explore" className="mt-12 border-t border-slate-200/50 pt-12">
           <h2 className="text-sm font-bold tracking-[0.2em] text-slate-400 uppercase text-center mb-8">
             {t('Navigation.explore_lifeos')}
           </h2>

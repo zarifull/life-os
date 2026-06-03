@@ -7,10 +7,14 @@ import { ArrowLeft } from 'lucide-react';
 import VisionBoard from './_components/VisionBoard';
 import { AddVisionModal } from './_components/AddVisionModal';
 
-export default async function VisionPage() {
+export default async function VisionPage({ params }: { params: Promise<{ locale: string }> }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const t = await getTranslations('Vision');
+  const resolvedParams = await params;
+  const locale = (resolvedParams?.locale && resolvedParams.locale !== 'undefined') 
+  ? resolvedParams.locale 
+  : 'en';
 
   if (!user) redirect('/login');
 
@@ -49,7 +53,7 @@ export default async function VisionPage() {
           <AddVisionModal /> 
 
           <Link 
-            href="/" 
+           href={`/${locale}/dashboard#explore`}
             className="h-14 w-14 bg-white/40 backdrop-blur-xl text-slate-600 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-all border border-white/40 shrink-0"
           >
             <ArrowLeft size={22} strokeWidth={1.5} />

@@ -12,7 +12,9 @@ import { motion } from 'framer-motion';
 export default function TomorrowPage() {
   const router = useRouter();
   const params = useParams();
-  const locale = params?.locale || 'en';
+  const locale = (params && params.locale && params.locale !== 'undefined') 
+  ? params.locale 
+  : 'en';
   const { setPlans } = usePlanStore();
   const t = useTranslations('Plan');
 
@@ -71,7 +73,7 @@ export default function TomorrowPage() {
       </main>
 
       <motion.button
-          onClick={() => router.push(`/${locale}/dashboard`)}
+         onClick={() => router.push(`/${locale}/dashboard#tomorrow`)}
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           whileHover={{ 

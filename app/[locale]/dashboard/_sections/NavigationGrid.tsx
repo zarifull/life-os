@@ -9,7 +9,9 @@ import { useParams } from 'next/navigation';
 export function NavigationGrid() {
   const t = useTranslations('Navigation');
   const params = useParams();
-  const locale = params.locale;
+
+  const rawLocale = params?.locale;
+  const locale = (rawLocale && rawLocale !== 'undefined') ? rawLocale : 'en';
 
   const navItems = [
     { 

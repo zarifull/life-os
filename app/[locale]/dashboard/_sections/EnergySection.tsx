@@ -255,7 +255,7 @@ export default function EnergySection() {
         }
       `}</style>
 
-      <section className="relative w-full">
+      <section id="energy" className="relative w-full">
         <div
           className="relative rounded-[48px] overflow-hidden px-6 sm:px-10 py-12"
           style={{
