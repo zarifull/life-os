@@ -335,7 +335,7 @@ export default function FinancePage({
             </div>
         </main>
             <motion.button
-                onClick={() => router.push(`/${locale}/dashboard`)}
+              onClick={() => router.push(`/${locale}/dashboard#explore`)}
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ 

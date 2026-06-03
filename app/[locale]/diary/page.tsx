@@ -2,16 +2,19 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react'; 
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { AdventureHeader } from './_components/AdventureHeader';
 import { QuickLog } from './_components/QuickLog';
 import Timeline from './TimeLine';
 
-export default function DiaryPage() {
+export default function DiaryPage({ params }: { params?: { locale?: string } }) {
     const [activeFilter, setActiveFilter] = useState('All');
     const [refreshKey, setRefreshKey] = useState(0);
     const router = useRouter(); 
+    const nextParams = useParams();
     
+    const rawLocale = params?.locale || nextParams?.locale || 'en';
+    const locale = rawLocale !== 'undefined' ? rawLocale : 'en';
     const refreshTimeline = () => setRefreshKey(prev => prev + 1);
 
   return (
@@ -23,7 +26,7 @@ export default function DiaryPage() {
     >
       <div className="relative z-10 max-w-3xl mx-auto">
         <motion.button
-          onClick={() => router.back()}
+          onClick={() => router.push(`/${locale}/dashboard#explore`)}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           whileHover={{ x: -5, backgroundColor: "rgba(255, 255, 255, 0.6)" }}
