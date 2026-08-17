@@ -2,7 +2,7 @@
 
 Full-stack personal productivity system for daily planning, energy tracking, journaling, and multi-currency finance management.
 
-🔗 **Live Demo:** [life-os-two-lime.vercel.app](https://life-os-two-lime.vercel.app)
+🔗 **Live Demo:** [life-os-two-lime.vercel.app](https://life-os-two-lime.vercel.app)](https://lifeos-system.vercel.app)
 
 ---
 
